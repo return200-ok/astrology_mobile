@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class AstroTheme {
   // Dark astrology colors (same as web)
-  static const Color darkBg = Color(0xFF0a0e27);
+  static const Color darkBackground = Color(0xFF0a0e27);
+  static const Color darkBg = Color(0xFF0a0e27); // Alias
   static const Color cosmicPurple = Color(0xFF3d1a5c);
   static const Color navyDeep = Color(0xFF1a2f4d);
   static const Color accentGold = Color(0xFFd4af37);
@@ -36,7 +37,7 @@ class AstroTheme {
         elevation: 0,
         centerTitle: true,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cosmicPurple.withOpacity(0.5),
         elevation: 0,
         shape: RoundedRectangleBorder(

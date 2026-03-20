@@ -42,4 +42,4 @@ class _ChartDisplayPageState extends State<ChartDisplayPage> {
       birthTime: widget.birthTime,
       palaceStars: _mockPalaceStars,
     );
-  }
+  }}

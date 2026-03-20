@@ -1,43 +1,43 @@
-# Astroweb Mobile - Architecture & Components
+# Astroweb Mobile - Kiến Trúc & Thành Phần
 
-## System Architecture
+## Kiến Trúc Hệ Thống
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Astroweb Mobile App (Flutter)                 │
+│                  Ứng dụng Astroweb Mobile (Flutter)             │
 └─────────────────────────────────────────────────────────────────┘
                                  │
                     ┌────────────┴────────────┐
                     │                         │
         ┌───────────▼──────────┐   ┌──────────▼────────────┐
-        │   Presentation Layer  │   │  State Management    │
-        │  (UI, Screens, W.)   │   │   (Riverpod)        │
+        │    Tầng Presentation │   │   Quản lý trạng thái  │
+        │  (UI, Screen, Widget)│   │      (Riverpod)       │
         └───────────┬──────────┘   └──────────┬────────────┘
                     │                         │
             ┌───────┼─────────┬───────────────┤
             │       │         │               │
    ┌────────▼───┐   │   ┌─────▼──────┐  ┌────▼─────────┐
-   │  Profile   │   │   │   Chart    │  │  Providers   │
-   │   Input    │   │   │  Display   │  │  (form data, │
-   │   Page     │   │   │   Pages    │  │   chart)     │
+   │  Trang nhập│   │   │   Trang    │  │  Providers   │
+   │  hồ sơ sinh│   │   │  hiển thị  │  │  (form data, │
+   │            │   │   │   lá số    │  │   chart)     │
    └────────────┘   │   └────────────┘  └──────────────┘
                     │
         ┌───────────▼──────────┐
-        │   Business Logic     │
-        │  (Astro Engine)      │
+        │      Business Logic  │
+        │     (Astro Engine)   │
         └───────────┬──────────┘
                     │
          ┌──────────┼──────────┐
          │          │          │
     ┌────▼────┐ ┌──▼───┐ ┌───▼────┐
-    │ Main    │ │Sec.  │ │Chart   │
-    │ Stars   │ │Stars │ │Builder │
-    │ Rules   │ │Rules │ │ (algo) │
+    │ Quy tắc │ │Quy tắc│ │Chart   │
+    │ chính   │ │phụ tinh││Builder│
+    │ tinh    │ │       ││ (algo) │
     └─────────┘ └──────┘ └────────┘
                     │
         ┌───────────▼──────────┐
-        │   Data Layer         │
-        │  (Models, APIs)      │
+        │      Tầng dữ liệu    │
+        │    (Model, API)      │
         └───────────────────────┘
                     │
          ┌──────────┼──────────┐
@@ -48,36 +48,36 @@
     └─────────┘ └──────┘ └────────┘
 ```
 
-## Screen Hierarchy
+## Cây Màn Hình
 
 ```
 ┌───────────────────────────────────────┐
-│         Material App                   │
-│      (main.dart)                       │
-│     Dark Theme + AstroTheme            │
+│           Material App                 │
+│            (main.dart)                 │
+│       Dark Theme + AstroTheme          │
 └───────────────────┬─────────────────────┘
                     │
          ┌──────────▼──────────┐
          │ ProfileInputPage    │
-         │ (form entry point)  │
+         │ (điểm vào form)     │
          └──────────┬──────────┘
                     │
-                    │ Navigate with:
+                    │ Điều hướng với:
                     │ - name
                     │ - birthDate
                     │ - birthTime
                     │
          ┌──────────▼──────────────┐
          │ ChartDisplayPage        │
-         │ (intermediate router)   │
+         │ (trang router trung gian)│
          └──────────┬──────────────┘
                     │
-                    │ Calls engine & passes
-                    │ palaceStars to:
+                    │ Gọi engine và truyền
+                    │ palaceStars vào:
                     │
          ┌──────────▼──────────────┐
          │ TuViChartScreen         │
-         │ (main chart display)    │
+         │ (màn hình lá số chính)  │
          ├─────────────────────────┤
          │ ┌─ InteractiveViewer    │
          │ │ (zoom/pan)            │
@@ -85,43 +85,43 @@
          │ │ ┌─ GridView 4×4       │
          │ │ │                     │
          │ │ ├─ HouseCard×12       │
-         │ │ │ ├─ StarChip×N      │
-         │ │ │ │ └─ Animation     │
-         │ │ │ └─ onTap:Modal     │
-         │ │ └─ Empty cells ×4    │
-         │ └─ Button: reset zoom  │
+         │ │ │ ├─ StarChip×N       │
+         │ │ │ │ └─ Animation      │
+         │ │ │ └─ onTap:Modal      │
+         │ │ └─ Ô trống ×4         │
+         │ └─ Nút reset zoom       │
          └─────────────────────────┘
 ```
 
-## Feature Structure
+## Cấu Trúc Theo Feature
 
 ```
 lib/
 │
 ├── main.dart
-│   └── Theme + Navigation setup
+│   └── Cấu hình Theme + Navigation
 │
 ├── astro_engine/
-│   ├── star_engine.dart           [Core data structures]
+│   ├── star_engine.dart            [Cấu trúc dữ liệu lõi]
 │   │   ├── class BirthData
 │   │   ├── class Star
 │   │   ├── class Palace
 │   │   └── class Chart
-│   ├── main_star_rules.dart        [14 main star positioning]
+│   ├── main_star_rules.dart        [Quy tắc định vị 14 chính tinh]
 │   │   ├── void addMainStars()
 │   │   ├── calculateMenh()
 │   │   ├── calculatePhucDuc()
-│   │   └── ... (12 more)
-│   ├── secondary_star_rules.dart   [Hour/year stars]
+│   │   └── ... (12 hàm nữa)
+│   ├── secondary_star_rules.dart   [Sao theo giờ/năm]
 │   │   ├── void addSecondaryStars()
 │   │   ├── calculateThienPhi()
 │   │   └── ...
-│   └── chart_builder.dart          [6-step generation]
+│   └── chart_builder.dart          [Sinh lá số qua 6 bước]
 │       └── Chart generateChart(BirthData)
 │
 ├── core/
 │   └── theme/
-│       └── astro_theme.dart        [Colors + decorations]
+│       └── astro_theme.dart        [Màu sắc + trang trí]
 │           ├── darkBackground
 │           ├── accentGold
 │           ├── glassCardStyle()
@@ -137,7 +137,7 @@ lib/
     │   │
     │   └── presentation/
     │       └── pages/
-    │           └── profile_input_page.dart [Form UI]
+    │           └── profile_input_page.dart [UI form]
     │               ├── Material 3 TextField
     │               ├── showDatePicker
     │               ├── showTimePicker
@@ -149,7 +149,7 @@ lib/
         ├── domain/
         │   └── models/
         │       ├── birth_profile.dart (duplicate*)
-        │       └── birth_chart.dart [Chart result]
+        │       └── birth_chart.dart [Kết quả lá số]
         │           └── class BirthChart
         │
         ├── data/
@@ -161,30 +161,30 @@ lib/
         └── presentation/
             ├── pages/
             │   ├── chart_display_page.dart [Router]
-            │   │   ├── Calls generateChart()
-            │   │   └── Routes to TuViChartScreen
+            │   │   ├── Gọi generateChart()
+            │   │   └── Điều hướng tới TuViChartScreen
             │   │
-            │   └── tuvi_chart_screen.dart [Main UI]
+            │   └── tuvi_chart_screen.dart [UI chính]
             │       ├── InteractiveViewer
             │       ├── GridView builder
             │       ├── HouseCard instances
             │       └── BottomSheet modal
             │
             └── widgets/
-                ├── star_chip.dart [Star badge]
+                ├── star_chip.dart [Badge sao]
                 │   ├── AnimationController
                 │   ├── Glow pulse animation
                 │   └── Tap interaction
                 │
-                └── house_card.dart [House container]
+                └── house_card.dart [Khung cung]
                     ├── Border + gradient
-                    ├── Star list (Wrap)
-                    └── Selection state
+                    ├── Danh sách sao (Wrap)
+                    └── Trạng thái được chọn
 ```
 
 ## Data Models
 
-### BirthData (Engine Input)
+### BirthData (Input cho Engine)
 ```
 BirthData {
   name: String
@@ -195,7 +195,7 @@ BirthData {
 }
 ```
 
-### Chart (Engine Output)
+### Chart (Output từ Engine)
 ```
 Chart {
   name: String
@@ -218,7 +218,7 @@ Star {
 }
 ```
 
-### BirthProfile (UI State)
+### BirthProfile (Trạng thái UI)
 ```
 BirthProfile {
   name: String
@@ -229,16 +229,16 @@ BirthProfile {
 }
 ```
 
-### BirthChart (Display Model)
+### BirthChart (Model hiển thị)
 ```
 BirthChart {
   name: String
   birthDate: DateTime
-  palaceStars: Map<int, List<String>>  // palace → star names
+  palaceStars: Map<int, List<String>>  // cung → tên sao
 }
 ```
 
-## Widget Hierarchy
+## Cây Widget
 
 ```
 MyApp (Material 3 dark theme)
@@ -250,9 +250,9 @@ MyApp (Material 3 dark theme)
               ├─ TextField (name)
               ├─ ListTile (date picker)
               ├─ ListTile (time picker)
-              ├─ Text (Gender label)
+              ├─ Text (nhãn giới tính)
               ├─ SegmentedButton (male/female)
-              ├─ Text (Cục label)
+              ├─ Text (nhãn Cục)
               ├─ Wrap
               │   └─ FilterChip × 5 (cục 2-6)
               └─ FilledButton (submit)
@@ -261,19 +261,19 @@ MyApp (Material 3 dark theme)
                       ↓
 
       └─ ChartDisplayPage
-          ├─ Reads params: name, birthDate, birthTime
-          ├─ Calls: generateChart(birthData)
-          └─ Passes palaceStars to TuViChartScreen
+          ├─ Đọc params: name, birthDate, birthTime
+          ├─ Gọi: generateChart(birthData)
+          └─ Truyền palaceStars sang TuViChartScreen
 
                       ↓
 
           └─ TuViChartScreen
               ├─ AppBar
               │   ├─ Title: "Bảng Lá Số"
-              │   └─ IconButton (zoom reset)
+              │   └─ IconButton (reset zoom)
               ├─ Column
               │   ├─ Padding
-              │   │   └─ Container (info card)
+              │   │   └─ Container (thẻ thông tin)
               │   │       ├─ Text: name
               │   │       └─ Text: date, time
               │   │
@@ -284,108 +284,108 @@ MyApp (Material 3 dark theme)
               │                   ├─ HouseCard×12
               │                   │   ├─ AnimatedContainer
               │                   │   ├─ Column
-              │                   │   │   ├─ Text: house name
+              │                   │   │   ├─ Text: tên cung
               │                   │   │   └─ Wrap
               │                   │   │       └─ StarChip×N
               │                   │   │           ├─ AnimatedBuilder
               │                   │   │           └─ Container (glow)
               │                   │   └─ onTap: showModalBottomSheet
               │                   │
-              │                   └─ Container × 4 (empty cells)
+              │                   └─ Container × 4 (ô trống)
               │
-              └─ ModalBottomSheet (house detail)
-                  ├─ Text: house name
-                  └─ Wrap: Chip × N (stars)
+              └─ ModalBottomSheet (chi tiết cung)
+                  ├─ Text: tên cung
+                  └─ Wrap: Chip × N (các sao)
 ```
 
-## Animation Timeline
+## Dòng Thời Gian Animation
 
-### Page Load
+### Khi tải trang
 ```
 TuViChartScreen init
   ├─ 0ms: _fadeController.forward()
-  ├─ 0-800ms: 
+  ├─ 0-800ms:
   │   ├─ GridView: opacity 0→1 (fadeAnimation)
   │   └─ GridView: scale 0.95→1 (scaleAnimation)
-  └─ 800ms: Complete
+  └─ 800ms: Hoàn tất
 ```
 
-### Star Chip Glow
+### Glow của Star Chip
 ```
-StarChip (_glowController repeating)
+StarChip (_glowController lặp liên tục)
   ├─ 0-750ms: opacity 0.5→1 (easeInOut)
   ├─ 750-1500ms: opacity 1→0.5 (easeInOut)
-  └─ Repeat indefinitely
+  └─ Lặp vô hạn
 ```
 
-### House Card Selection
+### Chọn House Card
 ```
 HouseCard onTap
   ├─ 0-300ms: AnimatedContainer
-  │   ├─ border: normal → gold
-  │   └─ boxShadow: none → gold glow
-  └─ 300ms: Highlight complete
-           showModalBottomSheet (200ms material enter)
+  │   ├─ border: bình thường → vàng
+  │   └─ boxShadow: không có → glow vàng
+  └─ 300ms: Highlight hoàn tất
+           showModalBottomSheet (material enter 200ms)
 ```
 
-## Color System
+## Hệ Màu
 
-### Theme Base
+### Màu nền tảng
 - darkBackground: `#0a0e27` (RGB 10, 14, 39)
 - accentGold: `#d4af37` (RGB 212, 175, 55)
 - glowPurple: `#8b5cf6` (RGB 139, 92, 246)
 - cosmicPurple: `#3d1a5c` (RGB 61, 26, 92)
 - glowCyan: `#06b6d4` (RGB 6, 182, 212)
 
-### Element Colors (5-element system)
-Mapped to house index % 5:
+### Màu ngũ hành (hệ 5 hành)
+Ánh xạ theo `house index % 5`:
 - Wood: `#10b981` (green)
 - Fire: `#f97316` (orange)
 - Earth: `#eab308` (yellow)
 - Metal: `#d4af37` (gold)
 - Water: `#06b6d4` (cyan)
 
-### Opacity Usage
-- Background glassmorphic: `white.withOpacity(0.05)`
-- Border semi-transparent: `color.withOpacity(0.3-0.6)`
-- Glow shadow: `color.withOpacity(0.2-0.4)`
-- Disabled text: `Colors.white.withOpacity(0.5)`
+### Cách dùng opacity
+- Nền glassmorphic: `white.withOpacity(0.05)`
+- Viền bán trong suốt: `color.withOpacity(0.3-0.6)`
+- Bóng glow: `color.withOpacity(0.2-0.4)`
+- Chữ disabled: `Colors.white.withOpacity(0.5)`
 
-## Interaction Flow
+## Luồng Tương Tác
 
 ```
-User opens app
+Người dùng mở app
   ↓
 [ProfileInputPage]
-  ├─ Fill name: TextEditingController
-  ├─ Select date: showDatePicker dialog
-  ├─ Select time: showTimePicker dialog
-  ├─ Select gender: SegmentedButton onChange
-  ├─ Select cục: FilterChip onSelected
-  └─ Tap "Xem Bảng Lá Số"
+  ├─ Điền tên: TextEditingController
+  ├─ Chọn ngày: dialog showDatePicker
+  ├─ Chọn giờ: dialog showTimePicker
+  ├─ Chọn giới tính: SegmentedButton onChange
+  ├─ Chọn cục: FilterChip onSelected
+  └─ Bấm "Xem Bảng Lá Số"
       ↓
 [ChartDisplayPage init]
-  ├─ Extract params (name, date, time)
-  ├─ Create BirthData()
-  ├─ Call generateChart(birthData)
-  ├─ Extract palaceStars from result
-  └─ Navigate to TuViChartScreen
+  ├─ Lấy params (name, date, time)
+  ├─ Tạo BirthData()
+  ├─ Gọi generateChart(birthData)
+  ├─ Trích xuất palaceStars từ kết quả
+  └─ Điều hướng sang TuViChartScreen
       ↓
 [TuViChartScreen display]
   ├─ Fade-in animation (800ms)
-  ├─ Show 4×4 grid with HouseCards
-  ├─ StarChips start glow animation (1500ms loop)
+  ├─ Hiển thị lưới 4×4 với HouseCard
+  ├─ StarChip chạy glow animation (vòng lặp 1500ms)
   │
-  ├─ User pinch: InteractiveViewer handles zoom
-  ├─ User drag: InteractiveViewer handles pan
-  ├─ User tap house:
+  ├─ Người dùng pinch: InteractiveViewer xử lý zoom
+  ├─ Người dùng drag: InteractiveViewer xử lý pan
+  ├─ Người dùng tap cung:
   │   ├─ HouseCard highlight (300ms)
-  │   └─ showModalBottomSheet with details
+  │   └─ showModalBottomSheet hiển thị chi tiết
   │
-  └─ User tap reset icon: Transform reset to identity
+  └─ Người dùng tap icon reset: Transform về identity
 ```
 
-## Dependencies Map
+## Bản Đồ Dependencies
 
 ```
 main.dart
@@ -394,7 +394,7 @@ main.dart
   │   └─ Colors, BoxDecoration styles
   │
   ├─ ProfileInputPage
-  │   ├─ intl (for date formatting)
+  │   ├─ intl (định dạng ngày)
   │   ├─ Material widgets
   │   └─ ChartDisplayPage (navigation)
   │
@@ -410,42 +410,42 @@ main.dart
   │   ├─ InteractiveViewer (Flutter SDK)
   │   └─ astro_theme (colors)
   │
-  └─ (Future) Riverpod providers
+  └─ (Tương lai) Riverpod providers
       ├─ chartProvider (FutureProvider)
       └─ profileProvider (StateProvider)
 ```
 
-## Performance Considerations
+## Lưu Ý Hiệu Năng
 
-### Grid Rendering
-- 4×4 GridView: 16 items, most are empty containers
-- HouseCards: Only 12 rendered (lazy indexing)
-- StarChips: Variable count per palace, wrapped for efficient layout
+### Render Grid
+- GridView 4×4: 16 item, phần lớn là ô trống
+- HouseCard: chỉ 12 ô được render
+- StarChip: số lượng thay đổi theo cung, dùng Wrap để layout hiệu quả
 
-### Animations
-- FadeTransition: GPU-accelerated (efficient)
-- AnimatedContainer: GPU-accelerated (efficient)
-- AnimatedBuilder (StarChip): Rebuilds only the glow, not entire widget tree
+### Animation
+- FadeTransition: GPU-accelerated (hiệu quả)
+- AnimatedContainer: GPU-accelerated (hiệu quả)
+- AnimatedBuilder (StarChip): chỉ rebuild phần glow, không rebuild toàn cây widget
 
-### Memory
-- BirthData + Chart: Small (~10KB per chart)
-- Theme: Singleton pattern (AstroTheme static colors)
-- Controllers: Disposed in onDispose() to prevent leaks
+### Bộ nhớ
+- BirthData + Chart: nhỏ (~10KB mỗi lá số)
+- Theme: mô hình singleton (AstroTheme static colors)
+- Controller: dispose trong onDispose() để tránh rò rỉ
 
 ## Accessibility
 
-### Current Features
-- Dark mode (theme set to dark)
-- Clear contrasts (gold on dark navy)
-- Interactive elements: large touch targets (48dp+ padding)
+### Hiện có
+- Dark mode (theme đặt sẵn tông tối)
+- Tương phản rõ (vàng trên nền navy tối)
+- Thành phần tương tác có vùng chạm lớn (padding 48dp+)
 
-### Recommended Additions
-- Semantic labels for screen reader
-- Text size settings
-- High contrast mode option
-- Gesture alternatives (e.g., buttons instead of pinch)
+### Khuyến nghị bổ sung
+- Semantic labels cho screen reader
+- Tuỳ chỉnh cỡ chữ
+- Chế độ độ tương phản cao
+- Tùy chọn thao tác thay thế cử chỉ (ví dụ nút thay vì pinch)
 
 ---
 
-**Last Updated:** March 18, 2025  
-**Architecture Version:** 0.1.0
+**Cập nhật lần cuối:** 18/03/2025  
+**Phiên bản kiến trúc:** 0.1.0

@@ -1,43 +1,43 @@
-# Integration Guide - astroweb_mobile
+# Hướng Dẫn Tích Hợp - astroweb_mobile
 
-This guide connects the pieces of the astroweb_mobile app: input form → engine calculation → interactive chart display.
+Tài liệu này kết nối các phần của ứng dụng astroweb_mobile: form nhập liệu → engine tính toán → màn hình lá số tương tác.
 
-## Data Flow
+## Luồng Dữ Liệu
 
 ```
-ProfileInputPage (form submission)
+ProfileInputPage (submit form)
     ↓
-    └→ ChartDisplayPage (navigation with params)
+    └→ ChartDisplayPage (điều hướng kèm params)
         ↓
-        └→ TuViChartScreen (chart display with mock data)
-            ├─→ HouseCard × 12 (house containers)
-            └─→ StarChip × N (star badges with glow)
+        └→ TuViChartScreen (hiển thị lá số với dữ liệu mock)
+            ├─→ HouseCard × 12 (khung cung)
+            └─→ StarChip × N (badge sao có glow)
 ```
 
-## Current Implementation Status
+## Trạng Thái Triển Khai Hiện Tại
 
-### ✅ Phase 1: UI/UX Complete
-- `lib/features/profile/presentation/pages/profile_input_page.dart` - Input form ready
-- `lib/features/chart/presentation/pages/tuvi_chart_screen.dart` - Interactive chart ready
-- `lib/features/chart/presentation/widgets/house_card.dart` - House card widget complete
-- `lib/features/chart/presentation/widgets/star_chip.dart` - Star chip with glow animation
-- `lib/core/theme/astro_theme.dart` - Dark theme with exact web colors
-- `lib/main.dart` - App entry point configured
+### ✅ Giai đoạn 1: UI/UX Hoàn Thành
+- `lib/features/profile/presentation/pages/profile_input_page.dart` - Form nhập liệu đã sẵn sàng
+- `lib/features/chart/presentation/pages/tuvi_chart_screen.dart` - Lá số tương tác đã sẵn sàng
+- `lib/features/chart/presentation/widgets/house_card.dart` - Widget house card hoàn chỉnh
+- `lib/features/chart/presentation/widgets/star_chip.dart` - Star chip với animation phát sáng
+- `lib/core/theme/astro_theme.dart` - Theme tối với màu khớp web
+- `lib/main.dart` - Điểm vào ứng dụng đã cấu hình
 
-### ✅ Phase 2: Engine Integration Ready
-- `lib/astro_engine/star_engine.dart` - BirthData, Chart classes
-- `lib/astro_engine/main_star_rules.dart` - 14 main stars
-- `lib/astro_engine/secondary_star_rules.dart` - Hour/year stars
-- `lib/astro_engine/chart_builder.dart` - generateChart() function
+### ✅ Giai đoạn 2: Sẵn Sàng Tích Hợp Engine
+- `lib/astro_engine/star_engine.dart` - Các class BirthData, Chart
+- `lib/astro_engine/main_star_rules.dart` - 14 chính tinh
+- `lib/astro_engine/secondary_star_rules.dart` - Sao theo giờ/năm
+- `lib/astro_engine/chart_builder.dart` - Hàm `generateChart()`
 
-### ⏳ Phase 3: State Management (Next)
-- `lib/features/chart/data/providers/chart_provider.dart` - Riverpod providers (skeleton)
+### ⏳ Giai đoạn 3: State Management (Tiếp Theo)
+- `lib/features/chart/data/providers/chart_provider.dart` - Riverpod providers (khung)
 
-## Next Steps to Complete Integration
+## Các Bước Hoàn Tất Tích Hợp
 
-### Step 1: Connect Engine to ChartDisplayPage
+### Bước 1: Nối Engine vào ChartDisplayPage
 
-Update `ChartDisplayPage` to call the astro engine:
+Cập nhật `ChartDisplayPage` để gọi astro engine:
 
 ```dart
 // In chart_display_page.dart
@@ -59,11 +59,11 @@ class _ChartDisplayPageState extends State<ChartDisplayPage> {
       name: widget.name,
       birthDate: widget.birthDate,
       birthTime: widget.birthTime,
-      // TODO: Add gender and cục from form
+      // TODO: Thêm gender và cục từ form
     );
 
     final chart = generateChart(birthData);
-    
+
     setState(() {
       _palaceStars = {
         for (int i = 0; i < 12; i++)
@@ -84,9 +84,9 @@ class _ChartDisplayPageState extends State<ChartDisplayPage> {
 }
 ```
 
-### Step 2: Update ProfileInputPage to Pass Additional Data
+### Bước 2: Cập Nhật ProfileInputPage để Truyền Thêm Dữ Liệu
 
-Modify `profile_input_page.dart` to pass gender and cục:
+Sửa `profile_input_page.dart` để truyền gender và cục:
 
 ```dart
 void _submit() {
@@ -97,7 +97,7 @@ void _submit() {
     return;
   }
 
-  // Pass gender and cục to ChartDisplayPage
+  // Truyền gender và cục sang ChartDisplayPage
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -113,9 +113,9 @@ void _submit() {
 }
 ```
 
-### Step 3: Add Riverpod State Management (Optional but Recommended)
+### Bước 3: Thêm Riverpod State Management (Tùy Chọn Nhưng Khuyến Nghị)
 
-Create providers for form state and chart generation:
+Tạo providers cho trạng thái form và sinh lá số:
 
 ```dart
 // lib/features/chart/data/providers/chart_provider.dart
@@ -149,49 +149,49 @@ final chartProvider = FutureProvider.family<BirthChart?, BirthProfile>((ref, pro
 });
 ```
 
-### Step 4: Duplicate BirthProfile Model (if using separate layers)
+### Bước 4: Model BirthProfile Bị Trùng (nếu tách layer riêng)
 
-Currently there are two `BirthProfile` models:
+Hiện tại có 2 model `BirthProfile`:
 - `lib/features/profile/domain/models/birth_profile.dart`
-- `lib/features/chart/domain/models/birth_profile.dart` (was created for chart layer)
+- `lib/features/chart/domain/models/birth_profile.dart` (được tạo cho chart layer)
 
-**Option A: Remove duplicate (recommended)**
-Delete the chart version and import from profile:
+**Phương án A: Bỏ trùng lặp (khuyến nghị)**
+Xóa bản trong chart và import từ profile:
 
 ```dart
-// In chart files, import from profile:
+// Trong chart files, import từ profile:
 import '../../../features/profile/domain/models/birth_profile.dart';
 ```
 
-**Option B: Keep separated (if needed for independence)**
-Use distinct names or organize differently.
+**Phương án B: Giữ tách biệt (nếu cần độc lập)**
+Dùng tên rõ ràng hơn hoặc tổ chức khác đi.
 
-## Testing the Integration
+## Kiểm Thử Luồng Tích Hợp
 
-1. **Run the app:**
+1. **Chạy ứng dụng:**
    ```bash
    flutter run
    ```
 
-2. **Test input → display flow:**
-   - Fill in profile form (name, date, time)
-   - Select gender and cục
-   - Tap "Xem Bảng Lá Số"
-   - Should navigate to interactive chart
+2. **Test luồng input → display:**
+   - Điền form hồ sơ (tên, ngày, giờ)
+   - Chọn giới tính và cục
+   - Bấm "Xem Bảng Lá Số"
+   - Ứng dụng phải điều hướng đến màn hình lá số tương tác
 
-3. **Test chart interactions:**
-   - Zoom (pinch) - should scale 0.8x to 2.5x
-   - Pan (drag) - should move chart
-   - Tap house - should highlight and show bottom sheet
-   - Tap reset button - should reset zoom/pan
+3. **Test tương tác lá số:**
+   - Zoom (pinch) - tỉ lệ 0.8x đến 2.5x
+   - Pan (drag) - lá số di chuyển theo thao tác
+   - Tap cung - highlight và hiển thị bottom sheet
+   - Tap nút reset - trả về trạng thái zoom/pan mặc định
 
-## File Dependencies
+## Phụ Thuộc Giữa Các File
 
 ```
 main.dart
 ├── core/theme/astro_theme.dart
 └── features/profile/presentation/pages/profile_input_page.dart
-    ├── intl (date formatting)
+    ├── intl (định dạng ngày)
     └── chart/presentation/pages/chart_display_page.dart
         ├── chart/presentation/pages/tuvi_chart_screen.dart
         │   ├── chart/presentation/widgets/house_card.dart
@@ -203,29 +203,29 @@ main.dart
 
 ## Astro Engine API
 
-### BirthData Class
+### Lớp BirthData
 ```dart
 BirthData(
   name: String,
   birthDate: DateTime,
   birthTime: TimeOfDay,
-  gender: String, // 'male' or 'female'
-  cuc: int,       // 2-6 (direction/zone)
+  gender: String, // 'male' hoặc 'female'
+  cuc: int,       // 2-6 (hướng/vùng)
 )
 ```
 
-### Chart Class
+### Lớp Chart
 ```dart
 Chart {
   name: String,
   birthDate: DateTime,
-  palaces: List<Palace?>, // 12 palaces, each with stars
+  palaces: List<Palace?>, // 12 cung, mỗi cung chứa danh sách sao
 }
 
 Palace {
   index: int,
   name: String,
-  stars: List<Star>, // Stars in this palace
+  stars: List<Star>, // Các sao trong cung
 }
 
 Star {
@@ -236,85 +236,85 @@ Star {
 }
 ```
 
-### generateChart() Function
+### Hàm generateChart()
 ```dart
 Chart generateChart(BirthData data)
 ```
 
-Returns a complete chart with all 40 stars positioned in 12 palaces based on birth data.
+Hàm trả về lá số hoàn chỉnh với 40 sao được đặt vào 12 cung dựa trên dữ liệu khai sinh.
 
-## Styling Reference
+## Tham Chiếu Style
 
-All colors and animations match the web app:
+Tất cả màu và animation bám theo web app:
 
-### Colors
-- Background: `#0a0e27` (dark navy)
-- Primary: `#d4af37` (gold)
-- Secondary: `#3d1a5c` (cosmic purple)
+### Màu sắc
+- Nền: `#0a0e27` (dark navy)
+- Chính: `#d4af37` (gold)
+- Phụ: `#3d1a5c` (cosmic purple)
 - Glow: `#8b5cf6` (bright purple)
-- Element water: `#06b6d4` (cyan)
+- Hành Thủy: `#06b6d4` (cyan)
 
-### Animations
+### Animation
 - Fade-in: 800ms, easeOut
 - Scale: 0.95 → 1.0, 800ms
-- Glow pulse: 1500ms, easeInOut, 0.5 → 1.0 opacity
+- Glow pulse: 1500ms, easeInOut, opacity 0.5 → 1.0
 
-### Decorations
-- Glassmorphic cards: `Colors.white.withOpacity(0.05)` background, gold/purple borders
-- Shadows: `blurRadius: 8-12`, colored shadows matching element
-- Border radius: 8-12dp for most elements
+### Trang trí
+- Glassmorphic cards: nền `Colors.white.withOpacity(0.05)`, viền vàng/tím
+- Đổ bóng: `blurRadius: 8-12`, màu bóng theo ngũ hành
+- Bo góc: 8-12dp cho đa số thành phần
 
-## Common Issues & Solutions
+## Lỗi Thường Gặp & Cách Xử Lý
 
-### Issue: "BirthProfile imported from multiple sources"
-**Solution:** Use one BirthProfile model in `features/profile/domain/models/`. Import from there everywhere else.
+### Lỗi: "BirthProfile imported from multiple sources"
+**Cách xử lý:** Chỉ dùng một model BirthProfile trong `features/profile/domain/models/`, sau đó import thống nhất ở mọi nơi.
 
-### Issue: "Chart generation is async but UI not updating"
-**Solution:** Wrap chart generation in `setState()` or use Riverpod `FutureProvider`.
+### Lỗi: "Chart generation is async but UI not updating"
+**Cách xử lý:** Bọc phần sinh chart trong `setState()` hoặc dùng Riverpod `FutureProvider`.
 
-### Issue: "Stars not showing in houses"
-**Solution:** Verify engine is correctly assigning stars to palaces. Check `chart_builder.dart` output.
+### Lỗi: "Stars not showing in houses"
+**Cách xử lý:** Kiểm tra engine đã gán sao đúng vào cung chưa. Đối chiếu output trong `chart_builder.dart`.
 
-### Issue: "Theme colors don't match web"
-**Solution:** Cross-check hex values in `astro_theme.dart` against web app design system.
+### Lỗi: "Theme colors don't match web"
+**Cách xử lý:** So lại mã màu hex trong `astro_theme.dart` với design system của web app.
 
-## Migration Path
+## Lộ Trình Chuyển Đổi
 
-When fully integrated, the data flow becomes:
+Khi tích hợp đầy đủ, luồng dữ liệu sẽ thành:
 
 ```
-Provider Input (form state)
+Provider Input (trạng thái form)
     ↓
-    └→ chartProvider (engine calculation)
+    └→ chartProvider (tính toán engine)
         ↓
-        └→ Chart display (UI layer consumed from provider)
+        └→ Chart display (UI layer tiêu thụ dữ liệu từ provider)
 ```
 
-This allows:
-- Sharing chart state across screens
-- Offline caching with Hive
-- Undo/redo functionality
-- Exporting to image/PDF
+Cách này cho phép:
+- Chia sẻ chart state giữa nhiều màn hình
+- Cache offline với Hive
+- Undo/redo thao tác
+- Xuất hình ảnh/PDF
 
-## Next Phases
+## Các Giai Đoạn Tiếp Theo
 
-### Phase 4: Backend Integration
-- Connect to Astroweb API (Cloudflare Workers)
-- Add authentication if needed
-- Sync profile data between mobile and web
+### Giai đoạn 4: Tích hợp Backend
+- Kết nối Astroweb API (Cloudflare Workers)
+- Thêm xác thực nếu cần
+- Đồng bộ profile giữa mobile và web
 
-### Phase 5: Advanced Features
-- Tương hợp (compatibility) calculator
-- Year/month/day cycle views
-- Star detail pages
-- Chart sharing and export
+### Giai đoạn 5: Tính năng Nâng cao
+- Bộ tính Tương hợp
+- Góc nhìn chu kỳ năm/tháng/ngày
+- Trang chi tiết sao
+- Chia sẻ và xuất lá số
 
-### Phase 6: Polish
-- Theme customization
-- Accessibility (dark mode, text size)
-- Internationalization (if needed)
-- Performance optimization
+### Giai đoạn 6: Hoàn thiện
+- Tùy chỉnh theme
+- Accessibility (dark mode, cỡ chữ)
+- Quốc tế hóa (nếu cần)
+- Tối ưu hiệu năng
 
 ---
 
-**Last Updated:** March 18, 2025
+**Cập nhật lần cuối:** 18/03/2025

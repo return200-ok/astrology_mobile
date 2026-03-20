@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/house_card.dart';
-import '../../../core/theme/astro_theme.dart';
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class TuViChartScreen extends StatefulWidget {
   final String name;

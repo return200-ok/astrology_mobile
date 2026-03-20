@@ -1,55 +1,55 @@
 # Astroweb Mobile
 
-## Overview
+## Tổng quan
 
-This is the **mobile version** of Astroweb - a full-stack astrology application built with **Flutter**.
+Đây là **phiên bản mobile** của Astroweb, ứng dụng tử vi full-stack được xây dựng bằng **Flutter**.
 
 - **Web App**: [astroweb-99-cyber-mystic-astrology](../astroweb-99-cyber-mystic-astrology) (React + Cloudflare Workers)
 - **Mobile App**: [astroweb_mobile](./README.md) (Flutter - iOS/Android)
 
-## Quick Links
+## Liên kết nhanh
 
-- [Setup Guide](SETUP.md)
-- [Flutter Docs](https://flutter.dev/docs)
+- [Hướng dẫn setup](SETUP.md)
+- [Tài liệu Flutter](https://flutter.dev/docs)
 - [Astrology Engine](lib/astro_engine/)
 
-## Getting Started
+## Bắt đầu nhanh
 
 ```bash
 cd /Users/cao.lv/gitlab.citigo.com.vn/local/astroweb_mobile
 
-# Install dependencies
+# Cài dependencies
 flutter pub get
 
-# Run app
+# Chạy ứng dụng
 flutter run
 ```
 
-## Features
+## Tính năng
 
-- ✨ 12-house astrology chart
-- 🌙 Lunar calendar integration  
+- ✨ Lá số tử vi 12 cung
+- 🌙 Tích hợp lịch âm
 - 📱 Cross-platform (iOS + Android)
-- 🎨 Dark astrology theme
-- 💾 Offline data storage
-- 🔄 Sync with web backend
+- 🎨 Giao diện tử vi tông tối
+- 💾 Lưu trữ dữ liệu offline
+- 🔄 Đồng bộ với backend web
 
-## Architecture
+## Kiến trúc
 
 ```
-Flutter App
-├── UI Layer (Material 3)
-├── State Management (Riverpod)
-├── Data Layer (Hive + HTTP)
-└── Astro Engine (Pure Dart)
+Ứng dụng Flutter
+├── Tầng UI (Material 3)
+├── Quản lý trạng thái (Riverpod)
+├── Tầng dữ liệu (Hive + HTTP)
+└── Astro Engine (Dart thuần)
 ```
 
-## Development Status
+## Trạng thái phát triển
 
-- 🔧 Setup & scaffolding (in progress)
-- ⏳ Feature implementation (upcoming)
-- ⏳ Testing & optimization (upcoming)
+- 🔧 Setup & scaffolding (đang thực hiện)
+- ⏳ Triển khai tính năng (sắp tới)
+- ⏳ Kiểm thử & tối ưu (sắp tới)
 
-## Related
+## Liên quan
 
-- **Another Flutter Project**: [a_tuvi](../a_tuvi) - Tử Vi astrology app
+- **Dự án Flutter khác**: [a_tuvi](../a_tuvi) - ứng dụng tử vi

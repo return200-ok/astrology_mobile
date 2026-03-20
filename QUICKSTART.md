@@ -1,145 +1,145 @@
-# Quick Start Guide - astroweb_mobile
+# Hướng Dẫn Bắt Đầu Nhanh - astroweb_mobile
 
-Get the Flutter Tử Vi app running in 5 minutes.
+Chạy ứng dụng Tử Vi Flutter trong 5 phút.
 
-## Prerequisites
+## Yêu cầu trước khi bắt đầu
 
-Verify you have these installed:
+Xác nhận bạn đã cài các thành phần sau:
 
 ```bash
-# Check Flutter version (3.0+)
+# Kiểm tra phiên bản Flutter (3.0+)
 flutter --version
 
-# Check Dart version (3.0+)
+# Kiểm tra phiên bản Dart (3.0+)
 dart --version
 
-# Check if you can build
+# Kiểm tra khả năng build
 flutter doctor
 ```
 
-**Expected output:** No issues or only optional components missing.
+**Kết quả mong đợi:** Không có lỗi, hoặc chỉ thiếu các thành phần tùy chọn.
 
-## Setup (30 seconds)
+## Thiết lập (30 giây)
 
 ```bash
-# 1. Navigate to project
+# 1. Di chuyển vào project
 cd /Users/cao.lv/gitlab.citigo.com.vn/local/astroweb_mobile
 
-# 2. Install dependencies
+# 2. Cài dependencies
 flutter pub get
 
-# 3. Done! Ready to run
+# 3. Xong! Sẵn sàng chạy ứng dụng
 ```
 
-## Running the App
+## Chạy ứng dụng
 
-### iOS (macOS only)
+### iOS (chỉ macOS)
 ```bash
 flutter run -d iphone
-# or
+# hoặc
 flutter run --device-id=D86DC16A-65D9-4A6A-A9B6-02B4B5730B8E
 ```
 
 ### Android
 ```bash
 flutter run -d android
-# or connect your device and run
+# hoặc kết nối thiết bị thật rồi chạy
 ```
 
-### Web (for testing, development)
+### Web (để test, phát triển)
 ```bash
 flutter run -d chrome
 ```
 
-## First Launch
+## Khởi chạy lần đầu
 
-When you start the app, you'll see:
+Khi mở ứng dụng, bạn sẽ thấy:
 
-1. **"Nhập Thông Tin Sinh"** (Input Birth Info) screen
-2. Fill in:
-   - Name: e.g., "Lý Văn Cao"
-   - Date: Tap the date field
-   - Time: Tap the time field
-   - Gender: Select Nam/Nữ
-   - Cục: Choose 2-6
-3. Tap **"Xem Bảng Lá Số"** (View Chart)
-4. See the interactive chart with 12 houses
+1. Màn hình **"Nhập Thông Tin Sinh"** (Input Birth Info)
+2. Điền thông tin:
+   - Tên: ví dụ `"Lý Văn Cao"`
+   - Ngày sinh: chạm vào ô ngày
+   - Giờ sinh: chạm vào ô giờ
+   - Giới tính: chọn Nam/Nữ
+   - Cục: chọn từ 2-6
+3. Chạm **"Xem Bảng Lá Số"** (View Chart)
+4. Xem lá số tương tác gồm 12 cung
 
-## Interacting with the Chart
+## Tương tác với lá số
 
-| Action | Effect |
+| Thao tác | Hiệu ứng |
 |--------|--------|
-| **Pinch** | Zoom in/out (0.8x to 2.5x) |
-| **Drag** | Pan chart around |
-| **Tap House** | Highlight & show house details |
-| **Tap Reset Icon** | Reset zoom to 1.0x |
-| **Bottom Sheet Modal** | View all stars in selected house |
+| **Pinch** | Phóng to/thu nhỏ (0.8x đến 2.5x) |
+| **Drag** | Kéo để di chuyển lá số |
+| **Tap House** | Làm nổi bật và hiển thị chi tiết cung |
+| **Tap Reset Icon** | Đưa mức zoom về 1.0x |
+| **Bottom Sheet Modal** | Xem toàn bộ sao trong cung đang chọn |
 
-## Key Files to Know
+## Các file quan trọng
 
 ```
 lib/
-├── main.dart                          # App start, theme
-├── features/profile/.../profile_input_page.dart  # Form
-├── features/chart/.../tuvi_chart_screen.dart     # Chart UI
-├── astro_engine/chart_builder.dart    # Star calculation
-└── core/theme/astro_theme.dart        # Colors & styles
+├── main.dart                          # Khởi động app, cấu hình theme
+├── features/profile/.../profile_input_page.dart  # Form nhập liệu
+├── features/chart/.../tuvi_chart_screen.dart     # UI lá số
+├── astro_engine/chart_builder.dart    # Tính toán sao
+└── core/theme/astro_theme.dart        # Màu sắc và style
 ```
 
-## Common Tasks
+## Tác vụ thường gặp
 
-### View the Chart Data Model
+### Xem mô hình dữ liệu lá số
 ```dart
-// In tuvi_chart_screen.dart, inspect _mockPalaceStars
+// Trong tuvi_chart_screen.dart, kiểm tra _mockPalaceStars
 final Map<int, List<String>> _mockPalaceStars = {
-  0: ['Tử Vệ', 'Thiên Cơ'],  // Mệnh palace
+  0: ['Tử Vệ', 'Thiên Cơ'],  // Cung Mệnh
   // ...
 };
 ```
 
-### Change Colors
-Edit `lib/core/theme/astro_theme.dart`:
+### Đổi màu giao diện
+Sửa file `lib/core/theme/astro_theme.dart`:
 ```dart
-static const Color accentGold = Color(0xFFd4af37);  // Change this
+static const Color accentGold = Color(0xFFd4af37);  // Sửa giá trị này
 ```
 
-### Add a New Palace
-Edit `lib/features/chart/presentation/pages/tuvi_chart_screen.dart`:
+### Thêm cung mới
+Sửa file `lib/features/chart/presentation/pages/tuvi_chart_screen.dart`:
 ```dart
 static const Map<int, int> gridIndexMap = {
   0: 0,   // Mệnh
-  // Add more mappings here
+  // Thêm mapping tại đây
 };
 ```
 
-### Run Tests
+### Chạy test
 ```bash
 flutter test
 ```
 
-### Build for Release
+### Build bản phát hành
 
 **iOS:**
 ```bash
 flutter build ios --release
-# Follow iOS App Store submission guide
+# Làm theo hướng dẫn submit iOS App Store
 ```
 
 **Android:**
 ```bash
 flutter build appbundle --release
-# Upload to Google Play Store
+# Upload lên Google Play Store
 ```
 
 **Web:**
 ```bash
 flutter build web --release
-# Output in build/web/
+# Kết quả nằm trong build/web/
 ```
 
-## Troubleshooting
+## Xử lý sự cố
 
-### App won't start
+### App không khởi động
 ```bash
 # Clean build
 flutter clean
@@ -149,96 +149,96 @@ flutter run
 
 ### "No devices available"
 ```bash
-# List available devices
+# Liệt kê thiết bị khả dụng
 flutter devices
 
-# Open emulator/simulator first, then run
+# Mở emulator/simulator trước rồi chạy lại
 flutter run -d <device-id>
 ```
 
-### Theme colors look wrong
-- Check `astro_theme.dart` color values
-- Verify Material3 is enabled in `main.dart`
+### Màu theme hiển thị không đúng
+- Kiểm tra giá trị màu trong `astro_theme.dart`
+- Xác nhận Material3 đã bật trong `main.dart`
 
-### Chart won't display
-- Check `_mockPalaceStars` data in `chart_display_page.dart`
-- Verify `TuViChartScreen` receives valid `palaceStars` map
+### Lá số không hiển thị
+- Kiểm tra dữ liệu `_mockPalaceStars` trong `chart_display_page.dart`
+- Xác nhận `TuViChartScreen` nhận được map `palaceStars` hợp lệ
 
-### Zoom/pan not working
-- Verify `InteractiveViewer` in `tuvi_chart_screen.dart`
-- Check gesture detector isn't blocking interactions
+### Zoom/pan không hoạt động
+- Kiểm tra `InteractiveViewer` trong `tuvi_chart_screen.dart`
+- Kiểm tra gesture detector không chặn tương tác
 
-## Next Steps
+## Bước tiếp theo
 
-1. **Integrate real engine:** Update `ChartDisplayPage` to call `generateChart()`
-2. **Add state management:** Use Riverpod providers in `chart_provider.dart`
-3. **Connect backend:** Call Astroweb API endpoints
-4. **Customize theme:** Edit colors in `astro_theme.dart`
+1. **Tích hợp engine thật:** Cập nhật `ChartDisplayPage` để gọi `generateChart()`
+2. **Bổ sung state management:** Dùng Riverpod providers trong `chart_provider.dart`
+3. **Kết nối backend:** Gọi các endpoint API của Astroweb
+4. **Tùy chỉnh theme:** Sửa màu trong `astro_theme.dart`
 
-## Project Structure Overview
+## Tổng quan cấu trúc dự án
 
 ```
 astroweb_mobile/
 ├── pubspec.yaml           # Dependencies (riverpod, hive, http, intl)
-├── README.md              # Project overview
-├── SETUP.md              # Detailed setup
-├── IMPLEMENTATION.md     # Features & status
-├── INTEGRATION.md        # How to connect pieces
-├── ARCHITECTURE.md       # System design
+├── README.md              # Tổng quan dự án
+├── SETUP.md              # Hướng dẫn setup chi tiết
+├── IMPLEMENTATION.md     # Tính năng & trạng thái
+├── INTEGRATION.md        # Cách kết nối các phần
+├── ARCHITECTURE.md       # Thiết kế hệ thống
 ├── lib/
-│   ├── main.dart        # Entry point (Profile page)
-│   ├── astro_engine/    # Star calculation (pure Dart)
-│   ├── core/theme/      # Dark theme & colors
+│   ├── main.dart        # Entry point (trang Profile)
+│   ├── astro_engine/    # Tính toán sao (Dart thuần)
+│   ├── core/theme/      # Theme tối & màu sắc
 │   └── features/
-│       ├── profile/     # Input form
-│       └── chart/       # Chart display
+│       ├── profile/     # Form nhập thông tin
+│       └── chart/       # Hiển thị lá số
 └── test/                # Unit tests (TODO)
 ```
 
-## Documentation
+## Tài liệu
 
-- **IMPLEMENTATION.md** - Feature checklist & current status
-- **INTEGRATION.md** - How to connect form → engine → chart
-- **ARCHITECTURE.md** - System design & data flow
-- **SETUP.md** - Detailed development setup
-- **README.md** - Project overview
+- **IMPLEMENTATION.md** - Checklist tính năng & trạng thái hiện tại
+- **INTEGRATION.md** - Cách kết nối form → engine → chart
+- **ARCHITECTURE.md** - Thiết kế hệ thống & luồng dữ liệu
+- **SETUP.md** - Hướng dẫn môi trường phát triển chi tiết
+- **README.md** - Tổng quan dự án
 
-## Environment Info
+## Thông tin môi trường
 
-**Tested on:**
+**Đã kiểm thử trên:**
 - Flutter 3.13.0+
 - Dart 3.1.0+
-- macOS (iOS development)
-- Android Studio (Android development)
+- macOS (phát triển iOS)
+- Android Studio (phát triển Android)
 
-**Target platforms:**
+**Nền tảng mục tiêu:**
 - iOS 12.0+
 - Android 21.0+ (Android 5.0+)
 
-## Support & Issues
+## Hỗ trợ & sự cố
 
-- 📖 See **INTEGRATION.md** for connecting components
-- 🏗️ See **ARCHITECTURE.md** for system overview
-- 🐛 Check Flutter docs: https://flutter.dev/docs
+- 📖 Xem **INTEGRATION.md** để kết nối các thành phần
+- 🏗️ Xem **ARCHITECTURE.md** để nắm tổng quan hệ thống
+- 🐛 Tài liệu Flutter: https://flutter.dev/docs
 
-## Tips
+## Mẹo
 
-1. **Hot reload** - Press `r` in terminal to reload changes without restart
-2. **Hot restart** - Press `R` for full restart (when hot reload fails)
-3. **Use DevTools** - `flutter pub global activate devtools` then `devtools`
-4. **Check widgets** - Use Flutter Inspector to debug UI layout
+1. **Hot reload** - Nhấn `r` trong terminal để tải lại thay đổi không cần restart
+2. **Hot restart** - Nhấn `R` để restart toàn bộ (khi hot reload không đủ)
+3. **Dùng DevTools** - `flutter pub global activate devtools` rồi chạy `devtools`
+4. **Kiểm tra widget** - Dùng Flutter Inspector để debug layout UI
 
 ---
 
-**Quick Checklist:**
-- [ ] Installed Flutter 3.x
-- [ ] Installed Xcode/Android Studio
-- [ ] Ran `flutter pub get`
-- [ ] Started iOS simulator/Android emulator
-- [ ] Ran `flutter run`
-- [ ] Filled in form and viewed chart
-- [ ] Tested zoom/pan interactions
+**Checklist nhanh:**
+- [ ] Đã cài Flutter 3.x
+- [ ] Đã cài Xcode/Android Studio
+- [ ] Đã chạy `flutter pub get`
+- [ ] Đã mở iOS simulator/Android emulator
+- [ ] Đã chạy `flutter run`
+- [ ] Đã điền form và xem lá số
+- [ ] Đã test tương tác zoom/pan
 
-**Time:** ~5 min setup + 2 min first run = 7 min total
+**Thời gian:** ~5 phút setup + 2 phút chạy lần đầu = 7 phút tổng
 
-**Latest Update:** March 18, 2025
+**Cập nhật gần nhất:** 18/03/2025

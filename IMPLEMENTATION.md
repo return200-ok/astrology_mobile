@@ -1,159 +1,159 @@
-# Astroweb Mobile - Flutter App
+# Astroweb Mobile - Ứng Dụng Flutter
 
-A mobile-first companion to the Astroweb astrology web app, built with Flutter for iOS and Android.
+Ứng dụng đồng hành mobile-first cho web app tử vi Astroweb, được xây dựng bằng Flutter cho iOS và Android.
 
-## Features
+## Tính Năng
 
-✨ **Interactive Tử Vi Chart**
-- 12-house Tử Vi (Vietnamese astrology) chart display
-- Zoom and pan interactions (0.8x to 2.5x scale)
-- Tap to select houses and view detailed star information
-- Glassmorphic UI with animated glow effects
-- Element-based color coding (Wood, Fire, Earth, Metal, Water)
+✨ **Lá Số Tử Vi Tương Tác**
+- Hiển thị lá số Tử Vi 12 cung
+- Tương tác zoom và pan (tỉ lệ 0.8x đến 2.5x)
+- Chạm để chọn cung và xem thông tin sao chi tiết
+- UI glassmorphism với hiệu ứng glow có animation
+- Mã màu theo ngũ hành (Mộc, Hỏa, Thổ, Kim, Thủy)
 
-🌙 **Birth Profile Input**
-- Material 3 form with date and time pickers
-- Gender selection
-- Cục (direction) selector (2-6)
-- Form validation
+🌙 **Nhập Hồ Sơ Khai Sinh**
+- Form Material 3 với bộ chọn ngày và giờ
+- Chọn giới tính
+- Chọn Cục (hướng) từ 2-6
+- Kiểm tra hợp lệ dữ liệu form
 
-📊 **Chart Display**
-- 12 palace houses in 4×4 grid layout
-- Star chips with pulsing glow animations
-- House cards with border highlighting
-- Bottom sheet modal for detailed house information
+📊 **Hiển Thị Lá Số**
+- 12 cung bố trí theo lưới 4×4
+- Star chip với animation phát sáng theo nhịp
+- House card với viền highlight
+- Bottom sheet modal cho thông tin cung chi tiết
 
-🎨 **Design System**
-- Dark astrology theme (navy, cosmic purple, gold)
-- Glassmorphism effects (semi-transparent cards, glow borders)
-- Smooth animations (fade-in, scale, glow pulse)
-- Exact color match to web app (Astroweb)
+🎨 **Hệ Thống Thiết Kế**
+- Theme tử vi tông tối (navy, cosmic purple, gold)
+- Hiệu ứng glassmorphism (card bán trong suốt, viền phát sáng)
+- Animation mượt (fade-in, scale, glow pulse)
+- Màu sắc khớp chính xác với web app (Astroweb)
 
-## Getting Started
+## Bắt Đầu
 
-### Prerequisites
+### Yêu Cầu Trước Khi Chạy
 
-- Flutter 3.x (or later)
+- Flutter 3.x (hoặc mới hơn)
 - Dart 3.x
-- iOS: Xcode 14+ (for iOS builds)
-- Android: Android Studio 4.1+ (for Android builds)
+- iOS: Xcode 14+ (để build iOS)
+- Android: Android Studio 4.1+ (để build Android)
 
-### Installation
+### Cài Đặt
 
-1. **Clone the repo:**
+1. **Đi vào repo:**
    ```bash
    cd /Users/cao.lv/gitlab.citigo.com.vn/local/astroweb_mobile
    ```
 
-2. **Install dependencies:**
+2. **Cài dependencies:**
    ```bash
    flutter pub get
    ```
 
-3. **Run the app:**
+3. **Chạy ứng dụng:**
    ```bash
-   # iOS (requires macOS)
+   # iOS (yêu cầu macOS)
    flutter run -d iphone
 
    # Android
    flutter run -d android
 
-   # Web (development)
+   # Web (phát triển)
    flutter run -d chrome
    ```
 
-## Project Structure
+## Cấu Trúc Dự Án
 
 ```
 lib/
-├── main.dart                          # App entry point
-├── astro_engine/                      # Pure Dart astro engine
-│   ├── star_engine.dart              # Core calculations (BirthData, Chart)
-│   ├── main_star_rules.dart          # 14 main stars positioning
-│   ├── secondary_star_rules.dart     # Hour/year stars, secondary effects
-│   └── chart_builder.dart            # Chart generation algorithm
+├── main.dart                          # Điểm vào ứng dụng
+├── astro_engine/                      # Astro engine viết bằng Dart thuần
+│   ├── star_engine.dart              # Tính toán lõi (BirthData, Chart)
+│   ├── main_star_rules.dart          # Quy tắc định vị 14 chính tinh
+│   ├── secondary_star_rules.dart     # Sao theo giờ/năm, hiệu ứng phụ
+│   └── chart_builder.dart            # Thuật toán sinh lá số
 ├── core/
 │   └── theme/
-│       └── astro_theme.dart          # Dark theme, colors, decorations
+│       └── astro_theme.dart          # Theme tối, màu sắc, trang trí
 └── features/
     ├── profile/
     │   ├── domain/models/
-    │   │   └── birth_profile.dart    # BirthProfile data class
+    │   │   └── birth_profile.dart    # Data class BirthProfile
     │   └── presentation/pages/
-    │       └── profile_input_page.dart # Input form with pickers
+    │       └── profile_input_page.dart # Form nhập liệu với picker
     └── chart/
         ├── domain/models/
-        │   ├── birth_profile.dart    # (duplicate from profile/)
-        │   └── birth_chart.dart      # Chart result data
+        │   ├── birth_profile.dart    # (bản sao từ profile/)
+        │   └── birth_chart.dart      # Dữ liệu kết quả lá số
         ├── data/providers/
-        │   └── chart_provider.dart   # Riverpod state management
+        │   └── chart_provider.dart   # State management bằng Riverpod
         └── presentation/
             ├── pages/
-            │   ├── chart_display_page.dart  # Chart navigation
-            │   └── tuvi_chart_screen.dart   # Main chart UI
+            │   ├── chart_display_page.dart  # Điều hướng lá số
+            │   └── tuvi_chart_screen.dart   # UI lá số chính
             └── widgets/
-                ├── star_chip.dart       # Star badge with animation
-                └── house_card.dart      # House container with stars
+                ├── star_chip.dart       # Badge sao có animation
+                └── house_card.dart      # Khung cung chứa sao
 ```
 
-## Architecture
+## Kiến Trúc
 
-**Features-based structure:**
-- `profile/` - User input (name, birth date/time, gender)
-- `chart/` - Chart calculation and display
+**Cấu trúc theo feature:**
+- `profile/` - Nhập dữ liệu người dùng (tên, ngày/giờ sinh, giới tính)
+- `chart/` - Tính toán và hiển thị lá số
 
-**Layer separation:**
+**Tách lớp rõ ràng:**
 - `domain/models/` - Data classes
 - `data/providers/` - State management (Riverpod)
-- `presentation/pages/` - Full-page screens
-- `presentation/widgets/` - Reusable UI components
+- `presentation/pages/` - Màn hình đầy đủ
+- `presentation/widgets/` - UI component tái sử dụng
 
 **Engine:**
-- Pure Dart astro_engine isolated from UI
-- Deterministic modulo-12 calculations
-- 40 stars total: 14 main + 12 secondary + 12 fate cycle
+- `astro_engine` Dart thuần, tách biệt khỏi UI
+- Tính toán modulo-12 deterministic
+- Tổng 40 sao: 14 chính + 12 phụ + 12 theo vòng vận
 
 **State Management:**
-- Riverpod for reactive state
-- ProfileProvider: Birth profile data
-- ChartProvider: Chart generation (async)
+- Riverpod cho trạng thái phản ứng
+- ProfileProvider: dữ liệu hồ sơ sinh
+- ChartProvider: sinh lá số (async)
 
-## Theme Colors
+## Màu Theme
 
-| Name | Hex | Use |
+| Tên | Hex | Mục đích |
 |------|-----|-----|
-| darkBg | #0a0e27 | Background |
-| cosmicPurple | #3d1a5c | Secondary accent |
-| accentGold | #d4af37 | Primary accent |
-| glowPurple | #8b5cf6 | Glow/border |
-| glowCyan | #06b6d4 | Element color |
+| darkBg | #0a0e27 | Nền |
+| cosmicPurple | #3d1a5c | Điểm nhấn phụ |
+| accentGold | #d4af37 | Điểm nhấn chính |
+| glowPurple | #8b5cf6 | Glow/viền |
+| glowCyan | #06b6d4 | Màu ngũ hành |
 
 ## Animations
 
-- **Fade-in:** Chart display on load (800ms, easeOut)
-- **Scale:** Chart entry (0.95 → 1.0 scale)
-- **Glow pulse:** Star chips continuous animation (1500ms, easeInOut)
-- **Selection highlight:** House card border/glow on tap (300ms)
+- **Fade-in:** Hiển thị lá số khi tải (800ms, easeOut)
+- **Scale:** Vào trang lá số (scale 0.95 → 1.0)
+- **Glow pulse:** Star chip phát sáng liên tục (1500ms, easeInOut)
+- **Selection highlight:** Viền/glow house card khi chạm (300ms)
 
 ## Dependencies
 
 ```yaml
 flutter_riverpod: ^2.4.0      # State management
-hive: ^2.2.3                  # Local storage
-hive_flutter: ^1.1.0          # Hive Flutter integration
+hive: ^2.2.3                  # Lưu trữ cục bộ
+hive_flutter: ^1.1.0          # Tích hợp Hive với Flutter
 http: ^1.1.0                  # HTTP client
-intl: ^0.19.0                 # Date formatting
+intl: ^0.19.0                 # Định dạng ngày tháng
 ```
 
-## Development
+## Phát Triển
 
-### Running Tests
+### Chạy Test
 
 ```bash
 flutter test
 ```
 
-### Building
+### Build
 
 ```bash
 # iOS
@@ -169,65 +169,65 @@ flutter build apk --release
 flutter build web --release
 ```
 
-### Code Generation (if using freezed, json_serializable, etc.)
+### Sinh Mã (nếu dùng freezed, json_serializable, ...)
 
 ```bash
 flutter pub run build_runner build
 ```
 
-## Project Status
+## Trạng Thái Dự Án
 
-✅ **Completed:**
-- Astro engine (star positioning, 12-house system)
-- Theme system (colors, glassmorphism, animations)
-- Profile input page (Material 3, date/time pickers)
-- Interactive chart screen (TuViChartScreen)
-- Star chips with glow animation
-- House cards with element colors
-- Chart navigation (form → display)
+✅ **Đã hoàn thành:**
+- Astro engine (định vị sao, hệ 12 cung)
+- Hệ thống theme (màu sắc, glassmorphism, animation)
+- Trang nhập hồ sơ (Material 3, picker ngày/giờ)
+- Màn hình lá số tương tác (TuViChartScreen)
+- Star chip với animation phát sáng
+- House card theo màu ngũ hành
+- Điều hướng lá số (form → hiển thị)
 
-⏳ **In Progress:**
-- Chart generation integration (engine → UI data flow)
-- Riverpod state management (form submission hook)
-- API integration (connect to web backend)
+⏳ **Đang thực hiện:**
+- Tích hợp sinh lá số (engine → luồng dữ liệu UI)
+- Riverpod state management (nối submit form)
+- Tích hợp API (kết nối backend web)
 
-⏭️ **Planned:**
-- Compatibility analysis (tương hợp) between two profiles
-- Year/month/day cycle views
-- Star detail tooltips
-- Theme customization (light/dark)
-- Offline mode with Hive
-- Share chart as image
+⏭️ **Kế hoạch:**
+- Phân tích tương hợp giữa hai hồ sơ
+- Góc nhìn theo chu kỳ năm/tháng/ngày
+- Tooltip chi tiết sao
+- Tùy chỉnh theme (sáng/tối)
+- Chế độ offline với Hive
+- Chia sẻ lá số dạng ảnh
 
-## Related Projects
+## Dự Án Liên Quan
 
-- **astroweb-99-cyber-mystic-astrology** (React Web) - Web version with Cloudflare Workers backend
-- **a_tuvi** (Flutter Legacy) - Original Tử Vi app (separate from mobile/web)
+- **astroweb-99-cyber-mystic-astrology** (React Web) - Bản web với backend Cloudflare Workers
+- **a_tuvi** (Flutter Legacy) - Ứng dụng Tử Vi gốc (tách biệt mobile/web)
 
-## Design Reference
+## Tham Chiếu Thiết Kế
 
-The mobile app matches the web app design system exactly:
-- Same dark theme colors and gradients
-- Glassmorphism borders and shadows
-- Matching animation timing and curves
-- Material 3 components (web uses shadcn/ui equivalent)
+Ứng dụng mobile bám sát hoàn toàn design system của web app:
+- Cùng bảng màu và gradient tông tối
+- Viền và bóng theo phong cách glassmorphism
+- Thời lượng và đường cong animation tương ứng
+- Component Material 3 (bản web tương đương shadcn/ui)
 
-## Contributing
+## Đóng Góp
 
-Pull requests welcome! Please ensure:
-1. Code follows Flutter/Dart style guidelines
-2. Tests pass (`flutter test`)
-3. No breaking changes without discussion
+Hoan nghênh pull request. Vui lòng đảm bảo:
+1. Mã tuân thủ guideline Flutter/Dart
+2. Test pass (`flutter test`)
+3. Không có thay đổi phá vỡ tương thích nếu chưa thảo luận
 
-## License
+## Giấy Phép
 
-[License info here]
+[Thông tin giấy phép tại đây]
 
-## Contact
+## Liên Hệ
 
-For issues, questions, or feature requests, please create an issue in the GitLab repository.
+Nếu có lỗi, câu hỏi hoặc đề xuất tính năng, vui lòng tạo issue trong repository GitLab.
 
 ---
 
-**Last Updated:** March 18, 2025  
-**Version:** 0.1.0 (pre-release)
+**Cập nhật lần cuối:** 18/03/2025  
+**Phiên bản:** 0.1.0 (pre-release)
