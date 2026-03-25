@@ -137,7 +137,7 @@ abstract class AppLocalizations {
   /// No description provided for @featureOracleTagline.
   ///
   /// In en, this message translates to:
-  /// **'Direct guidance from the unseen.'**
+  /// **'Seek mystic signs from stars.'**
   String get featureOracleTagline;
 
   /// No description provided for @featureImperialTitle.
@@ -149,7 +149,7 @@ abstract class AppLocalizations {
   /// No description provided for @featureImperialTagline.
   ///
   /// In en, this message translates to:
-  /// **'Royal strategy and life governance.'**
+  /// **'Chart your celestial destiny.'**
   String get featureImperialTagline;
 
   /// No description provided for @featureAlignmentTitle.
@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// No description provided for @featureAlignmentTagline.
   ///
   /// In en, this message translates to:
-  /// **'Tune your energy with current cycles.'**
+  /// **'Harmonize soul with heavens.'**
   String get featureAlignmentTagline;
 
   /// No description provided for @featureIChingTitle.
@@ -173,19 +173,19 @@ abstract class AppLocalizations {
   /// No description provided for @featureIChingTagline.
   ///
   /// In en, this message translates to:
-  /// **'Hexagram insights for decision making.'**
+  /// **'Consult ancient book of changes.'**
   String get featureIChingTagline;
 
   /// No description provided for @featureSoulRevelationTitle.
   ///
   /// In en, this message translates to:
-  /// **'SOUL REVELATION'**
+  /// **'SOUL\nREVELATION'**
   String get featureSoulRevelationTitle;
 
   /// No description provided for @featureSoulRevelationTagline.
   ///
   /// In en, this message translates to:
-  /// **'Decode your inner blueprint.'**
+  /// **'Reveal your inner self.'**
   String get featureSoulRevelationTagline;
 
   /// No description provided for @featureCosmicVoidTitle.

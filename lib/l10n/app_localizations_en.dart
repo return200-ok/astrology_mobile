@@ -27,31 +27,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featureOracleTitle => 'ORACLE';
 
   @override
-  String get featureOracleTagline => 'Direct guidance from the unseen.';
+  String get featureOracleTagline => 'Seek mystic signs from stars.';
 
   @override
   String get featureImperialTitle => 'IMPERIAL';
 
   @override
-  String get featureImperialTagline => 'Royal strategy and life governance.';
+  String get featureImperialTagline => 'Chart your celestial destiny.';
 
   @override
   String get featureAlignmentTitle => 'ALIGNMENT';
 
   @override
-  String get featureAlignmentTagline => 'Tune your energy with current cycles.';
+  String get featureAlignmentTagline => 'Harmonize soul with heavens.';
 
   @override
   String get featureIChingTitle => 'I CHING';
 
   @override
-  String get featureIChingTagline => 'Hexagram insights for decision making.';
+  String get featureIChingTagline => 'Consult ancient book of changes.';
 
   @override
-  String get featureSoulRevelationTitle => 'SOUL REVELATION';
+  String get featureSoulRevelationTitle => 'SOUL\nREVELATION';
 
   @override
-  String get featureSoulRevelationTagline => 'Decode your inner blueprint.';
+  String get featureSoulRevelationTagline => 'Reveal your inner self.';
 
   @override
   String get featureCosmicVoidTitle => 'COSMIC VOID';

@@ -27,41 +27,37 @@ class AppLocalizationsVi extends AppLocalizations {
   String get featureOracleTitle => 'TIÊN TRI';
 
   @override
-  String get featureOracleTagline => 'Nhận chỉ dẫn trực tiếp từ cõi vô hình.';
+  String get featureOracleTagline => 'Tìm điềm huyền bí từ sao.';
 
   @override
   String get featureImperialTitle => 'ĐẾ BÀN';
 
   @override
-  String get featureImperialTagline =>
-      'Chiến lược đế vương và quản trị cuộc sống.';
+  String get featureImperialTagline => 'Vẽ vận mệnh thiên giới.';
 
   @override
   String get featureAlignmentTitle => 'TƯƠNG HỢP';
 
   @override
-  String get featureAlignmentTagline =>
-      'Điều chỉnh năng lượng theo chu kỳ hiện tại.';
+  String get featureAlignmentTagline => 'Hòa hợp tâm hồn với trời.';
 
   @override
   String get featureIChingTitle => 'KINH DỊCH';
 
   @override
-  String get featureIChingTagline => 'Giải quẻ hỗ trợ ra quyết định.';
+  String get featureIChingTagline => 'Hỏi cổ thư biến dịch.';
 
   @override
-  String get featureSoulRevelationTitle => 'KHAI MỞ LINH HỒN';
+  String get featureSoulRevelationTitle => 'KHAI MỞ\nLINH HỒN';
 
   @override
-  String get featureSoulRevelationTagline =>
-      'Giải mã bản thiết kế nội tâm của bạn.';
+  String get featureSoulRevelationTagline => 'Khám phá bản ngã.';
 
   @override
-  String get featureCosmicVoidTitle => 'HƯ VÔ VŨ TRỤ';
+  String get featureCosmicVoidTitle => 'HƯ VÔ\nVŨ TRỤ';
 
   @override
-  String get featureCosmicVoidTagline =>
-      'Chiêm nghiệm sâu trong khoảng lặng vũ trụ.';
+  String get featureCosmicVoidTagline => 'Chiêm nghiệm trong tĩnh lặng.';
 
   @override
   String get featureComingSoon => 'Tính năng sẽ sớm ra mắt';

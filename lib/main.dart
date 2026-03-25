@@ -25,12 +25,14 @@ class FeatureMenuItem {
     required this.title,
     required this.icon,
     required this.tagline,
+    required this.page,
   });
 
   final AppFeature feature;
   final String title;
   final IconData icon;
   final String tagline;
+  final Widget page;
 }
 
 enum AppFeature {
@@ -76,7 +78,7 @@ class AstroApp extends StatelessWidget {
           theme: ThemeData(
             brightness: Brightness.dark,
             scaffoldBackgroundColor: const Color(0xFF090B1A),
-            textTheme: GoogleFonts.cormorantGaramondTextTheme(
+            textTheme: GoogleFonts.interTextTheme(
               ThemeData.dark().textTheme,
             ),
             primaryColor: const Color(0xFFE2C27A),
@@ -98,410 +100,272 @@ class MainScaffold extends StatefulWidget {
 }
 
 class _MainScaffoldState extends State<MainScaffold> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  static const Color _gold = Color(0xFFE2C27A);
-  static const Color _moon = Color(0xFFC6CBF9);
-  int _selectedIndex = 0;
+  // Ink-wash color palette
+  static const Color _inkDark = Color(0xFF2C2C2C);
+  static const Color _inkMedium = Color(0xFF5A5A5A);
+  static const Color _inkLight = Color(0xFF8A8A8A);
+  static const Color _parchment = Color(0xFFF5F0E8);
+  static const Color _parchmentDark = Color(0xFFEDE6D8);
+  static const Color _cardBorder = Color(0xFFD5CFC3);
 
   List<FeatureMenuItem> _featureItems(AppLocalizations l10n) {
     return [
       FeatureMenuItem(
         feature: AppFeature.oracle,
         title: l10n.featureOracleTitle,
-        icon: Icons.auto_awesome_outlined,
+        icon: Icons.all_inclusive_rounded,
         tagline: l10n.featureOracleTagline,
+        page: const OracleSignSelectionPage(),
       ),
       FeatureMenuItem(
         feature: AppFeature.imperial,
         title: l10n.featureImperialTitle,
         icon: Icons.workspace_premium_outlined,
         tagline: l10n.featureImperialTagline,
+        page: const ImperialInputPage(),
       ),
       FeatureMenuItem(
         feature: AppFeature.alignment,
         title: l10n.featureAlignmentTitle,
         icon: Icons.track_changes_outlined,
         tagline: l10n.featureAlignmentTagline,
+        page: const AlignmentPage(),
       ),
       FeatureMenuItem(
         feature: AppFeature.iching,
         title: l10n.featureIChingTitle,
         icon: Icons.grid_goldenratio_outlined,
         tagline: l10n.featureIChingTagline,
+        page: const IChingInputPage(),
       ),
       FeatureMenuItem(
         feature: AppFeature.soulRevelation,
         title: l10n.featureSoulRevelationTitle,
-        icon: Icons.visibility_outlined,
+        icon: Icons.self_improvement_outlined,
         tagline: l10n.featureSoulRevelationTagline,
+        page: const SoulRevelationIntroPage(),
       ),
       FeatureMenuItem(
         feature: AppFeature.cosmicVoid,
         title: l10n.featureCosmicVoidTitle,
         icon: Icons.nightlight_round_outlined,
         tagline: l10n.featureCosmicVoidTagline,
+        page: const CosmicVoidPage(),
       ),
     ];
+  }
+
+  void _navigateToFeature(FeatureMenuItem item) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => item.page),
+    );
+  }
+
+  void _navigateToSettings() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SettingsPage(localeController: widget.localeController),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final featureItems = _featureItems(l10n);
-    final selectedItem = featureItems[_selectedIndex];
+    final screenWidth = MediaQuery.of(context).size.width;
+    final horizontalPadding = screenWidth * 0.06;
+
     return Scaffold(
-      key: _scaffoldKey,
-      drawer: _buildSidebar(context, featureItems),
-      body: Stack(
-        children: [
-          HomePageContent(selectedItem: selectedItem),
-
-          Positioned(
-            top: 50,
-            left: 20,
-            child: GestureDetector(
-              onTap: () => _scaffoldKey.currentState?.openDrawer(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.06),
-                  border: Border.all(color: _gold.withOpacity(0.7), width: 1),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: _gold.withOpacity(0.15),
-                      blurRadius: 14,
-                      spreadRadius: 0,
+      backgroundColor: _parchment,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header section
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: Column(
+                children: [
+                  const SizedBox(height: 24),
+                  // Moon icon
+                  Icon(
+                    Icons.nightlight_round,
+                    size: 40,
+                    color: _inkDark.withValues(alpha: 0.7),
+                  ),
+                  const SizedBox(height: 16),
+                  // Title
+                  Text(
+                    l10n.homeHeroTitle,
+                    style: GoogleFonts.cinzel(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: _inkDark,
+                      letterSpacing: 3.0,
                     ),
-                  ],
-                ),
-                child: Icon(
-                  Icons.menu_rounded,
-                  color: _gold,
-                  size: 24,
-                ),
+                  ),
+                  const SizedBox(height: 6),
+                  // Subtitle
+                  Text(
+                    l10n.homeHeroSubtitle,
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                      color: _inkMedium,
+                      letterSpacing: 2.5,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildSidebar(BuildContext context, List<FeatureMenuItem> featureItems) {
-    final l10n = AppLocalizations.of(context)!;
-    return Drawer(
-      backgroundColor: const Color(0xFF0B0D20),
-      child: Column(
-        children: [
-          const SizedBox(height: 80),
-          _sidebarHeader(),
-          const SizedBox(height: 40),
-          Expanded(
-            child: ListView.builder(
-              itemCount: featureItems.length,
-              itemBuilder: (itemContext, index) {
-                final item = featureItems[index];
-                return _sidebarItem(
-                  item.icon,
-                  item.title,
-                  index == _selectedIndex,
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                    Navigator.pop(itemContext);
-                    if (item.feature == AppFeature.oracle) {
-                      Navigator.of(this.context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const OracleSignSelectionPage(),
-                        ),
-                      );
-                    } else if (item.feature == AppFeature.imperial) {
-                      Navigator.of(this.context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const ImperialInputPage(),
-                        ),
-                      );
-                    } else if (item.feature == AppFeature.alignment) {
-                      Navigator.of(this.context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const AlignmentPage(),
-                        ),
-                      );
-                    } else if (item.feature == AppFeature.iching) {
-                      Navigator.of(this.context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const IChingInputPage(),
-                        ),
-                      );
-                    } else if (item.feature == AppFeature.soulRevelation) {
-                      Navigator.of(this.context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const SoulRevelationIntroPage(),
-                        ),
-                      );
-                    } else if (item.feature == AppFeature.cosmicVoid) {
-                      Navigator.of(this.context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const CosmicVoidPage(),
-                        ),
-                      );
-                    }
+            // Feature grid
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: GridView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 0.95,
+                  ),
+                  itemCount: featureItems.length,
+                  itemBuilder: (context, index) {
+                    return _FeatureCard(
+                      item: featureItems[index],
+                      onTap: () => _navigateToFeature(featureItems[index]),
+                    );
                   },
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 12),
-          _sidebarItem(
-            Icons.settings_outlined,
-            l10n.settings,
-            false,
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(this.context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => SettingsPage(localeController: widget.localeController),
                 ),
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _sidebarHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              gradient: const RadialGradient(
-                colors: [Color(0xFFE2C27A), Color(0xFF7D69D8)],
               ),
-              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(
-              Icons.auto_awesome,
-              size: 18,
-              color: Color(0xFF130F2C),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Text(
-            AppLocalizations.of(context)!.sidebarBrand,
-            style: GoogleFonts.cinzel(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: _moon,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _sidebarItem(
-    IconData icon,
-    String title,
-    bool isActive, {
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color:
-            isActive
-                ? _gold.withOpacity(0.10)
-                : Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
-        border:
-            isActive
-                ? Border.all(color: _gold.withOpacity(0.55), width: 1)
-                : null,
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: isActive ? _gold : Colors.white60,
-          size: 22,
+            // Settings button
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
+                vertical: 16,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: _navigateToSettings,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: _parchmentDark,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: _cardBorder, width: 1),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.settings_outlined,
+                          size: 20,
+                          color: _inkDark,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          l10n.settings,
+                          style: GoogleFonts.cinzel(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: _inkDark,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isActive ? _gold : Colors.white60,
-            fontSize: 14,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-            letterSpacing: 1.2,
-          ),
-        ),
-        onTap: onTap,
       ),
     );
   }
 }
 
-class HomePageContent extends StatelessWidget {
-  const HomePageContent({super.key, required this.selectedItem});
+class _FeatureCard extends StatelessWidget {
+  const _FeatureCard({
+    required this.item,
+    required this.onTap,
+  });
 
-  final FeatureMenuItem selectedItem;
-  static const Color _moon = Color(0xFFC6CBF9);
-  static const Color _gold = Color(0xFFE2C27A);
+  final FeatureMenuItem item;
+  final VoidCallback onTap;
+
+  static const Color _inkDark = Color(0xFF2C2C2C);
+  static const Color _inkMedium = Color(0xFF5A5A5A);
+  static const Color _cardBg = Color(0xFFFAF7F2);
+  static const Color _cardBorder = Color(0xFFD5CFC3);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: const RadialGradient(
-          center: Alignment(0.0, -0.2),
-          radius: 1.25,
-          colors: [
-            Color(0xFF27204F),
-            Color(0xFF171730),
-            Color(0xFF090B1A),
-          ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: _cardBg,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: _cardBorder, width: 1),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF7D69D8).withOpacity(0.08),
-            blurRadius: 80,
-            spreadRadius: 10,
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          const Positioned(
-            top: 120,
-            right: 36,
-            child: Icon(
-              Icons.brightness_2_rounded,
-              color: Color(0xFFF2E8C8),
-              size: 42,
-            ),
-          ),
-          Positioned(
-            top: 72,
-            right: 28,
-            child: Container(
-              width: 60,
-              height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Icon in a subtle circle
+            Container(
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: _gold.withOpacity(0.25),
-                    blurRadius: 30,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 120,
-            left: 30,
-            child: Container(
-              width: 170,
-              height: 170,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    const Color(0xFF8E75DB).withOpacity(0.35),
-                    Colors.transparent,
-                  ],
+                border: Border.all(
+                  color: _cardBorder,
+                  width: 1,
                 ),
               ),
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.homeHeroTitle,
-                    style: GoogleFonts.cinzelDecorative(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w700,
-                      color: _moon,
-                      letterSpacing: 2.8,
-                      shadows: [
-                        Shadow(
-                          color: _moon.withOpacity(0.35),
-                          blurRadius: 18,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppLocalizations.of(context)!.homeHeroSubtitle,
-                    style: GoogleFonts.cinzel(
-                      color: Colors.white70,
-                      fontSize: 12,
-                      letterSpacing: 2.6,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 34),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.04),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: _gold.withOpacity(0.45),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: _gold.withOpacity(0.10),
-                          blurRadius: 24,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          selectedItem.title,
-                          style: GoogleFonts.cinzel(
-                            color: _gold,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.6,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          selectedItem.tagline,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.cormorantGaramond(
-                            color: Colors.white70,
-                            fontSize: 19,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              child: Icon(
+                item.icon,
+                size: 24,
+                color: _inkDark.withValues(alpha: 0.75),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            // Title
+            Text(
+              item.title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.cinzel(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: _inkDark,
+                letterSpacing: 1.2,
+                height: 1.3,
+              ),
+            ),
+            const SizedBox(height: 6),
+            // Tagline
+            Text(
+              item.tagline,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+                color: _inkMedium,
+                height: 1.4,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
