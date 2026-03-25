@@ -329,25 +329,31 @@ abstract class AppLocalizations {
   /// No description provided for @imperialSpiritId.
   ///
   /// In en, this message translates to:
-  /// **'SPIRIT_ID'**
+  /// **'CELESTIAL IDENTITY'**
   String get imperialSpiritId;
+
+  /// No description provided for @imperialSpiritPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'[Enter Spirit Name]'**
+  String get imperialSpiritPlaceholder;
 
   /// No description provided for @imperialArrivalDay.
   ///
   /// In en, this message translates to:
-  /// **'ARRIVAL_DAY'**
+  /// **'DATE OF DESCENT'**
   String get imperialArrivalDay;
 
   /// No description provided for @imperialStreamsHour.
   ///
   /// In en, this message translates to:
-  /// **'STREAMS_HOUR'**
+  /// **'HOUR OF DESTINY'**
   String get imperialStreamsHour;
 
   /// No description provided for @imperialCastStars.
   ///
   /// In en, this message translates to:
-  /// **'CAST_STARS'**
+  /// **'CAST STARS'**
   String get imperialCastStars;
 
   /// No description provided for @imperialDatePlaceholder.
@@ -359,7 +365,7 @@ abstract class AppLocalizations {
   /// No description provided for @imperialFillRequiredSnack.
   ///
   /// In en, this message translates to:
-  /// **'Please fill SPIRIT_ID and ARRIVAL_DAY'**
+  /// **'Please fill Celestial Identity and Date of Descent'**
   String get imperialFillRequiredSnack;
 
   /// No description provided for @imperialSolarPrefix.

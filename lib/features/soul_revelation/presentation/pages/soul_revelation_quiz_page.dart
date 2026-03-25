@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
 import '../widgets/soul_revelation_starfield_background.dart';
-import '../widgets/soul_revelation_tabs.dart';
-import 'enneagram_intro_page.dart';
 import 'soul_revelation_result_page.dart';
+
+// ─── Colors ──────────────────────────────────────────────────────────────────
+const Color _kBg = Color(0xFF070910);
+const Color _kTeal = Color(0xFF00BDA4);
+const Color _kGold = Color(0xFFD4AF37);
 
 class SoulRevelationQuizPage extends StatefulWidget {
   const SoulRevelationQuizPage({super.key});
@@ -15,178 +17,282 @@ class SoulRevelationQuizPage extends StatefulWidget {
   State<SoulRevelationQuizPage> createState() => _SoulRevelationQuizPageState();
 }
 
-class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage> {
-  static const Color _gold = Color(0xFFFFD438);
+class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
+    with SingleTickerProviderStateMixin {
   int _index = 0;
-  final Map<int, int> _answers = <int, int>{};
+  int? _selected; // currently highlighted circle (1-5)
+  final Map<int, int> _answers = {};
+  late final AnimationController _fadeCtrl;
+  late Animation<double> _fadeAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _fadeCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    )..forward();
+    _fadeAnim = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeIn);
+  }
+
+  @override
+  void dispose() {
+    _fadeCtrl.dispose();
+    super.dispose();
+  }
+
+  void _selectAnswer(int value) {
+    setState(() => _selected = value);
+
+    // Short delay then advance
+    Future.delayed(const Duration(milliseconds: 350), () {
+      if (!mounted) return;
+      _answers[bfi44Questions[_index].id] = value;
+
+      if (_index < bfi44Questions.length - 1) {
+        setState(() {
+          _index += 1;
+          _selected = null;
+        });
+        _fadeCtrl
+          ..reset()
+          ..forward();
+      } else {
+        final scores = calculateBfi44Scores(_answers);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (_) => SoulRevelationResultPage(scores: scores),
+          ),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context);
+    final vi = Localizations.localeOf(context).languageCode == 'vi';
     final total = bfi44Questions.length;
     final question = bfi44Questions[_index];
     final progress = (_index + 1) / total;
+    final disagree = vi ? 'Không đồng ý' : 'Disagree';
+    final agree = vi ? 'Đồng ý' : 'Agree';
+    final channeling = vi ? 'Đang kết nối...' : 'Channeling...';
 
     return Scaffold(
+      backgroundColor: _kBg,
       body: SoulRevelationStarfieldBackground(
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            child: Column(
-              children: [
-                Align(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── Back button ──────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+                child: Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white70,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                SoulRevelationTabs(
-                  selectedIndex: 0,
-                  onTabSelected: (index) {
-                    if (index == 1) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const EnneagramIntroPage(),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                const SizedBox(height: 22),
-                _buildProgress(context, progress, _index + 1, total),
-                const SizedBox(height: 30),
-                Text(
-                  question.promptFor(locale),
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.cormorantGaramond(
-                    color: _gold,
-                    fontSize: 30,
-                    fontStyle: FontStyle.italic,
-                    height: 1.3,
-                  ),
-                ),
-                const SizedBox(height: 30),
-                ...bfiScaleOptions.map((option) {
-                  final label = option.labelFor(locale);
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 14),
-                    child: _ScaleChoiceButton(
-                      label: label,
-                      onTap: () => _answer(question.id, option.value),
+                    icon: const Icon(
+                      Icons.chevron_left_rounded,
+                      size: 32,
+                      color: Colors.white60,
                     ),
-                  );
-                }),
-                const SizedBox(height: 6),
-                Text(
-                  'BFI-44',
-                  style: GoogleFonts.cinzel(
-                    color: _gold.withOpacity(0.55),
-                    fontSize: 12,
-                    letterSpacing: 2.0,
                   ),
                 ),
-              ],
-            ),
+              ),
+
+              // ── Question area (Expanded — vertically centered) ─────────
+              Expanded(
+                child: FadeTransition(
+                  opacity: _fadeAnim,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Question text
+                        Text(
+                          question.promptFor(
+                            Localizations.localeOf(context),
+                          ),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.inter(
+                            color: Colors.white.withOpacity(0.88),
+                            fontSize: 16,
+                            height: 1.65,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+
+                        const SizedBox(height: 48),
+
+                        // ── Circle selector ───────────────────────────────
+                        _CircleRow(
+                          count: bfiScaleOptions.length,
+                          selected: _selected,
+                          onSelect: _selectAnswer,
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        // ── Disagree / Agree labels ───────────────────────
+                        Row(
+                          children: [
+                            Text(
+                              disagree,
+                              style: GoogleFonts.inter(
+                                color: Colors.white38,
+                                fontSize: 11,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              agree,
+                              style: GoogleFonts.inter(
+                                color: Colors.white38,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // ── Bottom bar ────────────────────────────────────────────────
+              _QuizBottomBar(
+                current: _index + 1,
+                total: total,
+                progress: progress,
+                channeling: channeling,
+              ),
+            ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildProgress(BuildContext context, double progress, int current, int total) {
-    final l10n = AppLocalizations.of(context)!;
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              l10n.soulEssenceProgress(current, total),
-              style: GoogleFonts.cinzel(
-                color: _gold.withOpacity(0.85),
-                fontSize: 13,
-                letterSpacing: 1.4,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              l10n.soulChanneling,
-              style: GoogleFonts.cinzel(
-                color: _gold.withOpacity(0.85),
-                fontSize: 13,
-                letterSpacing: 1.4,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(999),
-          child: LinearProgressIndicator(
-            value: progress,
-            minHeight: 6,
-            color: _gold,
-            backgroundColor: const Color(0xFF1B1953),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _answer(int questionId, int value) {
-    _answers[questionId] = value;
-    if (_index < bfi44Questions.length - 1) {
-      setState(() {
-        _index += 1;
-      });
-      return;
-    }
-
-    final scores = calculateBfi44Scores(_answers);
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (_) => SoulRevelationResultPage(scores: scores),
       ),
     );
   }
 }
 
-class _ScaleChoiceButton extends StatelessWidget {
-  const _ScaleChoiceButton({required this.label, required this.onTap});
+// ─── Circle row selector ──────────────────────────────────────────────────────
+class _CircleRow extends StatelessWidget {
+  const _CircleRow({
+    required this.count,
+    required this.selected,
+    required this.onSelect,
+  });
 
-  final String label;
-  final VoidCallback onTap;
-  static const Color _gold = Color(0xFFFFD438);
+  final int count;
+  final int? selected;
+  final ValueChanged<int> onSelect;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final optionSize = width < 430 ? 20.0 : 26.0;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(count, (i) {
+        final value = i + 1;
+        final isSelected = selected == value;
+        // Scale: first circle smallest, last largest
+        final scale = 0.72 + (i / (count - 1)) * 0.28;
+        final size = 38.0 * scale + 6;
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(999),
-      onTap: onTap,
-      child: Container(
-        width: 760,
-        constraints: const BoxConstraints(maxWidth: 760),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1D1B5E).withOpacity(0.95),
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: _gold.withOpacity(0.45)),
-        ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.cinzel(
-            color: _gold,
-            fontSize: optionSize,
-            letterSpacing: 1.1,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: GestureDetector(
+            onTap: () => onSelect(value),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? _kTeal : Colors.transparent,
+                border: Border.all(
+                  color: isSelected
+                      ? _kTeal
+                      : Colors.white.withOpacity(0.35),
+                  width: isSelected ? 0 : 1.5,
+                ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: _kTeal.withOpacity(0.45),
+                          blurRadius: 12,
+                        )
+                      ]
+                    : null,
+              ),
+            ),
           ),
-        ),
+        );
+      }),
+    );
+  }
+}
+
+// ─── Quiz bottom bar ──────────────────────────────────────────────────────────
+class _QuizBottomBar extends StatelessWidget {
+  const _QuizBottomBar({
+    required this.current,
+    required this.total,
+    required this.progress,
+    required this.channeling,
+  });
+
+  final int current;
+  final int total;
+  final double progress;
+  final String channeling;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Text(
+                '$current / $total',
+                style: GoogleFonts.inter(
+                  color: Colors.white30,
+                  fontSize: 11,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                channeling,
+                style: GoogleFonts.inter(
+                  color: Colors.white30,
+                  fontSize: 11,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 3,
+              backgroundColor: Colors.white.withOpacity(0.08),
+              color: _kTeal,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'BFI-44',
+            style: GoogleFonts.cinzel(
+              color: _kGold.withOpacity(0.30),
+              fontSize: 10,
+              letterSpacing: 2.0,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -127,23 +127,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get imperialTabCalendar => 'CALENDAR';
 
   @override
-  String get imperialSpiritId => 'SPIRIT_ID';
+  String get imperialSpiritId => 'CELESTIAL IDENTITY';
 
   @override
-  String get imperialArrivalDay => 'ARRIVAL_DAY';
+  String get imperialSpiritPlaceholder => '[Enter Spirit Name]';
 
   @override
-  String get imperialStreamsHour => 'STREAMS_HOUR';
+  String get imperialArrivalDay => 'DATE OF DESCENT';
 
   @override
-  String get imperialCastStars => 'CAST_STARS';
+  String get imperialStreamsHour => 'HOUR OF DESTINY';
+
+  @override
+  String get imperialCastStars => 'CAST STARS';
 
   @override
   String get imperialDatePlaceholder => 'mm/dd/yyyy';
 
   @override
   String get imperialFillRequiredSnack =>
-      'Please fill SPIRIT_ID and ARRIVAL_DAY';
+      'Please fill Celestial Identity and Date of Descent';
 
   @override
   String get imperialSolarPrefix => 'SOLAR';

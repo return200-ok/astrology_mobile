@@ -2,147 +2,314 @@ import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'enneagram_intro_page.dart';
 import '../widgets/soul_revelation_starfield_background.dart';
-import '../widgets/soul_revelation_tabs.dart';
 import 'soul_revelation_quiz_page.dart';
+
+// ─── Colors ──────────────────────────────────────────────────────────────────
+const Color _kBg = Color(0xFF070910);
+const Color _kCard = Color(0xFF0E1020);
+const Color _kGold = Color(0xFFD4AF37);
+const Color _kTeal = Color(0xFF00BDA4);
+const Color _kTealDark = Color(0xFF007A6B);
+const Color _kCardBorder = Color(0xFFD4AF37);
 
 class SoulRevelationIntroPage extends StatelessWidget {
   const SoulRevelationIntroPage({super.key});
-
-  static const Color _gold = Color(0xFFFFD438);
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final vi = Localizations.localeOf(context).languageCode == 'vi';
-    final width = MediaQuery.sizeOf(context).width;
-    final titleSize = width < 430 ? 64.0 : width < 900 ? 88.0 : 104.0;
-    final testSubtitle =
-        vi ? 'BÀI TEST BIG FIVE (BFI-44)' : 'BIG FIVE TEST (BFI-44)';
+    final total = 44;
 
     return Scaffold(
+      backgroundColor: _kBg,
       body: SoulRevelationStarfieldBackground(
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            child: Column(
-              children: [
-                Align(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Back button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+                child: Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white70,
+                    icon: const Icon(
+                      Icons.chevron_left_rounded,
+                      size: 32,
+                      color: Colors.white60,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 6),
-                SoulRevelationTabs(
-                  selectedIndex: 0,
-                  onTabSelected: (index) {
-                    if (index == 1) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const EnneagramIntroPage(),
-                        ),
-                      );
-                    }
-                  },
+              ),
+
+              // ── Content (no card) ─────────────────────────────────────────
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 4, 28, 16),
+                  child: _IntroContent(l10n: l10n, vi: vi),
                 ),
-                const SizedBox(height: 22),
-                Text(
-                  l10n.soulRevelationTitle,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.cormorantGaramond(
-                    color: _gold,
-                    fontSize: titleSize,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.7,
-                    shadows: [
-                      Shadow(
-                        color: _gold.withOpacity(0.35),
-                        blurRadius: 14,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  testSubtitle,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.cinzel(
-                    color: _gold.withOpacity(0.62),
-                    fontSize: 14,
-                    letterSpacing: 2.2,
-                  ),
-                ),
-                const SizedBox(height: 22),
-                _buildHeroCard(context, l10n),
-              ],
-            ),
+              ),
+
+              // ── Bottom bar ────────────────────────────────────────────────
+              _BottomBar(progress: 0, current: 0, total: total, vi: vi),
+            ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildHeroCard(BuildContext context, AppLocalizations l10n) {
-    final width = MediaQuery.sizeOf(context).width;
-    final quoteSize = width < 430 ? 26.0 : 34.0;
-    final buttonSize = width < 430 ? 20.0 : 28.0;
+// ─── Intro content (no card frame) ───────────────────────────────────────────
+class _IntroContent extends StatelessWidget {
+  const _IntroContent({required this.l10n, required this.vi});
+
+  final AppLocalizations l10n;
+  final bool vi;
+
+  @override
+  Widget build(BuildContext context) {
+    final title = 'Big Five';
+    final subtitle = vi ? 'KHÁM PHÁ CĂN TÂM BFI-44' : 'EXPLORE YOUR SOUL · BFI-44';
+    final btnLabel = vi ? 'BẮT ĐẦU KIỂM TRA' : 'BEGIN TEST';
+    final quote = vi
+        ? '"Bắt đầu hành trình khám phá tâm hồn.\nTrả lời 44 câu hỏi trắc nghiệm."'
+        : '"Begin the journey of soul discovery.\nAnswer 44 questions."';
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Title — single line
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.cormorantGaramond(
+            color: _kGold,
+            fontSize: 42,
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.italic,
+            height: 1.0,
+            letterSpacing: 3.0,
+            shadows: [
+              Shadow(color: _kGold.withOpacity(0.45), blurRadius: 22),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 10),
+
+        // Subtitle
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.cinzel(
+            color: _kGold.withOpacity(0.50),
+            fontSize: 10,
+            letterSpacing: 2.6,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        const SizedBox(height: 40),
+
+        // Sparkle icon
+        const _Sparkle(size: 32),
+
+        const SizedBox(height: 32),
+
+        // Quote
+        Text(
+          quote,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            color: Colors.white.withOpacity(0.50),
+            fontSize: 13,
+            height: 1.7,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+
+        const SizedBox(height: 48),
+
+        // Begin button
+        _TealButton(
+          label: btnLabel,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => const SoulRevelationQuizPage(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Teal gradient button ─────────────────────────────────────────────────────
+class _TealButton extends StatelessWidget {
+  const _TealButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(999),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(999),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF00C9AE), Color(0xFF00897B)],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: _kTeal.withOpacity(0.40),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const _Sparkle(size: 16, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: GoogleFonts.cinzel(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.8,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Sparkle (4-pointed star) ─────────────────────────────────────────────────
+class _Sparkle extends StatelessWidget {
+  const _Sparkle({this.size = 32, this.color = _kGold});
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(painter: _SparklePainter(color: color)),
+    );
+  }
+}
+
+class _SparklePainter extends CustomPainter {
+  const _SparklePainter({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    final r = size.width / 2;
+
+    final path = Path();
+    // 4-pointed star
+    path.moveTo(cx, cy - r);
+    path.quadraticBezierTo(cx + r * 0.12, cy - r * 0.12, cx + r, cy);
+    path.quadraticBezierTo(cx + r * 0.12, cy + r * 0.12, cx, cy + r);
+    path.quadraticBezierTo(cx - r * 0.12, cy + r * 0.12, cx - r, cy);
+    path.quadraticBezierTo(cx - r * 0.12, cy - r * 0.12, cx, cy - r);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+// ─── Bottom bar ───────────────────────────────────────────────────────────────
+class _BottomBar extends StatelessWidget {
+  const _BottomBar({
+    required this.progress,
+    required this.current,
+    required this.total,
+    required this.vi,
+  });
+
+  final double progress;
+  final int current;
+  final int total;
+  final bool vi;
+
+  @override
+  Widget build(BuildContext context) {
+    final leftLabel = current == 0 ? '0%' : '$current / $total';
+    final rightLabel =
+        vi ? '$total câu hỏi' : '$total questions';
 
     return Container(
-      width: 920,
-      constraints: const BoxConstraints(maxWidth: 920),
-      padding: const EdgeInsets.fromLTRB(18, 26, 18, 28),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1D1B5E).withOpacity(0.95),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: _gold.withOpacity(0.4)),
-        boxShadow: [
-          BoxShadow(
-            color: _gold.withOpacity(0.16),
-            blurRadius: 20,
-          ),
-        ],
-      ),
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            l10n.soulQuote,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.cormorantGaramond(
-              color: _gold,
-              fontSize: quoteSize,
-              fontStyle: FontStyle.italic,
+          Row(
+            children: [
+              Text(
+                leftLabel,
+                style: GoogleFonts.inter(
+                  color: Colors.white24,
+                  fontSize: 11,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                rightLabel,
+                style: GoogleFonts.inter(
+                  color: Colors.white24,
+                  fontSize: 11,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 3,
+              backgroundColor: Colors.white.withOpacity(0.08),
+              color: _kTeal,
             ),
           ),
-          const SizedBox(height: 24),
-          FilledButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const SoulRevelationQuizPage(),
-                ),
-              );
-            },
-            style: FilledButton.styleFrom(
-              backgroundColor: _gold,
-              foregroundColor: const Color(0xFF1E1A57),
-              padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(999),
-              ),
-            ),
-            icon: const Icon(Icons.auto_awesome_rounded),
-            label: Text(
-              l10n.soulBeginRevelation,
-              style: GoogleFonts.cinzel(
-                fontSize: buttonSize,
-                letterSpacing: 1.8,
-                fontWeight: FontWeight.w700,
-              ),
+          const SizedBox(height: 8),
+          Text(
+            'BFI-44',
+            style: GoogleFonts.cinzel(
+              color: _kGold.withOpacity(0.30),
+              fontSize: 10,
+              letterSpacing: 2.0,
             ),
           ),
         ],

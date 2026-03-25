@@ -132,13 +132,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get imperialTabCalendar => 'LỊCH PHÁP';
 
   @override
-  String get imperialSpiritId => 'DANH XƯNG';
+  String get imperialSpiritId => 'DANH XƯNG THIÊN MỆNH';
 
   @override
-  String get imperialArrivalDay => 'NGÀY SINH';
+  String get imperialSpiritPlaceholder => '[Nhập tên của bạn]';
 
   @override
-  String get imperialStreamsHour => 'GIỜ SINH';
+  String get imperialArrivalDay => 'NGÀY GIÁNG THẾ';
+
+  @override
+  String get imperialStreamsHour => 'GIỜ VẬN MỆNH';
 
   @override
   String get imperialCastStars => 'AN SAO';
@@ -148,7 +151,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get imperialFillRequiredSnack =>
-      'Vui lòng nhập đủ DANH XƯNG và NGÀY SINH';
+      'Vui lòng nhập đủ DANH XƯNG và NGÀY GIÁNG THẾ';
 
   @override
   String get imperialSolarPrefix => 'DƯƠNG LỊCH';
