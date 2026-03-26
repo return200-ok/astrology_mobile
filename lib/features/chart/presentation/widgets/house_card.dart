@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'star_chip.dart';
 
+// ─── Palette (Ink Wash / Parchment) ──────────────────────────────────────────
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const sheet  = Color(0xFFF2EDE4);
+}
+
 class HouseCard extends StatelessWidget {
   final int houseIndex;
   final String houseName;
@@ -41,28 +49,12 @@ class HouseCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
+          color: isSelected ? _P.sheet : _P.card,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? elementColor : elementColor.withOpacity(0.3),
+            color: isSelected ? elementColor : _P.border,
             width: isSelected ? 2 : 1,
           ),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white.withOpacity(0.05),
-              Colors.white.withOpacity(0.02),
-            ],
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: elementColor.withOpacity(0.3),
-                    blurRadius: 12,
-                    spreadRadius: 2,
-                  ),
-                ]
-              : null,
         ),
         child: Padding(
           padding: const EdgeInsets.all(12),

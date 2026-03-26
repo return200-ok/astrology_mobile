@@ -3,13 +3,21 @@ import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
-import '../widgets/soul_revelation_starfield_background.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 import 'soul_revelation_intro_page.dart';
 
-// ─── Colors (đồng bộ với intro + quiz) ───────────────────────────────────────
-const Color _kBg   = Color(0xFF070910);
-const Color _kGold = Color(0xFFD4AF37);
-const Color _kTeal = Color(0xFF00BDA4);
+// ─── Ink Wash palette ────────────────────────────────────────────────────────
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const mid    = Color(0xFF5C5C5C);
+  static const light  = Color(0xFF8A8A8A);
+  static const red    = Color(0xFF8B3A3A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const iconBg = Color(0xFFEAE3D8);
+  static const divider = Color(0xFFD8D0C6);
+  static const sheet  = Color(0xFFF2EDE4);
+}
 
 class SoulRevelationResultPage extends StatelessWidget {
   const SoulRevelationResultPage({super.key, required this.scores});
@@ -30,8 +38,8 @@ class SoulRevelationResultPage extends StatelessWidget {
         .toList();
 
     return Scaffold(
-      backgroundColor: _kBg,
-      body: SoulRevelationStarfieldBackground(
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,9 +52,9 @@ class SoulRevelationResultPage extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => Navigator.of(context).maybePop(),
                     icon: const Icon(
-                      Icons.chevron_left_rounded,
-                      size: 32,
-                      color: Colors.white60,
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 18,
+                      color: _P.ink,
                     ),
                   ),
                 ),
@@ -78,7 +86,7 @@ class SoulRevelationResultPage extends StatelessWidget {
                 ),
               ),
 
-              // ── Bottom bar (đồng bộ intro/quiz) ───────────────────────────
+              // ── Bottom bar ─────────────────────────────────────────────────
               _BottomBar(vi: vi),
             ],
           ),
@@ -103,14 +111,12 @@ class _ResultHeader extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: GoogleFonts.cormorantGaramond(
-            color: _kGold,
+          style: GoogleFonts.cinzel(
+            color: _P.ink,
             fontSize: 42,
             fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.italic,
             height: 1.0,
             letterSpacing: 3.0,
-            shadows: [Shadow(color: _kGold.withOpacity(0.45), blurRadius: 22)],
           ),
         ),
         const SizedBox(height: 10),
@@ -118,7 +124,7 @@ class _ResultHeader extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.cinzel(
-            color: _kGold.withOpacity(0.50),
+            color: _P.mid,
             fontSize: 10,
             letterSpacing: 2.6,
           ),
@@ -154,7 +160,7 @@ class _TraitSection extends StatelessWidget {
                 child: Text(
                   row.label,
                   style: GoogleFonts.cinzel(
-                    color: _kGold,
+                    color: _P.ink,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.6,
@@ -164,7 +170,7 @@ class _TraitSection extends StatelessWidget {
               Text(
                 '$scoreText / 100',
                 style: GoogleFonts.cinzel(
-                  color: _kTeal,
+                  color: _P.red,
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                 ),
@@ -173,7 +179,7 @@ class _TraitSection extends StatelessWidget {
               Text(
                 '· $levelText',
                 style: GoogleFonts.inter(
-                  color: Colors.white38,
+                  color: _P.light,
                   fontSize: 11,
                 ),
               ),
@@ -182,14 +188,14 @@ class _TraitSection extends StatelessWidget {
 
           const SizedBox(height: 8),
 
-          // Teal progress bar
+          // Progress bar
           ClipRRect(
             borderRadius: BorderRadius.circular(999),
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 4,
-              backgroundColor: Colors.white.withOpacity(0.07),
-              color: _kTeal,
+              backgroundColor: _P.iconBg,
+              color: _P.red.withValues(alpha: 0.70),
             ),
           ),
 
@@ -199,7 +205,7 @@ class _TraitSection extends StatelessWidget {
           Text(
             desc,
             style: GoogleFonts.inter(
-              color: Colors.white.withOpacity(0.50),
+              color: _P.mid,
               fontSize: 12,
               height: 1.65,
               fontStyle: FontStyle.italic,
@@ -209,7 +215,7 @@ class _TraitSection extends StatelessWidget {
           const SizedBox(height: 10),
 
           // Thin separator
-          Container(height: 0.5, color: Colors.white.withOpacity(0.07)),
+          Container(height: 0.5, color: _P.divider),
         ],
       ),
     );
@@ -224,41 +230,34 @@ class _RetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = vi ? 'LÀM LẠI BÀI TEST' : 'RETAKE TEST';
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: () => Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute<void>(
-            builder: (_) => const SoulRevelationIntroPage(),
-          ),
-          (route) => false,
+    return OutlinedButton(
+      onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute<void>(
+          builder: (_) => const SoulRevelationIntroPage(),
         ),
-        borderRadius: BorderRadius.circular(999),
-        splashColor: _kTeal.withOpacity(0.12),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: _kTeal.withOpacity(0.50), width: 1),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: GoogleFonts.cinzel(
-              color: _kTeal,
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2.0,
-            ),
-          ),
+        (route) => false,
+      ),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: _P.red,
+        side: BorderSide(color: _P.red.withValues(alpha: 0.65)),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(999),
+        ),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.cinzel(
+          fontSize: 13,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 2.0,
         ),
       ),
     );
   }
 }
 
-// ─── Bottom bar (đồng bộ intro + quiz) ───────────────────────────────────────
+// ─── Bottom bar ──────────────────────────────────────────────────────────────
 class _BottomBar extends StatelessWidget {
   const _BottomBar({required this.vi});
   final bool vi;
@@ -275,11 +274,11 @@ class _BottomBar extends StatelessWidget {
             children: [
               Text('100%',
                   style: GoogleFonts.inter(
-                      color: Colors.white24, fontSize: 11)),
+                      color: _P.light, fontSize: 11)),
               const Spacer(),
               Text(rightLabel,
                   style: GoogleFonts.inter(
-                      color: Colors.white24, fontSize: 11)),
+                      color: _P.light, fontSize: 11)),
             ],
           ),
           const SizedBox(height: 6),
@@ -288,15 +287,15 @@ class _BottomBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: 1.0,
               minHeight: 3,
-              backgroundColor: Colors.white.withOpacity(0.08),
-              color: _kTeal,
+              backgroundColor: _P.iconBg,
+              color: _P.red,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'BFI-44',
             style: GoogleFonts.cinzel(
-              color: _kGold.withOpacity(0.30),
+              color: _P.light,
               fontSize: 10,
               letterSpacing: 2.0,
             ),

@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
-import '../widgets/soul_revelation_starfield_background.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 import 'soul_revelation_result_page.dart';
 
-// ─── Colors ──────────────────────────────────────────────────────────────────
-const Color _kBg = Color(0xFF070910);
-const Color _kTeal = Color(0xFF00BDA4);
-const Color _kGold = Color(0xFFD4AF37);
+// ─── Ink Wash palette ────────────────────────────────────────────────────────
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const mid    = Color(0xFF5C5C5C);
+  static const light  = Color(0xFF8A8A8A);
+  static const red    = Color(0xFF8B3A3A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const iconBg = Color(0xFFEAE3D8);
+  static const divider = Color(0xFFD8D0C6);
+  static const sheet  = Color(0xFFF2EDE4);
+}
 
 class SoulRevelationQuizPage extends StatefulWidget {
   const SoulRevelationQuizPage({super.key});
@@ -79,8 +87,8 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
     final channeling = vi ? 'Đang kết nối...' : 'Channeling...';
 
     return Scaffold(
-      backgroundColor: _kBg,
-      body: SoulRevelationStarfieldBackground(
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,9 +101,9 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                   child: IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(
-                      Icons.chevron_left_rounded,
-                      size: 32,
-                      color: Colors.white60,
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 18,
+                      color: _P.ink,
                     ),
                   ),
                 ),
@@ -117,7 +125,7 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                           ),
                           textAlign: TextAlign.center,
                           style: GoogleFonts.inter(
-                            color: Colors.white.withOpacity(0.88),
+                            color: _P.ink,
                             fontSize: 16,
                             height: 1.65,
                             letterSpacing: 0.2,
@@ -141,7 +149,7 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                             Text(
                               disagree,
                               style: GoogleFonts.inter(
-                                color: Colors.white38,
+                                color: _P.light,
                                 fontSize: 11,
                               ),
                             ),
@@ -149,7 +157,7 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                             Text(
                               agree,
                               style: GoogleFonts.inter(
-                                color: Colors.white38,
+                                color: _P.light,
                                 fontSize: 11,
                               ),
                             ),
@@ -209,21 +217,11 @@ class _CircleRow extends StatelessWidget {
               height: size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? _kTeal : Colors.transparent,
+                color: isSelected ? _P.red : Colors.transparent,
                 border: Border.all(
-                  color: isSelected
-                      ? _kTeal
-                      : Colors.white.withOpacity(0.35),
+                  color: isSelected ? _P.red : _P.border,
                   width: isSelected ? 0 : 1.5,
                 ),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: _kTeal.withOpacity(0.45),
-                          blurRadius: 12,
-                        )
-                      ]
-                    : null,
               ),
             ),
           ),
@@ -259,7 +257,7 @@ class _QuizBottomBar extends StatelessWidget {
               Text(
                 '$current / $total',
                 style: GoogleFonts.inter(
-                  color: Colors.white30,
+                  color: _P.light,
                   fontSize: 11,
                 ),
               ),
@@ -267,7 +265,7 @@ class _QuizBottomBar extends StatelessWidget {
               Text(
                 channeling,
                 style: GoogleFonts.inter(
-                  color: Colors.white30,
+                  color: _P.light,
                   fontSize: 11,
                 ),
               ),
@@ -279,15 +277,15 @@ class _QuizBottomBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 3,
-              backgroundColor: Colors.white.withOpacity(0.08),
-              color: _kTeal,
+              backgroundColor: _P.iconBg,
+              color: _P.red,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'BFI-44',
             style: GoogleFonts.cinzel(
-              color: _kGold.withOpacity(0.30),
+              color: _P.light,
               fontSize: 10,
               letterSpacing: 2.0,
             ),

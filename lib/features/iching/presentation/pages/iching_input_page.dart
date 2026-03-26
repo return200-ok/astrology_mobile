@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/iching_starfield_background.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 import 'iching_result_page.dart';
+
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const mid    = Color(0xFF5C5C5C);
+  static const light  = Color(0xFF8A8A8A);
+  static const red    = Color(0xFF8B3A3A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const iconBg = Color(0xFFEAE3D8);
+  static const divider = Color(0xFFD8D0C6);
+  static const sheet  = Color(0xFFF2EDE4);
+}
 
 class IChingInputPage extends StatefulWidget {
   const IChingInputPage({super.key});
@@ -13,7 +25,6 @@ class IChingInputPage extends StatefulWidget {
 }
 
 class _IChingInputPageState extends State<IChingInputPage> {
-  static const Color _gold = Color(0xFFFFD438);
   final TextEditingController _queryController = TextEditingController();
 
   @override
@@ -31,7 +42,8 @@ class _IChingInputPageState extends State<IChingInputPage> {
     final subtitleSpacing = width < 430 ? 2.2 : 4.4;
 
     return Scaffold(
-      body: IChingStarfieldBackground(
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -42,21 +54,17 @@ class _IChingInputPageState extends State<IChingInputPage> {
                   child: IconButton(
                     onPressed: () => Navigator.of(context).maybePop(),
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white70,
+                    color: _P.ink,
                   ),
                 ),
                 Text(
                   l10n.ichingTitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cormorantGaramond(
-                    color: _gold,
+                  style: GoogleFonts.cinzel(
+                    color: _P.ink,
                     fontSize: titleSize,
                     fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.italic,
                     letterSpacing: 2.0,
-                    shadows: [
-                      Shadow(color: _gold.withOpacity(0.4), blurRadius: 16),
-                    ],
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -64,7 +72,7 @@ class _IChingInputPageState extends State<IChingInputPage> {
                   l10n.ichingSubtitle,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.cinzel(
-                    color: _gold.withOpacity(0.62),
+                    color: _P.mid,
                     fontSize: subtitleSize,
                     letterSpacing: subtitleSpacing,
                   ),
@@ -141,7 +149,6 @@ class _InputCard extends StatelessWidget {
 
   final TextEditingController queryController;
   final VoidCallback onCast;
-  static const Color _gold = Color(0xFFFFD438);
 
   @override
   Widget build(BuildContext context) {
@@ -154,15 +161,9 @@ class _InputCard extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 260),
       padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
       decoration: BoxDecoration(
-        color: const Color(0xFF1C1A59).withOpacity(0.95),
+        color: _P.card,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: _gold.withOpacity(0.42)),
-        boxShadow: [
-          BoxShadow(
-            color: _gold.withOpacity(0.18),
-            blurRadius: 22,
-          ),
-        ],
+        border: Border.all(color: _P.border, width: 0.8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +172,7 @@ class _InputCard extends StatelessWidget {
           Text(
             l10n.ichingWhisperQueryLabel,
             style: GoogleFonts.cinzel(
-              color: _gold.withOpacity(0.72),
+              color: _P.mid,
               fontSize: 15,
               letterSpacing: 2.1,
             ),
@@ -179,37 +180,38 @@ class _InputCard extends StatelessWidget {
           const SizedBox(height: 14),
           TextField(
             controller: queryController,
-            style: GoogleFonts.cormorantGaramond(
-              color: _gold,
+            cursorColor: _P.red,
+            style: GoogleFonts.inter(
+              color: _P.ink,
               fontSize: 26,
-              fontStyle: FontStyle.italic,
             ),
             decoration: InputDecoration(
               hintText: l10n.ichingWhisperQueryHint,
-              hintStyle: GoogleFonts.cormorantGaramond(
-                color: _gold.withOpacity(0.48),
+              hintStyle: GoogleFonts.inter(
+                color: _P.light,
                 fontSize: hintSize,
-                fontStyle: FontStyle.italic,
               ),
+              filled: true,
+              fillColor: _P.sheet,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide(color: _gold.withOpacity(0.75)),
+                borderSide: const BorderSide(color: _P.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide(color: _gold, width: 1.2),
+                borderSide: const BorderSide(color: _P.red, width: 1.2),
               ),
             ),
           ),
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
-            child: FilledButton.icon(
+            child: OutlinedButton.icon(
               onPressed: onCast,
-              style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFF9E8B2D),
-                foregroundColor: const Color(0xFF1D184C),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: _P.red,
+                side: const BorderSide(color: _P.red),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(999),
@@ -222,7 +224,6 @@ class _InputCard extends StatelessWidget {
                   fontSize: buttonSize,
                   letterSpacing: 1.7,
                   fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.italic,
                 ),
               ),
             ),
@@ -236,23 +237,15 @@ class _InputCard extends StatelessWidget {
 class _AltarCard extends StatelessWidget {
   const _AltarCard();
 
-  static const Color _gold = Color(0xFFFFD438);
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
       constraints: const BoxConstraints(minHeight: 420),
       decoration: BoxDecoration(
-        color: const Color(0xFF1C1A59).withOpacity(0.85),
+        color: _P.card,
         borderRadius: BorderRadius.circular(44),
-        border: Border.all(color: _gold.withOpacity(0.2)),
-        boxShadow: [
-          BoxShadow(
-            color: _gold.withOpacity(0.1),
-            blurRadius: 20,
-          ),
-        ],
+        border: Border.all(color: _P.border, width: 0.8),
       ),
       child: Stack(
         alignment: Alignment.center,
@@ -262,7 +255,7 @@ class _AltarCard extends StatelessWidget {
             height: 260,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: _gold.withOpacity(0.12)),
+              border: Border.all(color: _P.border),
             ),
           ),
           Container(
@@ -270,7 +263,7 @@ class _AltarCard extends StatelessWidget {
             height: 190,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: _gold.withOpacity(0.08)),
+              border: Border.all(color: _P.border.withValues(alpha: 0.6)),
             ),
           ),
           Positioned(
@@ -278,7 +271,7 @@ class _AltarCard extends StatelessWidget {
             child: Text(
               l10n.ichingAltarReady,
               style: GoogleFonts.cinzel(
-                color: _gold.withOpacity(0.35),
+                color: _P.light,
                 fontSize: 16,
                 letterSpacing: 5,
               ),

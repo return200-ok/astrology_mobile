@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/soul_revelation_starfield_background.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 import 'soul_revelation_quiz_page.dart';
 
-// ─── Colors ──────────────────────────────────────────────────────────────────
-const Color _kBg = Color(0xFF070910);
-const Color _kCard = Color(0xFF0E1020);
-const Color _kGold = Color(0xFFD4AF37);
-const Color _kTeal = Color(0xFF00BDA4);
-const Color _kTealDark = Color(0xFF007A6B);
-const Color _kCardBorder = Color(0xFFD4AF37);
+// ─── Ink Wash palette ────────────────────────────────────────────────────────
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const mid    = Color(0xFF5C5C5C);
+  static const light  = Color(0xFF8A8A8A);
+  static const red    = Color(0xFF8B3A3A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const iconBg = Color(0xFFEAE3D8);
+  static const divider = Color(0xFFD8D0C6);
+  static const sheet  = Color(0xFFF2EDE4);
+}
 
 class SoulRevelationIntroPage extends StatelessWidget {
   const SoulRevelationIntroPage({super.key});
@@ -23,8 +28,8 @@ class SoulRevelationIntroPage extends StatelessWidget {
     final total = 44;
 
     return Scaffold(
-      backgroundColor: _kBg,
-      body: SoulRevelationStarfieldBackground(
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,9 +42,9 @@ class SoulRevelationIntroPage extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => Navigator.of(context).maybePop(),
                     icon: const Icon(
-                      Icons.chevron_left_rounded,
-                      size: 32,
-                      color: Colors.white60,
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 18,
+                      color: _P.ink,
                     ),
                   ),
                 ),
@@ -86,16 +91,12 @@ class _IntroContent extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: GoogleFonts.cormorantGaramond(
-            color: _kGold,
+          style: GoogleFonts.cinzel(
+            color: _P.ink,
             fontSize: 42,
             fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.italic,
             height: 1.0,
             letterSpacing: 3.0,
-            shadows: [
-              Shadow(color: _kGold.withOpacity(0.45), blurRadius: 22),
-            ],
           ),
         ),
 
@@ -106,7 +107,7 @@ class _IntroContent extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.cinzel(
-            color: _kGold.withOpacity(0.50),
+            color: _P.mid,
             fontSize: 10,
             letterSpacing: 2.6,
             fontWeight: FontWeight.w500,
@@ -125,7 +126,7 @@ class _IntroContent extends StatelessWidget {
           quote,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
-            color: Colors.white.withOpacity(0.50),
+            color: _P.light,
             fontSize: 13,
             height: 1.7,
             fontStyle: FontStyle.italic,
@@ -135,59 +136,29 @@ class _IntroContent extends StatelessWidget {
         const SizedBox(height: 48),
 
         // Begin button
-        _TealButton(
-          label: btnLabel,
-          onTap: () => Navigator.of(context).push(
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (_) => const SoulRevelationQuizPage(),
             ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-// ─── Teal gradient button ─────────────────────────────────────────────────────
-class _TealButton extends StatelessWidget {
-  const _TealButton({required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            gradient: const LinearGradient(
-              colors: [Color(0xFF00C9AE), Color(0xFF00897B)],
+          style: OutlinedButton.styleFrom(
+            foregroundColor: _P.red,
+            side: BorderSide(color: _P.red.withValues(alpha: 0.65)),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(999),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: _kTeal.withOpacity(0.40),
-                blurRadius: 16,
-                offset: const Offset(0, 4),
-              ),
-            ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const _Sparkle(size: 16, color: Colors.white),
+              const _Sparkle(size: 16, color: _P.red),
               const SizedBox(width: 10),
               Text(
-                label,
+                btnLabel,
                 style: GoogleFonts.cinzel(
-                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.8,
@@ -196,14 +167,14 @@ class _TealButton extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
 
 // ─── Sparkle (4-pointed star) ─────────────────────────────────────────────────
 class _Sparkle extends StatelessWidget {
-  const _Sparkle({this.size = 32, this.color = _kGold});
+  const _Sparkle({this.size = 32, this.color = _P.red});
 
   final double size;
   final Color color;
@@ -279,7 +250,7 @@ class _BottomBar extends StatelessWidget {
               Text(
                 leftLabel,
                 style: GoogleFonts.inter(
-                  color: Colors.white24,
+                  color: _P.light,
                   fontSize: 11,
                 ),
               ),
@@ -287,7 +258,7 @@ class _BottomBar extends StatelessWidget {
               Text(
                 rightLabel,
                 style: GoogleFonts.inter(
-                  color: Colors.white24,
+                  color: _P.light,
                   fontSize: 11,
                 ),
               ),
@@ -299,15 +270,15 @@ class _BottomBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 3,
-              backgroundColor: Colors.white.withOpacity(0.08),
-              color: _kTeal,
+              backgroundColor: _P.iconBg,
+              color: _P.red,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'BFI-44',
             style: GoogleFonts.cinzel(
-              color: _kGold.withOpacity(0.30),
+              color: _P.light,
               fontSize: 10,
               letterSpacing: 2.0,
             ),

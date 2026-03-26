@@ -2,13 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/iching_starfield_background.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const mid    = Color(0xFF5C5C5C);
+  static const light  = Color(0xFF8A8A8A);
+  static const red    = Color(0xFF8B3A3A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const iconBg = Color(0xFFEAE3D8);
+  static const divider = Color(0xFFD8D0C6);
+  static const sheet  = Color(0xFFF2EDE4);
+}
 
 class IChingResultPage extends StatelessWidget {
   const IChingResultPage({super.key, required this.query});
 
   final String query;
-  static const Color _gold = Color(0xFFFFD438);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +30,8 @@ class IChingResultPage extends StatelessWidget {
     final subtitleSize = width < 430 ? 12.0 : 16.0;
 
     return Scaffold(
-      body: IChingStarfieldBackground(
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -30,21 +42,17 @@ class IChingResultPage extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white70,
+                    color: _P.ink,
                   ),
                 ),
                 Text(
                   l10n.ichingTitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cormorantGaramond(
-                    color: _gold,
+                  style: GoogleFonts.cinzel(
+                    color: _P.ink,
                     fontSize: titleSize,
                     fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.italic,
                     letterSpacing: 2.0,
-                    shadows: [
-                      Shadow(color: _gold.withOpacity(0.4), blurRadius: 16),
-                    ],
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -52,7 +60,7 @@ class IChingResultPage extends StatelessWidget {
                   l10n.ichingSubtitle,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.cinzel(
-                    color: _gold.withOpacity(0.62),
+                    color: _P.mid,
                     fontSize: subtitleSize,
                     letterSpacing: 4.3,
                   ),
@@ -109,7 +117,6 @@ class _ResponseCard extends StatelessWidget {
   const _ResponseCard({required this.reading});
 
   final _IChingReading reading;
-  static const Color _gold = Color(0xFFFFD438);
 
   @override
   Widget build(BuildContext context) {
@@ -124,15 +131,9 @@ class _ResponseCard extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 920),
       padding: const EdgeInsets.fromLTRB(18, 24, 18, 22),
       decoration: BoxDecoration(
-        color: const Color(0xFF1C1A59).withOpacity(0.95),
+        color: _P.card,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: _gold.withOpacity(0.42)),
-        boxShadow: [
-          BoxShadow(
-            color: _gold.withOpacity(0.18),
-            blurRadius: 22,
-          ),
-        ],
+        border: Border.all(color: _P.border, width: 0.8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,11 +145,10 @@ class _ResponseCard extends StatelessWidget {
                   children: [
                     Text(
                       l10n.ichingOracleResponse,
-                      style: GoogleFonts.cormorantGaramond(
-                        color: _gold,
+                      style: GoogleFonts.cinzel(
+                        color: _P.ink,
                         fontSize: headingSize,
                         fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.italic,
                         letterSpacing: 2.0,
                       ),
                     ),
@@ -156,7 +156,7 @@ class _ResponseCard extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 6),
                       width: 96,
                       height: 1,
-                      color: _gold.withOpacity(0.5),
+                      color: _P.divider,
                     ),
                   ],
                 ),
@@ -166,7 +166,7 @@ class _ResponseCard extends StatelessWidget {
                 top: 2,
                 child: Icon(
                   Icons.filter_none_rounded,
-                  color: _gold.withOpacity(0.18),
+                  color: _P.border.withValues(alpha: 0.35),
                   size: 88,
                 ),
               ),
@@ -177,8 +177,8 @@ class _ResponseCard extends StatelessWidget {
             child: Text(
               '"${reading.quote}"',
               textAlign: TextAlign.center,
-              style: GoogleFonts.cormorantGaramond(
-                color: _gold,
+              style: GoogleFonts.inter(
+                color: _P.ink,
                 fontSize: quoteSize,
                 fontStyle: FontStyle.italic,
               ),
@@ -187,21 +187,20 @@ class _ResponseCard extends StatelessWidget {
           const SizedBox(height: 24),
           _sectionTitle(l10n.ichingCosmicAnalysis),
           const SizedBox(height: 8),
-          Container(height: 1, color: _gold.withOpacity(0.24)),
+          Container(height: 1, color: _P.divider),
           const SizedBox(height: 12),
           Text(
             reading.analysis,
-            style: GoogleFonts.cormorantGaramond(
-              color: _gold,
+            style: GoogleFonts.inter(
+              color: _P.ink,
               fontSize: bodySize,
               height: 1.38,
-              fontStyle: FontStyle.italic,
             ),
           ),
           const SizedBox(height: 18),
           _sectionTitle(l10n.ichingSacredGuidance),
           const SizedBox(height: 8),
-          Container(height: 1, color: _gold.withOpacity(0.24)),
+          Container(height: 1, color: _P.divider),
           const SizedBox(height: 12),
           ...List.generate(reading.guidance.length, (index) {
             final item = reading.guidance[index];
@@ -217,12 +216,12 @@ class _ResponseCard extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: _gold.withOpacity(0.5)),
+                      border: Border.all(color: _P.red),
                     ),
                     child: Text(
                       number,
                       style: GoogleFonts.cinzel(
-                        color: _gold,
+                        color: _P.ink,
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                       ),
@@ -232,11 +231,10 @@ class _ResponseCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       item,
-                      style: GoogleFonts.cormorantGaramond(
-                        color: _gold,
+                      style: GoogleFonts.inter(
+                        color: _P.ink,
                         fontSize: bodySize,
                         height: 1.25,
-                        fontStyle: FontStyle.italic,
                       ),
                     ),
                   ),
@@ -245,16 +243,16 @@ class _ResponseCard extends StatelessWidget {
             );
           }),
           const SizedBox(height: 10),
-          Container(height: 1, color: _gold.withOpacity(0.24)),
+          Container(height: 1, color: _P.divider),
           const SizedBox(height: 14),
           Center(
             child: TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(Icons.rotate_left_rounded, color: _gold.withOpacity(0.7)),
+              icon: Icon(Icons.rotate_left_rounded, color: _P.red),
               label: Text(
                 l10n.commonReturnToSilence,
                 style: GoogleFonts.cinzel(
-                  color: _gold.withOpacity(0.7),
+                  color: _P.red,
                   letterSpacing: 1.3,
                   fontSize: 12,
                 ),
@@ -270,7 +268,7 @@ class _ResponseCard extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.cinzel(
-        color: _gold.withOpacity(0.75),
+        color: _P.mid,
         fontSize: 14,
         letterSpacing: 1.6,
       ),

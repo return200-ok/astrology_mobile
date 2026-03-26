@@ -1,18 +1,22 @@
-import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
-import '../widgets/alignment_starfield_background.dart';
-
-// ─── Colors ──────────────────────────────────────────────────────────────────
-const Color _kGold = Color(0xFFD4AF37);
-const Color _kGoldDim = Color(0xFFB8942D);
-const Color _kCard = Color(0xFF1E1C52);
-const Color _kCardDeep = Color(0xFF171545);
-const Color _kDivider = Color(0xFFD4AF37);
+// ─── Palette ──────────────────────────────────────────────────────────────────
+abstract final class _P {
+  static const ink    = Color(0xFF1A1A1A);
+  static const mid    = Color(0xFF5C5C5C);
+  static const light  = Color(0xFF8A8A8A);
+  static const red    = Color(0xFF8B3A3A);
+  static const card   = Color(0xFFFBF8F3);
+  static const border = Color(0xFFCDC5B8);
+  static const iconBg = Color(0xFFEAE3D8);
+  static const divider = Color(0xFFD8D0C6);
+  static const sheet  = Color(0xFFF2EDE4);
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 class _SignOption {
@@ -22,18 +26,18 @@ class _SignOption {
 }
 
 const List<_SignOption> _kSigns = [
-  _SignOption(id: 'aries', symbol: '♈'),
-  _SignOption(id: 'taurus', symbol: '♉'),
-  _SignOption(id: 'gemini', symbol: '♊'),
-  _SignOption(id: 'cancer', symbol: '♋'),
-  _SignOption(id: 'leo', symbol: '♌'),
-  _SignOption(id: 'virgo', symbol: '♍'),
-  _SignOption(id: 'libra', symbol: '♎'),
-  _SignOption(id: 'scorpio', symbol: '♏'),
-  _SignOption(id: 'sagittarius', symbol: '♐'),
-  _SignOption(id: 'capricorn', symbol: '♑'),
-  _SignOption(id: 'aquarius', symbol: '♒'),
-  _SignOption(id: 'pisces', symbol: '♓'),
+  _SignOption(id: 'aries', symbol: '\u2648'),
+  _SignOption(id: 'taurus', symbol: '\u2649'),
+  _SignOption(id: 'gemini', symbol: '\u264A'),
+  _SignOption(id: 'cancer', symbol: '\u264B'),
+  _SignOption(id: 'leo', symbol: '\u264C'),
+  _SignOption(id: 'virgo', symbol: '\u264D'),
+  _SignOption(id: 'libra', symbol: '\u264E'),
+  _SignOption(id: 'scorpio', symbol: '\u264F'),
+  _SignOption(id: 'sagittarius', symbol: '\u2650'),
+  _SignOption(id: 'capricorn', symbol: '\u2651'),
+  _SignOption(id: 'aquarius', symbol: '\u2652'),
+  _SignOption(id: 'pisces', symbol: '\u2653'),
 ];
 
 const List<String> _kBondTypes = [
@@ -64,85 +68,16 @@ class _AlignmentPageState extends State<AlignmentPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      body: AlignmentStarfieldBackground(
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Back button
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(
-                      Icons.chevron_left_rounded,
-                      size: 32,
-                      color: Colors.white60,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 4),
-
-                // Overlapping rings icon
-                Center(
-                  child: SizedBox(
-                    width: 60,
-                    height: 36,
-                    child: CustomPaint(painter: _RingsPainter()),
-                  ),
-                ),
-
+                _buildHeader(context, l10n),
                 const SizedBox(height: 16),
-
-                // Title
-                Text(
-                  l10n.alignmentTitle,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.cinzel(
-                    color: _kGold,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.6,
-                    shadows: [
-                      Shadow(
-                        color: _kGold.withOpacity(0.45),
-                        blurRadius: 18,
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                // Subtitle
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    l10n.alignmentSubtitle,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                      color: _kGold.withOpacity(0.65),
-                      fontSize: 13,
-                      height: 1.5,
-                      letterSpacing: 0.3,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Thin gold divider
-                Container(
-                  height: 0.5,
-                  color: _kGold.withOpacity(0.30),
-                ),
-
-                const SizedBox(height: 24),
-
-                // ── Main card ────────────────────────────────────────────────
                 _MainCard(
                   origin: _origin,
                   distant: _distant,
@@ -153,16 +88,86 @@ class _AlignmentPageState extends State<AlignmentPage> {
                   onViewBond: _seekAlignment,
                   l10n: l10n,
                 ),
-
-                // ── Result card ──────────────────────────────────────────────
                 if (_score != null && _message != null) ...[
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 14),
                   _ResultCard(score: _score!, message: _message!),
                 ],
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // ── Header ──────────────────────────────────────────────────────────────────
+
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Column(
+        children: [
+          // Back button row
+          Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).maybePop(),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+              color: _P.ink,
+            ),
+          ),
+
+          const SizedBox(height: 4),
+
+          // Overlapping rings icon
+          Center(
+            child: SizedBox(
+              width: 60,
+              height: 36,
+              child: CustomPaint(painter: _RingsPainter()),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Title
+          Text(
+            l10n.alignmentTitle,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cinzel(
+              color: _P.ink,
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.6,
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          // Subtitle
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              l10n.alignmentSubtitle,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                color: _P.mid,
+                fontSize: 13,
+                height: 1.5,
+                letterSpacing: 0.3,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Red divider
+          Container(
+            width: 80,
+            height: 1,
+            color: _P.red.withValues(alpha: 0.55),
+          ),
+        ],
       ),
     );
   }
@@ -178,10 +183,9 @@ class _AlignmentPageState extends State<AlignmentPage> {
       builder: (_) {
         return Container(
           height: 320,
-          decoration: BoxDecoration(
-            color: _kCard.withOpacity(0.98),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border.all(color: _kGold.withOpacity(0.25)),
+          decoration: const BoxDecoration(
+            color: _P.sheet,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
             children: [
@@ -189,12 +193,12 @@ class _AlignmentPageState extends State<AlignmentPage> {
               Container(
                 height: 56,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: _kCardDeep,
+                decoration: const BoxDecoration(
+                  color: _P.card,
                   borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(20)),
+                      BorderRadius.vertical(top: Radius.circular(20)),
                   border: Border(
-                    bottom: BorderSide(color: _kGold.withOpacity(0.20)),
+                    bottom: BorderSide(color: _P.divider, width: 0.8),
                   ),
                 ),
                 child: Row(
@@ -202,7 +206,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                     Text(
                       isOrigin ? 'ORIGIN SOUL' : 'DISTANT SOUL',
                       style: GoogleFonts.cinzel(
-                        color: _kGold.withOpacity(0.80),
+                        color: _P.mid,
                         fontSize: 12,
                         letterSpacing: 2.0,
                         fontWeight: FontWeight.w600,
@@ -216,7 +220,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                       child: Text(
                         'Xong',
                         style: GoogleFonts.cinzel(
-                          color: _kGold,
+                          color: _P.red,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -228,7 +232,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
               // Picker
               Expanded(
                 child: CupertinoTheme(
-                  data: const CupertinoThemeData(brightness: Brightness.dark),
+                  data: const CupertinoThemeData(brightness: Brightness.light),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -236,9 +240,11 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: _kGold.withOpacity(0.12),
+                          color: _P.red.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: _kGold.withOpacity(0.20)),
+                          border: Border.all(
+                            color: _P.red.withValues(alpha: 0.15),
+                          ),
                         ),
                       ),
                       CupertinoPicker(
@@ -251,7 +257,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                             child: Text(
                               '${sign.symbol}  ${ZodiacLocalization.name(context, sign.id)}',
                               style: GoogleFonts.cinzel(
-                                color: _kGold.withOpacity(0.95),
+                                color: _P.ink,
                                 fontSize: 18,
                               ),
                             ),
@@ -280,7 +286,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
     });
   }
 
-  // ── Bond type picker ────────────────────────────────────────────────────────
+  // ── Bond type picker ──────────────────────────────────────────────────────
   Future<void> _pickBondType() async {
     var idx = _kBondTypes.indexOf(_bondType).clamp(0, _kBondTypes.length - 1);
 
@@ -290,22 +296,21 @@ class _AlignmentPageState extends State<AlignmentPage> {
       builder: (_) {
         return Container(
           height: 280,
-          decoration: BoxDecoration(
-            color: _kCard.withOpacity(0.98),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border.all(color: _kGold.withOpacity(0.25)),
+          decoration: const BoxDecoration(
+            color: _P.sheet,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
             children: [
               Container(
                 height: 56,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: _kCardDeep,
+                decoration: const BoxDecoration(
+                  color: _P.card,
                   borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(20)),
+                      BorderRadius.vertical(top: Radius.circular(20)),
                   border: Border(
-                    bottom: BorderSide(color: _kGold.withOpacity(0.20)),
+                    bottom: BorderSide(color: _P.divider, width: 0.8),
                   ),
                 ),
                 child: Row(
@@ -313,7 +318,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                     Text(
                       'BOND TYPE',
                       style: GoogleFonts.cinzel(
-                        color: _kGold.withOpacity(0.80),
+                        color: _P.mid,
                         fontSize: 12,
                         letterSpacing: 2.0,
                         fontWeight: FontWeight.w600,
@@ -327,7 +332,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                       child: Text(
                         'Xong',
                         style: GoogleFonts.cinzel(
-                          color: _kGold,
+                          color: _P.red,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -338,7 +343,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
               ),
               Expanded(
                 child: CupertinoTheme(
-                  data: const CupertinoThemeData(brightness: Brightness.dark),
+                  data: const CupertinoThemeData(brightness: Brightness.light),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -346,9 +351,11 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: _kGold.withOpacity(0.12),
+                          color: _P.red.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: _kGold.withOpacity(0.20)),
+                          border: Border.all(
+                            color: _P.red.withValues(alpha: 0.15),
+                          ),
                         ),
                       ),
                       CupertinoPicker(
@@ -361,7 +368,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                             child: Text(
                               type,
                               style: GoogleFonts.cinzel(
-                                color: _kGold.withOpacity(0.95),
+                                color: _P.ink,
                                 fontSize: 17,
                               ),
                             ),
@@ -382,14 +389,14 @@ class _AlignmentPageState extends State<AlignmentPage> {
     setState(() => _bondType = picked);
   }
 
-  // ── Seek alignment ──────────────────────────────────────────────────────────
+  // ── Seek alignment ────────────────────────────────────────────────────────
   void _seekAlignment() {
     final l10n = AppLocalizations.of(context)!;
     if (_distant == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.alignmentPickExternalSnack),
-          backgroundColor: _kCard,
+          backgroundColor: _P.ink,
         ),
       );
       return;
@@ -403,8 +410,9 @@ class _AlignmentPageState extends State<AlignmentPage> {
 
   int _calculateScore(String a, String b) {
     if (a == b) return 96;
-    if ((a == 'gemini' && b == 'virgo') || (a == 'virgo' && b == 'gemini'))
+    if ((a == 'gemini' && b == 'virgo') || (a == 'virgo' && b == 'gemini')) {
       return 99;
+    }
     if (_sameElement(a, b)) return 90;
     if (_isComplement(a, b)) return 84;
     return 68;
@@ -475,21 +483,14 @@ class _MainCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: _kCard.withOpacity(0.90),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: _kGold.withOpacity(0.35), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: _kGold.withOpacity(0.12),
-            blurRadius: 20,
-            spreadRadius: 1,
-          ),
-        ],
+        color: _P.card,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: _P.border, width: 0.8),
       ),
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
       child: Column(
         children: [
-          // ── Two avatars ───────────────────────────────────────────────────
+          // ── Two avatars ─────────────────────────────────────────────────
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -503,7 +504,7 @@ class _MainCard extends StatelessWidget {
                 child: Text(
                   '  &  ',
                   style: GoogleFonts.cinzel(
-                    color: _kGold,
+                    color: _P.red.withValues(alpha: 0.70),
                     fontSize: 26,
                     fontWeight: FontWeight.w300,
                   ),
@@ -519,26 +520,27 @@ class _MainCard extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // ── Bond type picker ──────────────────────────────────────────────
+          // ── Bond type picker ────────────────────────────────────────────
           GestureDetector(
             onTap: onBondTypeTap,
             child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(999),
-                border: Border.all(color: _kGold.withOpacity(0.45), width: 1),
-                color: Colors.white.withOpacity(0.04),
+                borderRadius: BorderRadius.circular(28),
+                border: Border.all(color: _P.border, width: 1),
+                color: _P.card,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.link_rounded, color: _kGold, size: 18),
+                  Icon(Icons.link_rounded,
+                      color: _P.red.withValues(alpha: 0.70), size: 18),
                   const SizedBox(width: 10),
                   Text(
                     bondType,
                     style: GoogleFonts.cinzel(
-                      color: _kGold,
+                      color: _P.ink,
                       fontSize: 15,
                       letterSpacing: 0.8,
                       fontWeight: FontWeight.w500,
@@ -547,7 +549,7 @@ class _MainCard extends StatelessWidget {
                   const SizedBox(width: 10),
                   Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: _kGold.withOpacity(0.70),
+                    color: _P.light,
                     size: 20,
                   ),
                 ],
@@ -558,35 +560,34 @@ class _MainCard extends StatelessWidget {
           const SizedBox(height: 18),
 
           // Divider
-          Container(height: 0.5, color: _kDivider.withOpacity(0.25)),
+          const Divider(color: _P.divider, thickness: 0.8, height: 1),
 
           const SizedBox(height: 18),
 
-          // ── View Bond button ──────────────────────────────────────────────
-          Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(999),
-            child: InkWell(
-              onTap: onViewBond,
-              borderRadius: BorderRadius.circular(999),
-              splashColor: _kGold.withOpacity(0.12),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(999),
-                  border:
-                      Border.all(color: _kGold.withOpacity(0.55), width: 1),
-                ),
-                child: Text(
-                  l10n.alignmentSeekButton,
-                  style: GoogleFonts.cinzel(
-                    color: _kGold,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2.0,
-                  ),
-                ),
+          // ── Seek button ─────────────────────────────────────────────────
+          OutlinedButton.icon(
+            onPressed: onViewBond,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: _P.red,
+              side: BorderSide(
+                color: _P.red.withValues(alpha: 0.65),
+                width: 1,
+              ),
+              backgroundColor: _P.card,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+              ),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+            ),
+            icon: Icon(Icons.auto_awesome_rounded,
+                size: 17, color: _P.red.withValues(alpha: 0.80)),
+            label: Text(
+              l10n.alignmentSeekButton,
+              style: GoogleFonts.cinzel(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2.0,
               ),
             ),
           ),
@@ -594,15 +595,15 @@ class _MainCard extends StatelessWidget {
           const SizedBox(height: 18),
 
           // Divider
-          Container(height: 0.5, color: _kDivider.withOpacity(0.25)),
+          const Divider(color: _P.divider, thickness: 0.8, height: 1),
 
           const SizedBox(height: 16),
 
-          // ── Footer ────────────────────────────────────────────────────────
+          // ── Footer ──────────────────────────────────────────────────────
           Text(
-            '∞ Bonds Available',
+            '\u221E Bonds Available',
             style: GoogleFonts.inter(
-              color: _kGold.withOpacity(0.60),
+              color: _P.light,
               fontSize: 13,
               letterSpacing: 0.5,
             ),
@@ -613,10 +614,10 @@ class _MainCard extends StatelessWidget {
             child: Text(
               'View Recent Alignments',
               style: GoogleFonts.inter(
-                color: _kGold.withOpacity(0.75),
+                color: _P.mid,
                 fontSize: 13,
                 decoration: TextDecoration.underline,
-                decorationColor: _kGold.withOpacity(0.55),
+                decorationColor: _P.border,
               ),
             ),
           ),
@@ -651,32 +652,27 @@ class _AvatarPicker extends StatelessWidget {
             height: 90,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _kCardDeep,
+              color: _P.iconBg,
               border: Border.all(
-                color: _kGold.withOpacity(hasSign ? 0.65 : 0.30),
+                color: hasSign
+                    ? _P.red.withValues(alpha: 0.50)
+                    : _P.border,
                 width: 1.5,
               ),
-              boxShadow: [
-                if (hasSign)
-                  BoxShadow(
-                    color: _kGold.withOpacity(0.20),
-                    blurRadius: 14,
-                  ),
-              ],
             ),
             alignment: Alignment.center,
             child: hasSign
                 ? Text(
                     sign!.symbol,
                     style: TextStyle(
-                      color: _kGold,
+                      color: _P.red.withValues(alpha: 0.85),
                       fontSize: 38,
                       height: 1,
                     ),
                   )
                 : Icon(
                     Icons.add_circle_outline_rounded,
-                    color: _kGold.withOpacity(0.35),
+                    color: _P.light,
                     size: 32,
                   ),
           ),
@@ -692,15 +688,15 @@ class _AvatarPicker extends StatelessWidget {
                     ? ZodiacLocalization.name(context, sign!.id)
                     : label.split(' ').first,
                 style: GoogleFonts.inter(
-                  color: _kGold.withOpacity(0.80),
+                  color: _P.mid,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(width: 4),
-              Icon(
+              const Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: _kGoldDim,
+                color: _P.light,
                 size: 16,
               ),
             ],
@@ -723,15 +719,9 @@ class _ResultCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
-        color: _kCard.withOpacity(0.90),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: _kGold.withOpacity(0.35), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: _kGold.withOpacity(0.12),
-            blurRadius: 20,
-          ),
-        ],
+        color: _P.card,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: _P.border, width: 0.8),
       ),
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       child: Column(
@@ -741,13 +731,10 @@ class _ResultCard extends StatelessWidget {
             l10n.alignmentAnalysisTitle,
             textAlign: TextAlign.center,
             style: GoogleFonts.cinzel(
-              color: _kGold,
+              color: _P.ink,
               fontSize: 16,
               fontWeight: FontWeight.w700,
               letterSpacing: 2.0,
-              shadows: [
-                Shadow(color: _kGold.withOpacity(0.40), blurRadius: 12),
-              ],
             ),
           ),
 
@@ -759,7 +746,7 @@ class _ResultCard extends StatelessWidget {
               Text(
                 l10n.alignmentScoreLabel,
                 style: GoogleFonts.cinzel(
-                  color: _kGold.withOpacity(0.80),
+                  color: _P.mid,
                   fontSize: 13,
                   letterSpacing: 1.5,
                 ),
@@ -768,7 +755,7 @@ class _ResultCard extends StatelessWidget {
               Text(
                 '$score%',
                 style: GoogleFonts.cinzel(
-                  color: _kGold,
+                  color: _P.red,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                 ),
@@ -780,12 +767,12 @@ class _ResultCard extends StatelessWidget {
 
           // Progress bar
           ClipRRect(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
               minHeight: 10,
               value: (score / 100).clamp(0.0, 1.0),
-              backgroundColor: _kCardDeep,
-              color: _kGold,
+              backgroundColor: _P.iconBg,
+              color: _P.red.withValues(alpha: 0.70),
             ),
           ),
 
@@ -796,15 +783,15 @@ class _ResultCard extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.04),
+              color: _P.sheet,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: _kGold.withOpacity(0.25)),
+              border: Border.all(color: _P.divider, width: 0.8),
             ),
             child: Text(
-              '"$message"',
+              '\u201C$message\u201D',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                color: _kGold.withOpacity(0.90),
+                color: _P.ink,
                 fontSize: 13,
                 fontStyle: FontStyle.italic,
                 height: 1.6,
@@ -824,7 +811,7 @@ class _RingsPainter extends CustomPainter {
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
-      ..color = _kGold.withOpacity(0.85);
+      ..color = _P.red.withValues(alpha: 0.55);
 
     final r = size.height / 2;
     final leftCenter = Offset(size.width / 2 - r * 0.55, r);
