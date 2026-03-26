@@ -113,20 +113,19 @@ class _ResultHeader extends StatelessWidget {
           textAlign: TextAlign.center,
           style: GoogleFonts.cinzel(
             color: _P.ink,
-            fontSize: 42,
+            fontSize: 28,
             fontWeight: FontWeight.w700,
-            height: 1.0,
-            letterSpacing: 3.0,
+            letterSpacing: 1.6,
           ),
         ),
         const SizedBox(height: 10),
         Text(
           subtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.cinzel(
+          style: GoogleFonts.inter(
             color: _P.mid,
-            fontSize: 10,
-            letterSpacing: 2.6,
+            fontSize: 13,
+            letterSpacing: 0.3,
           ),
         ),
       ],

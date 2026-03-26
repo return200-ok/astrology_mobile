@@ -3,17 +3,19 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/imperial_cast_request.dart';
-import '../widgets/imperial_starfield_background.dart';
 
-// ─── Color constants ──────────────────────────────────────────────────────────
-const Color _kGold = Color(0xFFD4AF37);
-const Color _kGoldBright = Color(0xFFEDD060);
-const Color _kCell = Color(0xFF0C1128);
-const Color _kBoard = Color(0xFF060C1E);
-const Color _kBorderColor = Color(0xFFD4AF37);
-const Color _kCloud = Color(0xFF2B2870);
+// ─── Palette (Ink Wash / Parchment) ──────────────────────────────────────────
+abstract final class _P {
+  static const ink   = Color(0xFF1A1A1A);
+  static const mid   = Color(0xFF5C5C5C);
+  static const light = Color(0xFF8A8A8A);
+  static const red   = Color(0xFF8B3A3A);
+  static const card  = Color(0xFFFBF8F3);
+  static const sheet = Color(0xFFF2EDE4);
+}
 
 // ─── Hour range map ───────────────────────────────────────────────────────────
 const Map<String, String> _kHourRanges = {
@@ -120,109 +122,106 @@ class ImperialResultPage extends StatelessWidget {
     final dateStr = DateFormat('dd/MM/yyyy').format(request.arrivalDay);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF040A18),
-      body: ImperialStarfieldBackground(
-        child: Stack(
-          children: [
-            // Cloud decoration layer
-            const Positioned.fill(child: _CloudDecoration()),
-
-            SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // ── Back button ───────────────────────────────────────
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        onPressed: () => Navigator.of(context).maybePop(),
-                        icon: const Icon(
-                          Icons.chevron_left_rounded,
-                          size: 32,
-                          color: Colors.white60,
-                        ),
-                      ),
+      backgroundColor: InkWashBackground.parchment,
+      body: InkWashBackground(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ── Back button ───────────────────────────────────────
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).maybePop(),
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 18,
+                      color: _P.ink,
                     ),
-
-                    const SizedBox(height: 4),
-
-                    // ── Seal emblem ───────────────────────────────────────
-                    Center(
-                      child: SizedBox(
-                        width: 96,
-                        height: 96,
-                        child: CustomPaint(
-                          painter: _SealPainter(),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // ── Title ─────────────────────────────────────────────
-                    Text(
-                      'IMPERIAL CELESTIAL CODEX',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cinzel(
-                        color: _kGold,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 2.0,
-                        shadows: [
-                          Shadow(
-                            color: _kGold.withOpacity(0.50),
-                            blurRadius: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 6),
-
-                    Text(
-                      'Eastern Celestial Mapping',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cinzel(
-                        color: _kGold.withOpacity(0.75),
-                        fontSize: 13,
-                        fontStyle: FontStyle.italic,
-                        letterSpacing: 2.5,
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // ── Identity info lines ───────────────────────────────
-                    _InfoLine(label: 'IDENTITY', value: request.spiritId),
-                    const SizedBox(height: 4),
-                    _InfoLine(label: 'DATE', value: dateStr),
-                    const SizedBox(height: 4),
-                    _InfoLine(
-                      label: 'HOUR',
-                      value: '${request.streamHour} ($hourRange)',
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // ── 3×3 palace chart board ────────────────────────────
-                    const _PalaceBoard(),
-
-                    const SizedBox(height: 28),
-
-                    // ── Elements row ──────────────────────────────────────
-                    _ElementsRow(),
-
-                    const SizedBox(height: 28),
-
-                    // ── Detailed Analysis button ──────────────────────────
-                    _DetailedAnalysisButton(),
-                  ],
+                  ),
                 ),
-              ),
+
+                const SizedBox(height: 4),
+
+                // ── Seal emblem ───────────────────────────────────────
+                Center(
+                  child: SizedBox(
+                    width: 96,
+                    height: 96,
+                    child: CustomPaint(
+                      painter: _SealPainter(),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ── Title ─────────────────────────────────────────────
+                Text(
+                  'Imperial Chart',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.cinzel(
+                    color: _P.ink,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.6,
+                  ),
+                ),
+
+                const SizedBox(height: 6),
+
+                Text(
+                  'Eastern Celestial Mapping',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    color: _P.mid,
+                    fontSize: 13,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ── Red divider ─────────────────────────────────────
+                Center(
+                  child: Container(
+                    width: 80,
+                    height: 1,
+                    color: _P.red.withValues(alpha: 0.55),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ── Identity info lines ─────────────────────────────
+                _InfoLine(label: 'IDENTITY', value: request.spiritId),
+                const SizedBox(height: 4),
+                _InfoLine(label: 'DATE', value: dateStr),
+                const SizedBox(height: 4),
+                _InfoLine(
+                  label: 'HOUR',
+                  value: '${request.streamHour} ($hourRange)',
+                ),
+
+                const SizedBox(height: 20),
+
+                // ── 3×3 palace chart board ──────────────────────────
+                const _PalaceBoard(),
+
+                const SizedBox(height: 28),
+
+                // ── Elements row ────────────────────────────────────
+                const _ElementsRow(),
+
+                const SizedBox(height: 28),
+
+                // ── Detailed Analysis button ────────────────────────
+                const _DetailedAnalysisButton(),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -243,7 +242,7 @@ class _InfoLine extends StatelessWidget {
         '$label: $value',
         textAlign: TextAlign.center,
         style: GoogleFonts.cinzel(
-          color: _kGold,
+          color: _P.ink,
           fontSize: 13,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.6,
@@ -263,18 +262,12 @@ class _PalaceBoard extends StatelessWidget {
       aspectRatio: 1.0,
       child: Container(
         decoration: BoxDecoration(
-          color: _kBoard,
+          color: _P.card,
           border: Border.all(
-            color: _kBorderColor.withOpacity(0.55),
+            color: _P.red.withValues(alpha: 0.45),
             width: 1.2,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: _kGold.withOpacity(0.18),
-              blurRadius: 24,
-              spreadRadius: 2,
-            ),
-          ],
+          borderRadius: BorderRadius.circular(4),
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -301,7 +294,7 @@ class _PalaceBoard extends StatelessWidget {
                   top: 1 * (ch + border / 1.5),
                   width: cw,
                   height: ch,
-                  child: _ConstellationCell(),
+                  child: const _ConstellationCell(),
                 ),
 
                 // Grid border lines (horizontal)
@@ -312,7 +305,7 @@ class _PalaceBoard extends StatelessWidget {
                     right: 0,
                     height: border,
                     child: Container(
-                      color: _kBorderColor.withOpacity(0.55),
+                      color: _P.red.withValues(alpha: 0.35),
                     ),
                   ),
 
@@ -324,7 +317,7 @@ class _PalaceBoard extends StatelessWidget {
                     width: border,
                     bottom: 0,
                     child: Container(
-                      color: _kBorderColor.withOpacity(0.55),
+                      color: _P.red.withValues(alpha: 0.35),
                     ),
                   ),
               ],
@@ -346,9 +339,7 @@ class _PalaceCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: _kCell,
-      ),
+      color: _P.card,
       child: Stack(
         children: [
           // Top-left Chinese char
@@ -358,7 +349,7 @@ class _PalaceCell extends StatelessWidget {
             child: Text(
               data.topLeft,
               style: GoogleFonts.cinzel(
-                color: _kGold.withOpacity(0.70),
+                color: _P.light,
                 fontSize: 9,
                 fontWeight: FontWeight.w600,
               ),
@@ -372,7 +363,7 @@ class _PalaceCell extends StatelessWidget {
             child: Text(
               data.topRight,
               style: GoogleFonts.cinzel(
-                color: _kGold.withOpacity(0.70),
+                color: _P.light,
                 fontSize: 9,
                 fontWeight: FontWeight.w600,
               ),
@@ -386,7 +377,7 @@ class _PalaceCell extends StatelessWidget {
             child: Text(
               data.bottomLeft,
               style: GoogleFonts.cinzel(
-                color: _kGold.withOpacity(0.70),
+                color: _P.light,
                 fontSize: 9,
                 fontWeight: FontWeight.w600,
               ),
@@ -400,7 +391,7 @@ class _PalaceCell extends StatelessWidget {
             child: Text(
               data.element,
               style: GoogleFonts.cinzel(
-                color: _kGold.withOpacity(0.60),
+                color: _P.red.withValues(alpha: 0.70),
                 fontSize: 9,
                 fontWeight: FontWeight.w700,
               ),
@@ -417,7 +408,7 @@ class _PalaceCell extends StatelessWidget {
                   data.name,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.cinzel(
-                    color: _kGold.withOpacity(0.70),
+                    color: _P.mid,
                     fontSize: 7,
                     letterSpacing: 0.5,
                   ),
@@ -430,7 +421,7 @@ class _PalaceCell extends StatelessWidget {
                     s,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.cinzel(
-                      color: _kGoldBright,
+                      color: _P.red,
                       fontSize: 8,
                       fontWeight: FontWeight.w700,
                       height: 1.3,
@@ -446,7 +437,7 @@ class _PalaceCell extends StatelessWidget {
                     s,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                      color: Colors.white60,
+                      color: _P.mid,
                       fontSize: 6,
                       height: 1.3,
                     ),
@@ -463,12 +454,12 @@ class _PalaceCell extends StatelessWidget {
 
 // ─── Constellation center cell ────────────────────────────────────────────────
 class _ConstellationCell extends StatelessWidget {
+  const _ConstellationCell();
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: _kCell.withOpacity(0.85),
-      ),
+      color: _P.sheet,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -478,10 +469,10 @@ class _ConstellationCell extends StatelessWidget {
             left: 0,
             right: 0,
             child: Text(
-              '★ constellation ★',
+              '\u2605 constellation \u2605',
               textAlign: TextAlign.center,
               style: GoogleFonts.cinzel(
-                color: _kGold.withOpacity(0.55),
+                color: _P.light,
                 fontSize: 6,
                 letterSpacing: 0.8,
               ),
@@ -501,19 +492,21 @@ class _ConstellationCell extends StatelessWidget {
 
 // ─── Elements row ─────────────────────────────────────────────────────────────
 class _ElementsRow extends StatelessWidget {
+  const _ElementsRow();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: ['火', '土', '✦', '成', '金'].map((ch) {
+          children: ['火', '土', '\u2726', '成', '金'].map((ch) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Text(
                 ch,
                 style: GoogleFonts.cinzel(
-                  color: _kGold,
+                  color: _P.red,
                   fontSize: 32,
                   letterSpacing: 8,
                 ),
@@ -526,7 +519,7 @@ class _ElementsRow extends StatelessWidget {
           'PENTALITY ELEMENTS: METAL (Major), EARTH (Minor)',
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
-            color: _kGold.withOpacity(0.65),
+            color: _P.mid,
             fontSize: 11,
             letterSpacing: 1.2,
           ),
@@ -538,57 +531,28 @@ class _ElementsRow extends StatelessWidget {
 
 // ─── Detailed Analysis button ─────────────────────────────────────────────────
 class _DetailedAnalysisButton extends StatelessWidget {
+  const _DetailedAnalysisButton();
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: () {},
-        borderRadius: BorderRadius.circular(999),
-        splashColor: Colors.white.withOpacity(0.12),
-        child: Ink(
-          height: 62,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFFA8832A),
-                Color(0xFFD4AF37),
-                Color(0xFFEDD060),
-                Color(0xFFD4AF37),
-                Color(0xFF8E6E1A),
-              ],
-              stops: [0.0, 0.25, 0.50, 0.75, 1.0],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: _kGold.withOpacity(0.35),
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Bagua watermark
-              CustomPaint(
-                size: const Size(52, 52),
-                painter: _BaguaPainter(),
-              ),
-              // Label
-              Text(
-                'DETAILED ANALYSIS',
-                style: GoogleFonts.cinzel(
-                  color: const Color(0xFF2A1E06),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 3.0,
-                ),
-              ),
-            ],
-          ),
+    return OutlinedButton.icon(
+      onPressed: () {},
+      style: OutlinedButton.styleFrom(
+        foregroundColor: _P.red,
+        side: BorderSide(color: _P.red.withValues(alpha: 0.65), width: 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      ),
+      icon: Icon(Icons.auto_awesome_rounded,
+          size: 18, color: _P.red.withValues(alpha: 0.80)),
+      label: Text(
+        'DETAILED ANALYSIS',
+        style: GoogleFonts.cinzel(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 3.0,
         ),
       ),
     );
@@ -606,12 +570,12 @@ class _SealPainter extends CustomPainter {
     final strokePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
-      ..color = _kGold.withOpacity(0.85);
+      ..color = _P.red.withValues(alpha: 0.65);
 
     final thinPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.9
-      ..color = _kGold.withOpacity(0.70);
+      ..color = _P.red.withValues(alpha: 0.45);
 
     // Outer circle
     canvas.drawCircle(Offset(cx, cy), r, strokePaint);
@@ -632,7 +596,7 @@ class _SealPainter extends CustomPainter {
     // Small dots on inner ring
     final dotPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = _kGold.withOpacity(0.75);
+      ..color = _P.red.withValues(alpha: 0.55);
 
     for (int i = 0; i < 8; i++) {
       final angle = (i * math.pi / 4) + math.pi / 8;
@@ -645,7 +609,7 @@ class _SealPainter extends CustomPainter {
     final sCurve = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2
-      ..color = _kGold.withOpacity(0.80);
+      ..color = _P.red.withValues(alpha: 0.55);
 
     final path = Path();
     path.moveTo(cx, cy - r * 0.50);
@@ -672,7 +636,9 @@ class _SealPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(dx, dy),
         1.8,
-        dotPaint..color = _kGold.withOpacity(0.55),
+        Paint()
+          ..color = _P.red.withValues(alpha: 0.40)
+          ..style = PaintingStyle.fill,
       );
     }
   }
@@ -704,7 +670,7 @@ class _ConstellationPainter extends CustomPainter {
 
     // Connection lines (faint)
     final linePaint = Paint()
-      ..color = _kGold.withOpacity(0.20)
+      ..color = _P.red.withValues(alpha: 0.20)
       ..strokeWidth = 0.8
       ..style = PaintingStyle.stroke;
 
@@ -718,18 +684,18 @@ class _ConstellationPainter extends CustomPainter {
       canvas.drawLine(starOffsets[conn[0]], starOffsets[conn[1]], linePaint);
     }
 
-    // Star dots with glow
+    // Star dots
     for (int i = 0; i < starOffsets.length; i++) {
       final pos = starOffsets[i];
       final isMain = i < 8;
       final radius = isMain ? 2.8 : 2.0;
 
-      // Glow
+      // Subtle halo
       canvas.drawCircle(
         pos,
         radius * 2.5,
         Paint()
-          ..color = _kGoldBright.withOpacity(0.15)
+          ..color = _P.red.withValues(alpha: 0.08)
           ..style = PaintingStyle.fill,
       );
 
@@ -738,7 +704,7 @@ class _ConstellationPainter extends CustomPainter {
         pos,
         radius,
         Paint()
-          ..color = _kGoldBright.withOpacity(0.90)
+          ..color = _P.red.withValues(alpha: 0.65)
           ..style = PaintingStyle.fill,
       );
     }
@@ -746,137 +712,4 @@ class _ConstellationPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-// ─── Bagua watermark painter ──────────────────────────────────────────────────
-class _BaguaPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFF2A1E06).withOpacity(0.18)
-      ..strokeWidth = 1.4
-      ..style = PaintingStyle.stroke;
-
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r = size.width / 2;
-
-    // Outer circle
-    canvas.drawCircle(Offset(cx, cy), r * 0.98, paint);
-    // Inner circle
-    canvas.drawCircle(Offset(cx, cy), r * 0.52, paint);
-
-    // 8 trigram lines
-    for (int i = 0; i < 8; i++) {
-      final angle = (i * math.pi / 4) - math.pi / 2;
-      for (int line = 0; line < 3; line++) {
-        final lineR = r * 0.60 + line * r * 0.11;
-        final lineLen = r * 0.14;
-        final cosA = math.cos(angle);
-        final sinA = math.sin(angle);
-        final isBroken = (i + line) % 2 == 1;
-        if (isBroken) {
-          canvas.drawLine(
-            Offset(cx + cosA * lineR - sinA * lineLen * 0.4,
-                cy + sinA * lineR + cosA * lineLen * 0.4),
-            Offset(cx + cosA * lineR - sinA * lineLen * 0.05,
-                cy + sinA * lineR + cosA * lineLen * 0.05),
-            paint,
-          );
-          canvas.drawLine(
-            Offset(cx + cosA * lineR + sinA * lineLen * 0.05,
-                cy + sinA * lineR - cosA * lineLen * 0.05),
-            Offset(cx + cosA * lineR + sinA * lineLen * 0.4,
-                cy + sinA * lineR - cosA * lineLen * 0.4),
-            paint,
-          );
-        } else {
-          canvas.drawLine(
-            Offset(cx + cosA * lineR - sinA * lineLen * 0.4,
-                cy + sinA * lineR + cosA * lineLen * 0.4),
-            Offset(cx + cosA * lineR + sinA * lineLen * 0.4,
-                cy + sinA * lineR - cosA * lineLen * 0.4),
-            paint,
-          );
-        }
-      }
-    }
-
-    // Yin-yang circle
-    canvas.drawCircle(Offset(cx, cy), r * 0.22, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-// ─── Cloud decoration ──────────────────────────────────────────────────────────
-class _CloudDecoration extends StatelessWidget {
-  const _CloudDecoration();
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(painter: _CloudPainter());
-  }
-}
-
-class _CloudPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = _kCloud.withOpacity(0.55)
-      ..style = PaintingStyle.fill;
-
-    // Right side cloud scroll
-    _drawCloudScroll(
-        canvas, paint, Offset(size.width + 10, size.height * 0.48),
-        scale: 1.2);
-
-    // Bottom-right cloud
-    _drawCloudScroll(canvas, paint, Offset(size.width - 10, size.height - 20),
-        scale: 0.9, flip: true);
-
-    // Bottom-left cloud (partial)
-    _drawCloudScroll(canvas, paint, Offset(-20, size.height - 30), scale: 0.75);
-  }
-
-  void _drawCloudScroll(Canvas canvas, Paint paint, Offset origin,
-      {double scale = 1.0, bool flip = false}) {
-    canvas.save();
-    canvas.translate(origin.dx, origin.dy);
-    if (flip) canvas.scale(-1, -1);
-    canvas.scale(scale, scale);
-
-    final path = Path();
-    path.moveTo(-80, 20);
-    path.quadraticBezierTo(-90, -10, -60, -20);
-    path.quadraticBezierTo(-50, -40, -20, -35);
-    path.quadraticBezierTo(-10, -55, 20, -45);
-    path.quadraticBezierTo(50, -55, 55, -30);
-    path.quadraticBezierTo(80, -25, 75, 0);
-    path.quadraticBezierTo(85, 20, 60, 25);
-    path.quadraticBezierTo(40, 30, 20, 22);
-    path.quadraticBezierTo(0, 38, -20, 28);
-    path.quadraticBezierTo(-40, 42, -60, 30);
-    path.quadraticBezierTo(-75, 38, -80, 25);
-    path.close();
-    canvas.drawPath(path, paint);
-
-    final curlPaint = Paint()
-      ..color = _kCloud.withOpacity(0.30)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-
-    final curl = Path();
-    curl.moveTo(-30, 10);
-    curl.quadraticBezierTo(-10, -5, 10, 5);
-    curl.quadraticBezierTo(30, 15, 20, 30);
-    curl.quadraticBezierTo(5, 42, -10, 35);
-    canvas.drawPath(curl, curlPaint);
-
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter old) => false;
 }

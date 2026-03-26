@@ -112,25 +112,23 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                     children: [
                       // ── Header ──────────────────────────────────────────────
                       Text(
-                        vi ? 'Cosmic Void' : 'Cosmic Void',
+                        'Cosmic Void',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.cinzel(
                           color: _P.ink,
-                          fontSize: 42,
+                          fontSize: 28,
                           fontWeight: FontWeight.w700,
-                          height: 1.0,
-                          letterSpacing: 3.0,
+                          letterSpacing: 1.6,
                         ),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         l10n.cosmicVoidSubtitle,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.cinzel(
+                        style: GoogleFonts.inter(
                           color: _P.mid,
-                          fontSize: 10,
-                          letterSpacing: 2.6,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          letterSpacing: 0.3,
                         ),
                       ),
 

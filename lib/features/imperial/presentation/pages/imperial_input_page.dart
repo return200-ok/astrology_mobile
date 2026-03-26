@@ -54,9 +54,6 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final w = MediaQuery.sizeOf(context).width;
-    final titleSize = w < 430 ? 60.0 : 72.0;
-
     return Scaffold(
       backgroundColor: InkWashBackground.parchment,
       body: InkWashBackground(
@@ -87,23 +84,21 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.cinzel(
                     color: _P.ink,
-                    fontSize: titleSize,
-                    fontWeight: FontWeight.w600,
-                    height: 1.05,
-                    letterSpacing: 1.5,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.6,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 Text(
                   l10n.imperialSubtitle,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     color: _P.mid,
-                    fontSize: 11,
-                    letterSpacing: 3.5,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 13,
+                    letterSpacing: 0.3,
                   ),
                 ),
 

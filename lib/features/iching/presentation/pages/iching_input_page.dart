@@ -36,45 +36,41 @@ class _IChingInputPageState extends State<IChingInputPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final width = MediaQuery.sizeOf(context).width;
-    final titleSize = width < 430 ? 52.0 : width < 900 ? 72.0 : 84.0;
-    final subtitleSize = width < 430 ? 12.0 : 16.0;
-    final subtitleSpacing = width < 430 ? 2.2 : 4.4;
-
     return Scaffold(
       backgroundColor: InkWashBackground.parchment,
       body: InkWashBackground(
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
             child: Column(
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
                     color: _P.ink,
                   ),
                 ),
+                const SizedBox(height: 4),
                 Text(
                   l10n.ichingTitle,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.cinzel(
                     color: _P.ink,
-                    fontSize: titleSize,
+                    fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 2.0,
+                    letterSpacing: 1.6,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 Text(
                   l10n.ichingSubtitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cinzel(
+                  style: GoogleFonts.inter(
                     color: _P.mid,
-                    fontSize: subtitleSize,
-                    letterSpacing: subtitleSpacing,
+                    fontSize: 13,
+                    letterSpacing: 0.3,
                   ),
                 ),
                 const SizedBox(height: 36),
