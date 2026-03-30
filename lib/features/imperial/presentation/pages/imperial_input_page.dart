@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
@@ -20,6 +21,7 @@ class ImperialInputPage extends StatefulWidget {
 }
 
 class _ImperialInputPageState extends State<ImperialInputPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameCtrl = TextEditingController();
   DateTime? _birthDate;
   String _birthHour = 'Tý';
@@ -50,7 +52,9 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
       backgroundColor: InkWashBackground.parchment,
       body: InkWashBackground(
         child: SafeArea(
-          child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -124,6 +128,7 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
               ],
             ),
           ),
+          ),
         ),
       ),
     );
@@ -169,8 +174,9 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
   // ── Submit ────────────────────────────────────────────────────────────────
 
   void _submit(AppLocalizations l10n) {
+    if (!_formKey.currentState!.validate()) return;
     final name = _nameCtrl.text.trim();
-    if (name.isEmpty || _birthDate == null) {
+    if (_birthDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.imperialFillRequiredSnack,
@@ -220,13 +226,24 @@ class _NameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
+      maxLength: 50,
+      inputFormatters: [
+        FilteringTextInputFormatter.deny(RegExp(r'[<>&"' "'" r']')),
+      ],
+      validator: (value) {
+        final v = value?.trim() ?? '';
+        if (v.isEmpty) return 'Vui lòng nhập tên';
+        if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
+        return null;
+      },
       style: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.ink, fontStyle: FontStyle.italic),
       cursorColor: AstroColors.red,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.mid.withValues(alpha: 0.55), fontStyle: FontStyle.italic),
+        counterText: '',
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 22, vertical: 17),
         filled: true,
@@ -237,6 +254,14 @@ class _NameField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.50), width: 1),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AstroColors.red, width: 1),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AstroColors.red, width: 1.2),
           borderRadius: BorderRadius.circular(999),
         ),
       ),

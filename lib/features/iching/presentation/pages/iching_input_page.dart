@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
@@ -13,6 +14,7 @@ class IChingInputPage extends StatefulWidget {
 }
 
 class _IChingInputPageState extends State<IChingInputPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _queryController = TextEditingController();
 
   @override
@@ -32,7 +34,9 @@ class _IChingInputPageState extends State<IChingInputPage> {
       backgroundColor: AstroColors.parchment,
       body: InkWashBackground(
         child: SafeArea(
-          child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
             child: Column(
               children: [
@@ -59,6 +63,7 @@ class _IChingInputPageState extends State<IChingInputPage> {
                 _buildBody(),
               ],
             ),
+          ),
           ),
         ),
       ),
@@ -102,14 +107,8 @@ class _IChingInputPageState extends State<IChingInputPage> {
   }
 
   void _castYarrowStalks() {
-    final l10n = AppLocalizations.of(context)!;
+    if (!_formKey.currentState!.validate()) return;
     final query = _queryController.text.trim();
-    if (query.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.ichingQueryRequiredSnack)),
-      );
-      return;
-    }
 
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -159,12 +158,23 @@ class _InputCard extends StatelessWidget {
             style: AstroText.sectionLabel(size: 14, spacing: 2.1),
           ),
           const SizedBox(height: 14),
-          TextField(
+          TextFormField(
             controller: queryController,
+            maxLength: 200,
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(RegExp(r'[<>&]')),
+            ],
+            validator: (value) {
+              final v = value?.trim() ?? '';
+              if (v.isEmpty) return 'Vui lòng nhập câu hỏi';
+              if (v.length < 3) return 'Câu hỏi phải có ít nhất 3 ký tự';
+              return null;
+            },
             style: AstroText.quote(22),
             decoration: InputDecoration(
               hintText: l10n.ichingWhisperQueryHint,
               hintStyle: AstroText.bodyMuted(size: hintSize).copyWith(color: AstroColors.mid.withValues(alpha: 0.5)),
+              counterText: '',
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -173,6 +183,14 @@ class _InputCard extends StatelessWidget {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AstroColors.red, width: 1),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AstroColors.red, width: 1.2),
               ),
             ),
           ),

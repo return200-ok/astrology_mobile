@@ -5,7 +5,7 @@ class BirthProfile {
   final DateTime birthDate;
   final TimeOfDay birthTime;
   final String gender;
-  final String cuc;
+  final int cuc;
 
   BirthProfile({
     required this.name,
@@ -20,7 +20,7 @@ class BirthProfile {
     DateTime? birthDate,
     TimeOfDay? birthTime,
     String? gender,
-    String? cuc,
+    int? cuc,
   }) {
     return BirthProfile(
       name: name ?? this.name,

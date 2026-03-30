@@ -10,24 +10,42 @@ class LocaleController extends ChangeNotifier {
   static const String _systemValue = 'system';
 
   Future<void> load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final rawValue = prefs.getString(_prefKey);
-    _locale = _fromStorageValue(rawValue);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final rawValue = prefs.getString(_prefKey);
+      _locale = _fromStorageValue(rawValue);
+    } catch (_) {
+      // Fallback to system locale silently — app remains usable
+      _locale = null;
+    }
   }
 
-  Future<void> setSystemLocale() async {
+  /// Returns true on success, false if persisting to storage failed.
+  /// The in-memory locale is always updated immediately.
+  Future<bool> setSystemLocale() async {
     _locale = null;
     notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefKey, _systemValue);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_prefKey, _systemValue);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
-  Future<void> setLocaleCode(String code) async {
-    final locale = Locale(code);
-    _locale = locale;
+  /// Returns true on success, false if persisting to storage failed.
+  /// The in-memory locale is always updated immediately.
+  Future<bool> setLocaleCode(String code) async {
+    _locale = Locale(code);
     notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefKey, code);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_prefKey, code);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   String get selectedCode => _locale?.languageCode ?? _systemValue;

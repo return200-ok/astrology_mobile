@@ -775,6 +775,10 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get settingsAppearanceLight;
+  String get settingsAppearanceDark;
+  String get settingsAppearanceSystem;
+  String get settingsChooseAppearance;
+  String get settingsComingSoon;
 
   /// No description provided for @settingsNotifications.
   ///

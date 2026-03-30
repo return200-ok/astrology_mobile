@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
@@ -49,6 +50,7 @@ class CosmicVoidPage extends StatefulWidget {
 }
 
 class _CosmicVoidPageState extends State<CosmicVoidPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _aliasCtrl = TextEditingController();
   final TextEditingController _essenceCtrl = TextEditingController();
   final List<_EchoEntry> _echoes = [];
@@ -91,7 +93,9 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
 
               // Scrollable content
               Expanded(
-                child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -162,6 +166,7 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                     ],
                   ),
                 ),
+                ),
               ),
 
               // ── Bottom bar ────────────────────────────────────────────────
@@ -183,13 +188,24 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
     required TextEditingController controller,
     required String hint,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
+      maxLength: 30,
+      inputFormatters: [
+        FilteringTextInputFormatter.deny(RegExp(r'[<>&"' "'" r']')),
+      ],
+      validator: (value) {
+        final v = value?.trim() ?? '';
+        if (v.isEmpty) return 'Vui lòng nhập tên';
+        if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
+        return null;
+      },
       style: AstroText.body(size: 15),
       cursorColor: AstroColors.red,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: AstroText.caption(size: 15),
+        counterText: '',
         contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
         filled: true,
         fillColor: AstroColors.card,
@@ -201,21 +217,37 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
           borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
           borderRadius: BorderRadius.circular(999),
         ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AstroColors.red, width: 1),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AstroColors.red, width: 1.2),
+          borderRadius: BorderRadius.circular(999),
+        ),
       ),
     );
   }
 
   // ── Essence textarea ───────────────────────────────────────────────────────
   Widget _essenceField(AppLocalizations l10n) {
-    return TextField(
+    return TextFormField(
       controller: _essenceCtrl,
       minLines: 4,
       maxLines: 6,
+      maxLength: 500,
+      validator: (value) {
+        final v = value?.trim() ?? '';
+        if (v.isEmpty) return 'Vui lòng nhập tinh hoa';
+        if (v.length < 5) return 'Nội dung phải có ít nhất 5 ký tự';
+        return null;
+      },
       style: AstroText.quote(14),
       cursorColor: AstroColors.red,
       decoration: InputDecoration(
         hintText: l10n.cosmicWhisperHint,
         hintStyle: AstroText.bodyMuted(size: 14),
+        counterText: '',
         contentPadding: const EdgeInsets.all(20),
         filled: true,
         fillColor: AstroColors.card,
@@ -225,6 +257,14 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AstroColors.red, width: 1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AstroColors.red, width: 1.2),
           borderRadius: BorderRadius.circular(16),
         ),
       ),
@@ -352,16 +392,9 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
 
   // ── Send whisper ───────────────────────────────────────────────────────────
   void _sendWhisper(AppLocalizations l10n) {
+    if (!_formKey.currentState!.validate()) return;
     final alias = _aliasCtrl.text.trim();
     final essence = _essenceCtrl.text.trim();
-    if (alias.isEmpty || essence.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.cosmicFillRequiredSnack),
-        ),
-      );
-      return;
-    }
     setState(() {
       _echoes.insert(
         0,

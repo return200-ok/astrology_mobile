@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 import '../../../chart/presentation/pages/chart_display_page.dart';
 
 class ProfileInputPage extends StatefulWidget {
@@ -10,6 +10,7 @@ class ProfileInputPage extends StatefulWidget {
 }
 
 class _ProfileInputPageState extends State<ProfileInputPage> {
+  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   DateTime? _birthDate;
   TimeOfDay? _birthTime;
@@ -45,9 +46,10 @@ class _ProfileInputPageState extends State<ProfileInputPage> {
   }
 
   void _submit() {
-    if (_nameController.text.isEmpty || _birthDate == null || _birthTime == null) {
+    if (!_formKey.currentState!.validate()) return;
+    if (_birthDate == null || _birthTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng điền đầy đủ thông tin')),
+        const SnackBar(content: Text('Vui lòng chọn ngày sinh và giờ sinh')),
       );
       return;
     }
@@ -57,9 +59,10 @@ class _ProfileInputPageState extends State<ProfileInputPage> {
       context,
       MaterialPageRoute(
         builder: (context) => ChartDisplayPage(
-          name: _nameController.text,
+          name: _nameController.text.trim(),
           birthDate: _birthDate!,
           birthTime: _birthTime!,
+          cucNumber: _cucNumber,
         ),
       ),
     );
@@ -71,14 +74,26 @@ class _ProfileInputPageState extends State<ProfileInputPage> {
       appBar: AppBar(
         title: const Text('Nhập Thông Tin Sinh'),
       ),
-      body: SingleChildScrollView(
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Name input
-            TextField(
+            TextFormField(
               controller: _nameController,
+              maxLength: 50,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'[<>&"' "'" r']')),
+              ],
+              validator: (value) {
+                final v = value?.trim() ?? '';
+                if (v.isEmpty) return 'Vui lòng nhập tên';
+                if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
+                return null;
+              },
               decoration: InputDecoration(
                 labelText: 'Tên',
                 hintText: 'Nhập tên của bạn',
@@ -163,6 +178,7 @@ class _ProfileInputPageState extends State<ProfileInputPage> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 import 'core/i18n/locale_controller.dart';
 import 'core/widgets/ink_wash_background.dart';
@@ -17,8 +16,13 @@ import 'features/soul_revelation/presentation/pages/soul_revelation_intro_page.d
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final localeController = LocaleController();
-  await localeController.load();
-  runApp(AstroApp(localeController: localeController));
+  final themeController = ThemeController();
+  try {
+    await Future.wait([localeController.load(), themeController.load()]);
+  } catch (_) {
+    // Continue with defaults if preferences are unavailable
+  }
+  runApp(AstroApp(localeController: localeController, themeController: themeController));
 }
 
 // ─── Card accent types ───────────────────────────────────────────────────────
@@ -49,27 +53,36 @@ enum AppFeature { oracle, imperial, alignment, iching, soulRevelation, cosmicVoi
 // ─── App root ────────────────────────────────────────────────────────────────
 
 class AstroApp extends StatelessWidget {
-  const AstroApp({super.key, this.localeController});
+  const AstroApp({super.key, this.localeController, this.themeController});
 
   final LocaleController? localeController;
+  final ThemeController? themeController;
   static final LocaleController _fallbackLocaleController = LocaleController();
+  static final ThemeController _fallbackThemeController = ThemeController();
   static bool _fallbackLoaded = false;
 
   LocaleController get _activeLocaleController =>
       localeController ?? _fallbackLocaleController;
 
+  ThemeController get _activeThemeController =>
+      themeController ?? _fallbackThemeController;
+
   void _ensureFallbackLoaded() {
     if (localeController != null || _fallbackLoaded) return;
     _fallbackLoaded = true;
-    unawaited(_fallbackLocaleController.load());
+    unawaited(Future.wait([
+      _fallbackLocaleController.load(),
+      _fallbackThemeController.load(),
+    ]));
   }
 
   @override
   Widget build(BuildContext context) {
     _ensureFallbackLoaded();
     final lc = _activeLocaleController;
+    final tc = _activeThemeController;
     return AnimatedBuilder(
-      animation: lc,
+      animation: Listenable.merge([lc, tc]),
       builder: (context, _) {
         return MaterialApp(
           onGenerateTitle: (ctx) => AppLocalizations.of(ctx)!.appTitle,
@@ -77,14 +90,10 @@ class AstroApp extends StatelessWidget {
           locale: lc.locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: ThemeData(
-            brightness: Brightness.light,
-            scaffoldBackgroundColor: AstroColors.parchment,
-            textTheme: GoogleFonts.beVietnamProTextTheme(
-                ThemeData.light().textTheme),
-            primaryColor: AstroColors.red,
-          ),
-          home: MainScaffold(localeController: lc),
+          theme: AstroThemeData.light(),
+          darkTheme: AstroThemeData.dark(),
+          themeMode: tc.mode,
+          home: MainScaffold(localeController: lc, themeController: tc),
         );
       },
     );
@@ -94,8 +103,9 @@ class AstroApp extends StatelessWidget {
 // ─── Main scaffold ───────────────────────────────────────────────────────────
 
 class MainScaffold extends StatefulWidget {
-  const MainScaffold({super.key, required this.localeController});
+  const MainScaffold({super.key, required this.localeController, required this.themeController});
   final LocaleController localeController;
+  final ThemeController themeController;
 
   @override
   State<MainScaffold> createState() => _MainScaffoldState();
@@ -157,7 +167,10 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   void _goSettings() => Navigator.of(context).push(
     MaterialPageRoute<void>(
-      builder: (_) => SettingsPage(localeController: widget.localeController),
+      builder: (_) => SettingsPage(
+        localeController: widget.localeController,
+        themeController: widget.themeController,
+      ),
     ),
   );
 

@@ -364,6 +364,18 @@ class AppLocalizationsVi extends AppLocalizations {
   String get settingsAppearanceLight => 'Sáng';
 
   @override
+  String get settingsAppearanceDark => 'Tối';
+
+  @override
+  String get settingsAppearanceSystem => 'Theo hệ thống';
+
+  @override
+  String get settingsChooseAppearance => 'Chọn giao diện';
+
+  @override
+  String get settingsComingSoon => 'Tính năng sắp ra mắt';
+
+  @override
   String get settingsNotifications => 'Thông báo';
 
   @override

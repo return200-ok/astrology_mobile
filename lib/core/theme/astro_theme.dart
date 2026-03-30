@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+export 'theme_controller.dart';
+
 // ══════════════════════════════════════════════════════════════════════════════
 // "Thiên Địa Huyền Hoà" — Single source of truth for all colors & typography
 //
@@ -170,6 +172,62 @@ abstract final class AstroText {
     color: AstroColors.mid,
     fontSize: size,
     fontWeight: FontWeight.w700,
+  );
+}
+
+// ─── Dark Color Palette ──────────────────────────────────────────────────────
+abstract final class AstroDarkColors {
+  static const parchment = Color(0xFF1C1813); // Mực đêm — dark background
+  static const ink       = Color(0xFFF0EBE3); // Giấy cổ — light text on dark
+  static const mid       = Color(0xFFA09280); // Chữ phụ — warm medium grey
+  static const light     = Color(0xFF706050); // Chữ mờ — muted warm grey
+  static const red       = Color(0xFF801818); // Đỏ huyết dụ — unchanged
+  static const gold      = Color(0xFFA68B5B); // Vàng đồng — unchanged
+  static const card      = Color(0xFF241F19); // Card surface — dark warm
+  static const cardAlt   = Color(0xFF281F17); // Lighter card surface
+  static const board     = Color(0xFF1E1914); // Board/grid background
+  static const border    = Color(0xFF3D3528); // Warm dark border
+  static const divider   = Color(0xFF332C24); // Thin dark divider
+  static const iconBg    = Color(0xFF2A2419); // Icon background
+}
+
+// ─── Theme Data Builders ─────────────────────────────────────────────────────
+abstract final class AstroThemeData {
+  static ThemeData light() => ThemeData(
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: AstroColors.parchment,
+    cardColor: AstroColors.card,
+    primaryColor: AstroColors.red,
+    dividerColor: AstroColors.border,
+    colorScheme: const ColorScheme.light(
+      primary: AstroColors.red,
+      surface: AstroColors.card,
+      onSurface: AstroColors.ink,
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: AstroColors.card,
+    ),
+    dialogBackgroundColor: AstroColors.card,
+    textTheme: GoogleFonts.beVietnamProTextTheme(ThemeData.light().textTheme),
+  );
+
+  static ThemeData dark() => ThemeData(
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: AstroDarkColors.parchment,
+    cardColor: AstroDarkColors.card,
+    primaryColor: AstroDarkColors.red,
+    dividerColor: AstroDarkColors.border,
+    colorScheme: const ColorScheme.dark(
+      primary: AstroDarkColors.red,
+      surface: AstroDarkColors.card,
+      onSurface: AstroDarkColors.ink,
+      surfaceContainerHighest: AstroDarkColors.card,
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: AstroDarkColors.card,
+    ),
+    dialogBackgroundColor: AstroDarkColors.card,
+    textTheme: GoogleFonts.beVietnamProTextTheme(ThemeData.dark().textTheme),
   );
 }
 

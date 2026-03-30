@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'tuvi_chart_screen.dart';
+import '../../domain/models/birth_profile.dart';
+import '../../data/providers/chart_provider.dart';
+import '../../../../astro_engine/chart_builder.dart' as engine;
 
 class ChartDisplayPage extends StatefulWidget {
   final String name;
   final DateTime birthDate;
   final TimeOfDay birthTime;
+  final int cucNumber;
 
   const ChartDisplayPage({
     Key? key,
     required this.name,
     required this.birthDate,
     required this.birthTime,
+    required this.cucNumber,
   }) : super(key: key);
 
   @override
@@ -18,28 +23,63 @@ class ChartDisplayPage extends StatefulWidget {
 }
 
 class _ChartDisplayPageState extends State<ChartDisplayPage> {
-  // Mock palace stars data - will be replaced with actual engine calculation
-  final Map<int, List<String>> _mockPalaceStars = {
-    0: ['Tử Vệ', 'Thiên Cơ'],           // Mệnh
-    1: ['Tham Lang'],                     // Phụ Mẫu
-    2: ['Thiên Phúc'],                    // Phúc Đức
-    3: ['Thiên Tài'],                     // Điền Trạch
-    4: ['Quan Lộc', 'Thiên Quân'],        // Quan Lộc
-    5: ['Nô Bộc', 'Thiên Ủy'],            // Nô Bộc
-    6: ['Thiên Di', 'Văn Khúc'],           // Thiên Di
-    7: ['Tật Ách', 'Hỏa Tinh'],           // Tật Ách
-    8: ['Tài Bạch', 'Thực Quân'],         // Tài Bạch
-    9: ['Tử Tức'],                        // Tử Tức
-    10: ['Phu Thê', 'Thiên Hành'],        // Phu Thê
-    11: ['Huynh Đệ'],                     // Huynh Đệ
-  };
+  Map<int, List<String>>? _palaceStars;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      final profile = BirthProfile(
+        name: widget.name,
+        birthDate: widget.birthDate,
+        birthTime: widget.birthTime,
+        gender: '',
+        cuc: widget.cucNumber,
+      );
+      final birthData = birthDataFromProfile(profile);
+      final chart = engine.generateChart(birthData);
+      _palaceStars = chart.houses;
+    } catch (e) {
+      _error = 'Không thể tính toán lá số. Vui lòng kiểm tra lại thông tin sinh.';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_error != null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Lá Số Tử Vi')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 16),
+                Text(
+                  _error!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 24),
+                FilledButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Quay lại'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return TuViChartScreen(
       name: widget.name,
       birthDate: widget.birthDate,
       birthTime: widget.birthTime,
-      palaceStars: _mockPalaceStars,
+      palaceStars: _palaceStars!,
     );
-  }}
+  }
+}

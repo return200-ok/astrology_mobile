@@ -12,8 +12,9 @@ class InkWashBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bg = Theme.of(context).scaffoldBackgroundColor;
     return ColoredBox(
-      color: AstroColors.parchment,
+      color: bg,
       child: Stack(
         fit: StackFit.expand,
         children: [
