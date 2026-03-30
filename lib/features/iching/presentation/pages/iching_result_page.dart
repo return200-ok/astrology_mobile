@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
-
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const light  = Color(0xFF8A8A8A);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const iconBg = Color(0xFFEAE3D8);
-  static const divider = Color(0xFFD8D0C6);
-  static const sheet  = Color(0xFFF2EDE4);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class IChingResultPage extends StatelessWidget {
   const IChingResultPage({super.key, required this.query});
@@ -25,12 +12,15 @@ class IChingResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final reading = _buildReading(query, l10n);
+    final width = MediaQuery.sizeOf(context).width;
+    final subtitleSize = width < 430 ? 12.0 : 16.0;
+
     return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
+      backgroundColor: AstroColors.parchment,
       body: InkWashBackground(
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
             child: Column(
               children: [
                 Align(
@@ -38,29 +28,19 @@ class IChingResultPage extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-                    color: _P.ink,
+                    color: AstroColors.ink,
                   ),
                 ),
-                const SizedBox(height: 4),
                 Text(
                   l10n.ichingTitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cinzel(
-                    color: _P.ink,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.6,
-                  ),
+                  style: AstroText.pageTitle(AstroSize.title(width)),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 Text(
                   l10n.ichingSubtitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
-                    color: _P.mid,
-                    fontSize: 13,
-                    letterSpacing: 0.3,
-                  ),
+                  style: AstroText.pageSubtitle(size: subtitleSize),
                 ),
                 const SizedBox(height: 26),
                 _ResponseCard(reading: reading),
@@ -119,18 +99,24 @@ class _ResponseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final width = MediaQuery.sizeOf(context).width;
-    final headingSize = width < 430 ? 42.0 : width < 900 ? 52.0 : 64.0;
-    final quoteSize = width < 430 ? 24.0 : width < 900 ? 30.0 : 44.0;
-    final bodySize = width < 430 ? 18.0 : width < 900 ? 22.0 : 30.0;
+    final quoteSize = width < 430 ? 20.0 : width < 900 ? 26.0 : 34.0;
+    final bodySize = width < 430 ? 16.0 : width < 900 ? 18.0 : 24.0;
 
     return Container(
       width: 920,
       constraints: const BoxConstraints(maxWidth: 920),
       padding: const EdgeInsets.fromLTRB(18, 24, 18, 22),
       decoration: BoxDecoration(
-        color: _P.card,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: _P.border, width: 0.8),
+        color: AstroColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AstroColors.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,18 +128,13 @@ class _ResponseCard extends StatelessWidget {
                   children: [
                     Text(
                       l10n.ichingOracleResponse,
-                      style: GoogleFonts.cinzel(
-                        color: _P.ink,
-                        fontSize: headingSize,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 2.0,
-                      ),
+                      style: AstroText.pageTitle(AstroSize.title(width)),
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 6),
                       width: 96,
                       height: 1,
-                      color: _P.divider,
+                      color: AstroColors.red.withValues(alpha: 0.3),
                     ),
                   ],
                 ),
@@ -163,7 +144,7 @@ class _ResponseCard extends StatelessWidget {
                 top: 2,
                 child: Icon(
                   Icons.filter_none_rounded,
-                  color: _P.border.withValues(alpha: 0.35),
+                  color: AstroColors.border.withValues(alpha: 0.3),
                   size: 88,
                 ),
               ),
@@ -174,30 +155,22 @@ class _ResponseCard extends StatelessWidget {
             child: Text(
               '"${reading.quote}"',
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                color: _P.ink,
-                fontSize: quoteSize,
-                fontStyle: FontStyle.italic,
-              ),
+              style: AstroText.quote(quoteSize),
             ),
           ),
           const SizedBox(height: 24),
           _sectionTitle(l10n.ichingCosmicAnalysis),
           const SizedBox(height: 8),
-          Container(height: 1, color: _P.divider),
+          Container(height: 1, color: AstroColors.divider),
           const SizedBox(height: 12),
           Text(
             reading.analysis,
-            style: GoogleFonts.inter(
-              color: _P.ink,
-              fontSize: bodySize,
-              height: 1.38,
-            ),
+            style: AstroText.body(size: bodySize, height: 1.38),
           ),
           const SizedBox(height: 18),
           _sectionTitle(l10n.ichingSacredGuidance),
           const SizedBox(height: 8),
-          Container(height: 1, color: _P.divider),
+          Container(height: 1, color: AstroColors.divider),
           const SizedBox(height: 12),
           ...List.generate(reading.guidance.length, (index) {
             final item = reading.guidance[index];
@@ -213,26 +186,18 @@ class _ResponseCard extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: _P.red),
+                      border: Border.all(color: AstroColors.red.withValues(alpha: 0.4)),
                     ),
                     child: Text(
                       number,
-                      style: GoogleFonts.cinzel(
-                        color: _P.ink,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: AstroText.resultLabel(size: 10),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       item,
-                      style: GoogleFonts.inter(
-                        color: _P.ink,
-                        fontSize: bodySize,
-                        height: 1.25,
-                      ),
+                      style: AstroText.body(size: bodySize, height: 1.25),
                     ),
                   ),
                 ],
@@ -240,19 +205,15 @@ class _ResponseCard extends StatelessWidget {
             );
           }),
           const SizedBox(height: 10),
-          Container(height: 1, color: _P.divider),
+          Container(height: 1, color: AstroColors.divider),
           const SizedBox(height: 14),
           Center(
             child: TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(Icons.rotate_left_rounded, color: _P.red),
+              icon: Icon(Icons.rotate_left_rounded, color: AstroColors.gold),
               label: Text(
                 l10n.commonReturnToSilence,
-                style: GoogleFonts.cinzel(
-                  color: _P.red,
-                  letterSpacing: 1.3,
-                  fontSize: 12,
-                ),
+                style: AstroText.link(size: 12),
               ),
             ),
           ),
@@ -264,11 +225,7 @@ class _ResponseCard extends StatelessWidget {
   Widget _sectionTitle(String text) {
     return Text(
       text,
-      style: GoogleFonts.cinzel(
-        color: _P.mid,
-        fontSize: 14,
-        letterSpacing: 1.6,
-      ),
+      style: AstroText.sectionLabel(size: 14, spacing: 1.6),
     );
   }
 }

@@ -1,22 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
-
-// ─── Palette ──────────────────────────────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const light  = Color(0xFF8A8A8A);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const iconBg = Color(0xFFEAE3D8);
-  static const divider = Color(0xFFD8D0C6);
-  static const sheet  = Color(0xFFF2EDE4);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 class _SignOption {
@@ -103,6 +90,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
   // ── Header ──────────────────────────────────────────────────────────────────
 
   Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
+    final width = MediaQuery.sizeOf(context).width;
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Column(
@@ -113,7 +101,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
             child: IconButton(
               onPressed: () => Navigator.of(context).maybePop(),
               icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-              color: _P.ink,
+              color: AstroColors.ink,
             ),
           ),
 
@@ -134,15 +122,10 @@ class _AlignmentPageState extends State<AlignmentPage> {
           Text(
             l10n.alignmentTitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.cinzel(
-              color: _P.ink,
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.6,
-            ),
+            style: AstroText.pageTitle(AstroSize.title(width)),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
 
           // Subtitle
           Padding(
@@ -150,12 +133,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
             child: Text(
               l10n.alignmentSubtitle,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                color: _P.mid,
-                fontSize: 13,
-                height: 1.5,
-                letterSpacing: 0.3,
-              ),
+              style: AstroText.pageSubtitle(),
             ),
           ),
 
@@ -165,7 +143,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
           Container(
             width: 80,
             height: 1,
-            color: _P.red.withValues(alpha: 0.55),
+            color: AstroColors.red.withValues(alpha: 0.55),
           ),
         ],
       ),
@@ -174,6 +152,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
 
   // ── Sign picker ─────────────────────────────────────────────────────────────
   Future<void> _pickSign({required bool isOrigin}) async {
+    final l10n = AppLocalizations.of(context)!;
     var selected = isOrigin ? _origin : (_distant ?? _kSigns.first);
     var idx = _kSigns.indexOf(selected).clamp(0, _kSigns.length - 1);
 
@@ -184,7 +163,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
         return Container(
           height: 320,
           decoration: const BoxDecoration(
-            color: _P.sheet,
+            color: AstroColors.board,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
@@ -194,23 +173,18 @@ class _AlignmentPageState extends State<AlignmentPage> {
                 height: 56,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: const BoxDecoration(
-                  color: _P.card,
+                  color: AstroColors.card,
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20)),
                   border: Border(
-                    bottom: BorderSide(color: _P.divider, width: 0.8),
+                    bottom: BorderSide(color: AstroColors.divider, width: 0.8),
                   ),
                 ),
                 child: Row(
                   children: [
                     Text(
-                      isOrigin ? 'ORIGIN SOUL' : 'DISTANT SOUL',
-                      style: GoogleFonts.cinzel(
-                        color: _P.mid,
-                        fontSize: 12,
-                        letterSpacing: 2.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      isOrigin ? l10n.alignmentOriginSoul : l10n.alignmentDistantSoul,
+                      style: AstroText.sectionLabel(size: 12).copyWith(color: AstroColors.mid),
                     ),
                     const Spacer(),
                     CupertinoButton(
@@ -218,12 +192,8 @@ class _AlignmentPageState extends State<AlignmentPage> {
                       onPressed: () =>
                           Navigator.of(context).pop(_kSigns[idx]),
                       child: Text(
-                        'Xong',
-                        style: GoogleFonts.cinzel(
-                          color: _P.red,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        l10n.commonDone,
+                        style: AstroText.sectionLabel(size: 16),
                       ),
                     ),
                   ],
@@ -240,10 +210,10 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: _P.red.withValues(alpha: 0.08),
+                          color: AstroColors.red.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: _P.red.withValues(alpha: 0.15),
+                            color: AstroColors.red.withValues(alpha: 0.15),
                           ),
                         ),
                       ),
@@ -256,10 +226,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                           return Center(
                             child: Text(
                               '${sign.symbol}  ${ZodiacLocalization.name(context, sign.id)}',
-                              style: GoogleFonts.cinzel(
-                                color: _P.ink,
-                                fontSize: 18,
-                              ),
+                              style: AstroText.sectionLabel(size: 18).copyWith(color: AstroColors.ink),
                             ),
                           );
                         }).toList(),
@@ -288,6 +255,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
 
   // ── Bond type picker ──────────────────────────────────────────────────────
   Future<void> _pickBondType() async {
+    final l10n = AppLocalizations.of(context)!;
     var idx = _kBondTypes.indexOf(_bondType).clamp(0, _kBondTypes.length - 1);
 
     final picked = await showModalBottomSheet<String>(
@@ -297,7 +265,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
         return Container(
           height: 280,
           decoration: const BoxDecoration(
-            color: _P.sheet,
+            color: AstroColors.board,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
@@ -306,23 +274,18 @@ class _AlignmentPageState extends State<AlignmentPage> {
                 height: 56,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: const BoxDecoration(
-                  color: _P.card,
+                  color: AstroColors.card,
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20)),
                   border: Border(
-                    bottom: BorderSide(color: _P.divider, width: 0.8),
+                    bottom: BorderSide(color: AstroColors.divider, width: 0.8),
                   ),
                 ),
                 child: Row(
                   children: [
                     Text(
-                      'BOND TYPE',
-                      style: GoogleFonts.cinzel(
-                        color: _P.mid,
-                        fontSize: 12,
-                        letterSpacing: 2.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      l10n.alignmentBondType,
+                      style: AstroText.sectionLabel(size: 12).copyWith(color: AstroColors.mid),
                     ),
                     const Spacer(),
                     CupertinoButton(
@@ -330,12 +293,8 @@ class _AlignmentPageState extends State<AlignmentPage> {
                       onPressed: () =>
                           Navigator.of(context).pop(_kBondTypes[idx]),
                       child: Text(
-                        'Xong',
-                        style: GoogleFonts.cinzel(
-                          color: _P.red,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        l10n.commonDone,
+                        style: AstroText.sectionLabel(size: 16),
                       ),
                     ),
                   ],
@@ -351,10 +310,10 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: _P.red.withValues(alpha: 0.08),
+                          color: AstroColors.red.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: _P.red.withValues(alpha: 0.15),
+                            color: AstroColors.red.withValues(alpha: 0.15),
                           ),
                         ),
                       ),
@@ -367,10 +326,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                           return Center(
                             child: Text(
                               type,
-                              style: GoogleFonts.cinzel(
-                                color: _P.ink,
-                                fontSize: 17,
-                              ),
+                              style: AstroText.sectionLabel(size: 17).copyWith(color: AstroColors.ink),
                             ),
                           );
                         }).toList(),
@@ -396,7 +352,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.alignmentPickExternalSnack),
-          backgroundColor: _P.ink,
+          backgroundColor: AstroColors.ink,
         ),
       );
       return;
@@ -483,9 +439,9 @@ class _MainCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: _P.card,
+        color: AstroColors.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: _P.border, width: 0.8),
+        border: Border.all(color: AstroColors.border, width: 0.8),
       ),
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
       child: Column(
@@ -503,11 +459,7 @@ class _MainCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: Text(
                   '  &  ',
-                  style: GoogleFonts.cinzel(
-                    color: _P.red.withValues(alpha: 0.70),
-                    fontSize: 26,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: AstroText.sectionLabel(size: 26).copyWith(color: AstroColors.red.withValues(alpha: 0.70), fontWeight: FontWeight.w300),
                 ),
               ),
               _AvatarPicker(
@@ -528,28 +480,23 @@ class _MainCard extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: _P.border, width: 1),
-                color: _P.card,
+                border: Border.all(color: AstroColors.border, width: 1),
+                color: AstroColors.card,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.link_rounded,
-                      color: _P.red.withValues(alpha: 0.70), size: 18),
+                      color: AstroColors.red.withValues(alpha: 0.70), size: 18),
                   const SizedBox(width: 10),
                   Text(
                     bondType,
-                    style: GoogleFonts.cinzel(
-                      color: _P.ink,
-                      fontSize: 15,
-                      letterSpacing: 0.8,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: AstroText.sectionLabel(size: 15, spacing: 0.8).copyWith(color: AstroColors.ink, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(width: 10),
                   Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: _P.light,
+                    color: AstroColors.light,
                     size: 20,
                   ),
                 ],
@@ -560,7 +507,7 @@ class _MainCard extends StatelessWidget {
           const SizedBox(height: 18),
 
           // Divider
-          const Divider(color: _P.divider, thickness: 0.8, height: 1),
+          const Divider(color: AstroColors.divider, thickness: 0.8, height: 1),
 
           const SizedBox(height: 18),
 
@@ -568,12 +515,12 @@ class _MainCard extends StatelessWidget {
           OutlinedButton.icon(
             onPressed: onViewBond,
             style: OutlinedButton.styleFrom(
-              foregroundColor: _P.red,
+              foregroundColor: AstroColors.red,
               side: BorderSide(
-                color: _P.red.withValues(alpha: 0.65),
+                color: AstroColors.red.withValues(alpha: 0.65),
                 width: 1,
               ),
-              backgroundColor: _P.card,
+              backgroundColor: AstroColors.card,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
@@ -581,43 +528,33 @@ class _MainCard extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
             ),
             icon: Icon(Icons.auto_awesome_rounded,
-                size: 17, color: _P.red.withValues(alpha: 0.80)),
+                size: 17, color: AstroColors.red.withValues(alpha: 0.80)),
             label: Text(
               l10n.alignmentSeekButton,
-              style: GoogleFonts.cinzel(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 2.0,
-              ),
+              style: AstroText.buttonOutline(size: 13),
             ),
           ),
 
           const SizedBox(height: 18),
 
           // Divider
-          const Divider(color: _P.divider, thickness: 0.8, height: 1),
+          const Divider(color: AstroColors.divider, thickness: 0.8, height: 1),
 
           const SizedBox(height: 16),
 
           // ── Footer ──────────────────────────────────────────────────────
           Text(
             '\u221E Bonds Available',
-            style: GoogleFonts.inter(
-              color: _P.light,
-              fontSize: 13,
-              letterSpacing: 0.5,
-            ),
+            style: AstroText.body(size: 13).copyWith(color: AstroColors.light),
           ),
           const SizedBox(height: 6),
           GestureDetector(
             onTap: () {},
             child: Text(
               'View Recent Alignments',
-              style: GoogleFonts.inter(
-                color: _P.mid,
-                fontSize: 13,
+              style: AstroText.body(size: 13).copyWith(
                 decoration: TextDecoration.underline,
-                decorationColor: _P.border,
+                decorationColor: AstroColors.border,
               ),
             ),
           ),
@@ -652,11 +589,11 @@ class _AvatarPicker extends StatelessWidget {
             height: 90,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _P.iconBg,
+              color: AstroColors.iconBg,
               border: Border.all(
                 color: hasSign
-                    ? _P.red.withValues(alpha: 0.50)
-                    : _P.border,
+                    ? AstroColors.red.withValues(alpha: 0.50)
+                    : AstroColors.border,
                 width: 1.5,
               ),
             ),
@@ -665,14 +602,14 @@ class _AvatarPicker extends StatelessWidget {
                 ? Text(
                     sign!.symbol,
                     style: TextStyle(
-                      color: _P.red.withValues(alpha: 0.85),
+                      color: AstroColors.red.withValues(alpha: 0.85),
                       fontSize: 38,
                       height: 1,
                     ),
                   )
                 : Icon(
                     Icons.add_circle_outline_rounded,
-                    color: _P.light,
+                    color: AstroColors.light,
                     size: 32,
                   ),
           ),
@@ -687,16 +624,12 @@ class _AvatarPicker extends StatelessWidget {
                 hasSign
                     ? ZodiacLocalization.name(context, sign!.id)
                     : label.split(' ').first,
-                style: GoogleFonts.inter(
-                  color: _P.mid,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AstroText.body(size: 13).copyWith(color: AstroColors.mid),
               ),
               const SizedBox(width: 4),
               const Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: _P.light,
+                color: AstroColors.light,
                 size: 16,
               ),
             ],
@@ -719,9 +652,9 @@ class _ResultCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
-        color: _P.card,
+        color: AstroColors.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: _P.border, width: 0.8),
+        border: Border.all(color: AstroColors.border, width: 0.8),
       ),
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       child: Column(
@@ -730,12 +663,7 @@ class _ResultCard extends StatelessWidget {
           Text(
             l10n.alignmentAnalysisTitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.cinzel(
-              color: _P.ink,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2.0,
-            ),
+            style: AstroText.sectionLabel(size: 16).copyWith(color: AstroColors.ink),
           ),
 
           const SizedBox(height: 24),
@@ -745,20 +673,12 @@ class _ResultCard extends StatelessWidget {
             children: [
               Text(
                 l10n.alignmentScoreLabel,
-                style: GoogleFonts.cinzel(
-                  color: _P.mid,
-                  fontSize: 13,
-                  letterSpacing: 1.5,
-                ),
+                style: AstroText.sectionLabel(size: 13, spacing: 1.5).copyWith(color: AstroColors.mid),
               ),
               const Spacer(),
               Text(
                 '$score%',
-                style: GoogleFonts.cinzel(
-                  color: _P.red,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: AstroText.resultLabel(size: 22),
               ),
             ],
           ),
@@ -771,8 +691,8 @@ class _ResultCard extends StatelessWidget {
             child: LinearProgressIndicator(
               minHeight: 10,
               value: (score / 100).clamp(0.0, 1.0),
-              backgroundColor: _P.iconBg,
-              color: _P.red.withValues(alpha: 0.70),
+              backgroundColor: AstroColors.iconBg,
+              color: AstroColors.red.withValues(alpha: 0.70),
             ),
           ),
 
@@ -783,19 +703,14 @@ class _ResultCard extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             decoration: BoxDecoration(
-              color: _P.sheet,
+              color: AstroColors.board,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: _P.divider, width: 0.8),
+              border: Border.all(color: AstroColors.divider, width: 0.8),
             ),
             child: Text(
               '\u201C$message\u201D',
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                color: _P.ink,
-                fontSize: 13,
-                fontStyle: FontStyle.italic,
-                height: 1.6,
-              ),
+              style: AstroText.quote(13),
             ),
           ),
         ],
@@ -811,7 +726,7 @@ class _RingsPainter extends CustomPainter {
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
-      ..color = _P.red.withValues(alpha: 0.55);
+      ..color = AstroColors.red.withValues(alpha: 0.55);
 
     final r = size.height / 2;
     final leftCenter = Offset(size.width / 2 - r * 0.55, r);

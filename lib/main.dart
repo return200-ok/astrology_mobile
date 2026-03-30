@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 import 'core/i18n/locale_controller.dart';
 import 'core/widgets/ink_wash_background.dart';
 import 'features/alignment/presentation/pages/alignment_page.dart';
@@ -20,16 +21,8 @@ Future<void> main() async {
   runApp(AstroApp(localeController: localeController));
 }
 
-// ─── Palette ────────────────────────────────────────────────────────────────
-// Single source used by both MainScaffold and _FeatureCard.
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);   // near-black — primary text/icons
-  static const mid    = Color(0xFF5C5C5C);   // secondary text
-  static const red    = Color(0xFF8B3A3A);   // deep muted red — accent only
-  static const card   = Color(0xFFFBF8F3);   // card surface
-  static const border = Color(0xFFCDC5B8);   // subtle warm-grey border
-  static const settingsBg = Color(0xFFF0EBE3); // settings pill bg
-}
+// ─── Card accent types ───────────────────────────────────────────────────────
+enum CardAccent { none, red, gold }
 
 // ─── Feature data ────────────────────────────────────────────────────────────
 
@@ -40,7 +33,7 @@ class FeatureMenuItem {
     required this.icon,
     required this.tagline,
     required this.page,
-    this.accentRed = false,
+    this.accent = CardAccent.none,
   });
 
   final AppFeature feature;
@@ -48,23 +41,15 @@ class FeatureMenuItem {
   final IconData icon;
   final String tagline;
   final Widget page;
-  /// Whether this card's icon circle gets the subtle red accent.
-  final bool accentRed;
+  final CardAccent accent;
 }
 
-enum AppFeature {
-  oracle,
-  imperial,
-  alignment,
-  iching,
-  soulRevelation,
-  cosmicVoid,
-}
+enum AppFeature { oracle, imperial, alignment, iching, soulRevelation, cosmicVoid }
 
 // ─── App root ────────────────────────────────────────────────────────────────
 
 class AstroApp extends StatelessWidget {
-  AstroApp({super.key, this.localeController});
+  const AstroApp({super.key, this.localeController});
 
   final LocaleController? localeController;
   static final LocaleController _fallbackLocaleController = LocaleController();
@@ -94,9 +79,10 @@ class AstroApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(
             brightness: Brightness.light,
-            scaffoldBackgroundColor: InkWashBackground.parchment,
-            textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
-            primaryColor: _P.red,
+            scaffoldBackgroundColor: AstroColors.parchment,
+            textTheme: GoogleFonts.beVietnamProTextTheme(
+                ThemeData.light().textTheme),
+            primaryColor: AstroColors.red,
           ),
           home: MainScaffold(localeController: lc),
         );
@@ -109,7 +95,6 @@ class AstroApp extends StatelessWidget {
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({super.key, required this.localeController});
-
   final LocaleController localeController;
 
   @override
@@ -124,7 +109,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       icon: Icons.all_inclusive_rounded,
       tagline: l10n.featureOracleTagline,
       page: const OracleSignSelectionPage(),
-      accentRed: true,          // Oracle gets the red accent
+      accent: CardAccent.red,          // Tiên tri — huyền bí
     ),
     FeatureMenuItem(
       feature: AppFeature.imperial,
@@ -132,6 +117,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       icon: Icons.workspace_premium_outlined,
       tagline: l10n.featureImperialTagline,
       page: const ImperialInputPage(),
+      accent: CardAccent.gold,         // Tử Vi — tri thức cổ
     ),
     FeatureMenuItem(
       feature: AppFeature.alignment,
@@ -139,6 +125,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       icon: Icons.track_changes_outlined,
       tagline: l10n.featureAlignmentTagline,
       page: const AlignmentPage(),
+      accent: CardAccent.gold,         // Tương hợp — vì sao
     ),
     FeatureMenuItem(
       feature: AppFeature.iching,
@@ -146,7 +133,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       icon: Icons.grid_goldenratio_outlined,
       tagline: l10n.featureIChingTagline,
       page: const IChingInputPage(),
-      accentRed: true,          // I Ching also gets the red accent
+      accent: CardAccent.red,          // Kinh Dịch — linh thiêng
     ),
     FeatureMenuItem(
       feature: AppFeature.soulRevelation,
@@ -181,60 +168,79 @@ class _MainScaffoldState extends State<MainScaffold> {
     final hPad = MediaQuery.sizeOf(context).width * 0.055;
 
     return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
+      backgroundColor: AstroColors.parchment,
       body: InkWashBackground(
         child: SafeArea(
           child: Column(
             children: [
-              // ── Header ──────────────────────────────────────────────
+              // ── Header with settings gear top-right ────────────
               Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 28, hPad, 0),
-                child: Column(
+                padding: EdgeInsets.fromLTRB(hPad, 16, hPad, 0),
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    // Crescent moon — near-black at 65 % opacity
-                    Icon(
-                      Icons.nightlight_round,
-                      size: 38,
-                      color: _P.ink.withValues(alpha: 0.65),
-                    ),
-                    const SizedBox(height: 14),
-                    Text(
-                      l10n.homeHeroTitle,
-                      style: GoogleFonts.cinzel(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w600,
-                        color: _P.ink,
-                        letterSpacing: 3.2,
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: GestureDetector(
+                        onTap: _goSettings,
+                        child: Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AstroColors.card.withValues(alpha: 0.7),
+                            border: Border.all(
+                              color: AstroColors.border.withValues(alpha: 0.5),
+                              width: 0.8,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.settings_outlined,
+                            size: 18,
+                            color: AstroColors.ink.withValues(alpha: 0.55),
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      l10n.homeHeroSubtitle,
-                      style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: _P.mid,
-                        letterSpacing: 2.2,
-                      ),
+                    Column(
+                      children: [
+                        const SizedBox(height: 12),
+                        Icon(
+                          Icons.nightlight_round,
+                          size: 38,
+                          color: AstroColors.ink.withValues(alpha: 0.65),
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          l10n.homeHeroTitle,
+                          style: AstroText.sectionLabel(size: 26, spacing: 3.2),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          l10n.homeHeroSubtitle,
+                          style: AstroText.caption(size: 10),
+                        ),
+                        const SizedBox(height: 22),
+                      ],
                     ),
-                    const SizedBox(height: 22),
                   ],
                 ),
               ),
 
-              // ── Feature grid ─────────────────────────────────────────
+              // ── Feature grid ───────────────────────────────────
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: hPad),
                   child: GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.95,
-                      ),
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.95,
+                    ),
                     itemCount: items.length,
                     itemBuilder: (_, i) => _FeatureCard(
                       item: items[i],
@@ -243,45 +249,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                   ),
                 ),
               ),
-
-              // ── Settings pill ────────────────────────────────────────
-              Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 12, hPad, 18),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: _goSettings,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 9,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _P.settingsBg,
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: _P.border, width: 1),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.settings_outlined,
-                              size: 18, color: _P.ink),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.settings,
-                            style: GoogleFonts.cinzel(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: _P.ink,
-                              letterSpacing: 1.4,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 18),
             ],
           ),
         ),
@@ -300,59 +268,63 @@ class _FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = item.accentRed
-        ? _P.red.withValues(alpha: 0.80)
-        : _P.ink.withValues(alpha: 0.72);
-    final circleBorder = item.accentRed
-        ? _P.red.withValues(alpha: 0.30)
-        : _P.border;
+    // Resolve accent colours
+    final Color iconColor;
+    final Color circleBorder;
+    switch (item.accent) {
+      case CardAccent.red:
+        iconColor = AstroColors.red.withValues(alpha: 0.85);
+        circleBorder = AstroColors.red.withValues(alpha: 0.30);
+      case CardAccent.gold:
+        iconColor = AstroColors.gold;
+        circleBorder = AstroColors.gold.withValues(alpha: 0.40);
+      case CardAccent.none:
+        iconColor = AstroColors.ink.withValues(alpha: 0.68);
+        circleBorder = AstroColors.border;
+    }
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: _P.card,
+          color: AstroColors.card,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: _P.border, width: 0.8),
+          border: Border.all(color: AstroColors.border, width: 0.8),
+          boxShadow: [
+            BoxShadow(
+              color: AstroColors.ink.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Icon circle
             Container(
-              width: 48,
-              height: 48,
+              width: 58,
+              height: 58,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: circleBorder, width: 1),
               ),
-              child: Icon(item.icon, size: 22, color: iconColor),
+              child: Icon(item.icon, size: 27, color: iconColor),
             ),
             const SizedBox(height: 11),
-            // Title — Cinzel, near-black
+            // Title — Playfair Display
             Text(
               item.title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.cinzel(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: _P.ink,
-                letterSpacing: 1.1,
-                height: 1.35,
-              ),
+              style: AstroText.sectionLabel(size: 12, spacing: 1.1).copyWith(height: 1.35),
             ),
             const SizedBox(height: 5),
-            // Tagline — Inter, mid-grey
+            // Tagline — Be Vietnam Pro
             Text(
               item.tagline,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: _P.mid,
-                height: 1.45,
-              ),
+              style: AstroText.bodyMuted(size: 10, height: 1.45),
             ),
           ],
         ),

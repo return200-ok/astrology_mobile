@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'star_chip.dart';
-
-// ─── Palette (Ink Wash / Parchment) ──────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const sheet  = Color(0xFFF2EDE4);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class HouseCard extends StatelessWidget {
   final int houseIndex;
@@ -49,10 +42,10 @@ class HouseCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: isSelected ? _P.sheet : _P.card,
+          color: isSelected ? AstroColors.board : AstroColors.cardAlt,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? elementColor : _P.border,
+            color: isSelected ? elementColor : AstroColors.border,
             width: isSelected ? 2 : 1,
           ),
         ),

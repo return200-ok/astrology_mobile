@@ -7,7 +7,7 @@
   "homeHeroSubtitle": "MINH TRIẾT CỔ XƯA TỪ CÁC VÌ SAO",
   "featureOracleTitle": "TIÊN TRI",
   "featureOracleTagline": "Tìm điềm huyền bí từ sao.",
-  "featureImperialTitle": "ĐẾ BÀN",
+  "featureImperialTitle": "TỬ VI",
   "featureImperialTagline": "Vẽ vận mệnh thiên giới.",
   "featureAlignmentTitle": "TƯƠNG HỢP",
   "featureAlignmentTagline": "Hòa hợp tâm hồn với trời.",
@@ -35,7 +35,7 @@
   "alignmentMessageGrowth": "CỘNG HƯỞNG TĂNG TRƯỞNG: Mối liên kết phát triển nhờ kiên nhẫn và đối thoại.",
   "alignmentMessageChallenging": "CỘNG HƯỞNG THỬ THÁCH: Khác biệt cao; thấu cảm sẽ mở ra cân bằng.",
 
-  "imperialTitle": "LÁ SỐ ĐẾ BÀN",
+  "imperialTitle": "LÁ SỐ TỬ VI",
   "imperialSubtitle": "BẢN ĐỒ TINH TÚ PHƯƠNG ĐÔNG",
   "imperialTabChart": "LÁ SỐ",
   "imperialTabCompatibility": "TƯƠNG HỢP",
@@ -122,5 +122,50 @@
   "cosmicSilentPrimary": "Khoảng không thiên giới hiện đang tĩnh lặng.",
   "cosmicSilentSecondary": "SỰ TĨNH LẶNG TINH GIỚI THẬT SÂU THẲM.",
   "cosmicFillRequiredSnack": "Vui lòng nhập LINH DANH và TINH CHẤT TÂM LINH",
-  "cosmicSentSnack": "Đã gửi lời thì thầm vào hư không"
+  "cosmicSentSnack": "Đã gửi lời thì thầm vào hư không",
+
+  "settingsSectionPersonalize": "CÁ NHÂN HÓA",
+  "settingsSectionSystem": "HỆ THỐNG",
+  "settingsSectionSupport": "HỖ TRỢ",
+  "settingsLanguage": "Ngôn ngữ",
+  "settingsAppearance": "Giao diện",
+  "settingsAppearanceLight": "Sáng",
+  "settingsNotifications": "Thông báo",
+  "settingsSound": "Âm thanh",
+  "settingsTerms": "Điều khoản",
+  "settingsContact": "Liên hệ",
+  "settingsRate": "Đánh giá ứng dụng",
+  "settingsChooseLanguage": "Chọn ngôn ngữ",
+  "settingsSystemDefault": "Theo hệ thống",
+  "settingsEnglish": "English",
+  "settingsVietnamese": "Tiếng Việt",
+  "settingsVersion": "Phiên bản {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+
+  "commonDone": "Xong",
+  "alignmentBondType": "LOẠI LIÊN KẾT",
+  "imperialPickDate": "CHỌN NGÀY SINH",
+  "imperialPickHour": "CHỌN GIỜ SINH",
+  "cosmicEchoCount": "{count} tiếng vọng",
+  "@cosmicEchoCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "cosmicListening": "đang lắng nghe...",
+  "soulBfiSubtitle": "KHÁM PHÁ CĂN TÂM BFI-44",
+  "soulBfiResultSubtitle": "KẾT QUẢ BFI-44",
+  "soulBfiRetake": "LÀM LẠI BÀI TEST",
+  "soulBfiQuote": "\"Bắt đầu hành trình khám phá tâm hồn.\nTrả lời 44 câu hỏi trắc nghiệm.\"",
+  "soulQuestionsCount": "{total} câu hỏi",
+  "@soulQuestionsCount": {
+    "placeholders": {
+      "total": { "type": "int" }
+    }
+  },
+  "soulQuestionsFixed": "44 câu hỏi"
 }

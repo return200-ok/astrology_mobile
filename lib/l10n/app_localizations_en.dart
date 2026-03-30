@@ -345,4 +345,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cosmicSentSnack => 'Whisper sent to the void';
+
+  @override
+  String get settingsSectionPersonalize => 'PERSONALIZE';
+
+  @override
+  String get settingsSectionSystem => 'SYSTEM';
+
+  @override
+  String get settingsSectionSupport => 'SUPPORT';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsAppearance => 'Appearance';
+
+  @override
+  String get settingsAppearanceLight => 'Light';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsSound => 'Sound';
+
+  @override
+  String get settingsTerms => 'Terms & Conditions';
+
+  @override
+  String get settingsContact => 'Contact Us';
+
+  @override
+  String get settingsRate => 'Rate This App';
+
+  @override
+  String get settingsChooseLanguage => 'Choose Language';
+
+  @override
+  String get settingsSystemDefault => 'System default';
+
+  @override
+  String get settingsEnglish => 'English';
+
+  @override
+  String get settingsVietnamese => 'Vietnamese';
+
+  @override
+  String settingsVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get commonDone => 'Done';
+
+  @override
+  String get alignmentBondType => 'BOND TYPE';
+
+  @override
+  String get imperialPickDate => 'CHOOSE BIRTH DATE';
+
+  @override
+  String get imperialPickHour => 'CHOOSE BIRTH HOUR';
+
+  @override
+  String cosmicEchoCount(int count) {
+    return '$count echoes';
+  }
+
+  @override
+  String get cosmicListening => 'listening...';
+
+  @override
+  String get soulBfiSubtitle => 'EXPLORE YOUR SOUL · BFI-44';
+
+  @override
+  String get soulBfiResultSubtitle => 'BFI-44 RESULTS';
+
+  @override
+  String get soulBfiRetake => 'RETAKE TEST';
+
+  @override
+  String get soulBfiQuote =>
+      '\"Begin the journey of soul discovery.\nAnswer 44 questions.\"';
+
+  @override
+  String soulQuestionsCount(int total) {
+    return '$total questions';
+  }
+
+  @override
+  String get soulQuestionsFixed => '44 questions';
 }

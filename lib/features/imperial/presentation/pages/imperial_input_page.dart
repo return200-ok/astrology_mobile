@@ -3,22 +3,12 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/imperial_cast_request.dart';
 import 'imperial_result_page.dart';
-
-// ─── Palette ─────────────────────────────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const sheet  = Color(0xFFF2EDE4);  // bottom-sheet background
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -54,6 +44,8 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final w = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       backgroundColor: InkWashBackground.parchment,
       body: InkWashBackground(
@@ -71,7 +63,7 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 18,
-                      color: _P.ink,
+                      color: AstroColors.ink,
                     ),
                   ),
                 ),
@@ -82,24 +74,15 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
                 Text(
                   l10n.imperialTitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cinzel(
-                    color: _P.ink,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.6,
-                  ),
+                  style: AstroText.pageTitle(AstroSize.title(w)),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
 
                 Text(
                   l10n.imperialSubtitle,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
-                    color: _P.mid,
-                    fontSize: 13,
-                    letterSpacing: 0.3,
-                  ),
+                  style: AstroText.pageSubtitle(size: 11),
                 ),
 
                 const SizedBox(height: 40),
@@ -191,8 +174,8 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.imperialFillRequiredSnack,
-              style: GoogleFonts.inter(color: _P.card)),
-          backgroundColor: _P.ink,
+              style: AstroText.body().copyWith(color: AstroColors.card)),
+          backgroundColor: AstroColors.ink,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
@@ -223,12 +206,7 @@ class _FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.cinzel(
-        color: _P.ink,
-        fontSize: 12,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 2.0,
-      ),
+      style: AstroText.sectionLabel(size: 12).copyWith(color: AstroColors.ink),
     );
   }
 }
@@ -244,29 +222,21 @@ class _NameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      style: GoogleFonts.cinzel(
-        color: _P.ink,
-        fontSize: 15,
-        fontStyle: FontStyle.italic,
-      ),
-      cursorColor: _P.red,
+      style: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.ink, fontStyle: FontStyle.italic),
+      cursorColor: AstroColors.red,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.cinzel(
-          color: _P.mid.withValues(alpha: 0.55),
-          fontSize: 15,
-          fontStyle: FontStyle.italic,
-        ),
+        hintStyle: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.mid.withValues(alpha: 0.55), fontStyle: FontStyle.italic),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 22, vertical: 17),
         filled: true,
-        fillColor: _P.card,
+        fillColor: AstroColors.card,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: _P.border, width: 0.8),
+          borderSide: const BorderSide(color: AstroColors.border, width: 0.8),
           borderRadius: BorderRadius.circular(999),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: _P.red.withValues(alpha: 0.50), width: 1),
+          borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.50), width: 1),
           borderRadius: BorderRadius.circular(999),
         ),
       ),
@@ -298,16 +268,15 @@ class _DateTile extends StatelessWidget {
           Expanded(
             child: Text(
               txt,
-              style: GoogleFonts.cinzel(
-                color: hasDate ? _P.ink : _P.mid.withValues(alpha: 0.55),
-                fontSize: 15,
+              style: AstroText.sectionLabel(size: 15).copyWith(
+                color: hasDate ? AstroColors.ink : AstroColors.mid.withValues(alpha: 0.55),
                 fontStyle: FontStyle.italic,
               ),
             ),
           ),
           // Calendar icon — red accent
           Icon(Icons.calendar_month_outlined,
-              color: _P.red.withValues(alpha: 0.75), size: 20),
+              color: AstroColors.red.withValues(alpha: 0.75), size: 20),
         ],
       ),
     );
@@ -335,14 +304,11 @@ class _HourTile extends StatelessWidget {
           Expanded(
             child: Text(
               '$hour ($range)',
-              style: GoogleFonts.cinzel(
-                color: _P.ink,
-                fontSize: 15,
-              ),
+              style: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.ink),
             ),
           ),
           Icon(Icons.unfold_more_rounded,
-              color: _P.ink.withValues(alpha: 0.55), size: 22),
+              color: AstroColors.ink.withValues(alpha: 0.55), size: 22),
         ],
       ),
     );
@@ -364,13 +330,13 @@ class _PillTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
-        splashColor: _P.red.withValues(alpha: 0.06),
+        splashColor: AstroColors.red.withValues(alpha: 0.06),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 17),
           decoration: BoxDecoration(
-            color: _P.card,
+            color: AstroColors.card,
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: _P.border, width: 0.8),
+            border: Border.all(color: AstroColors.border, width: 0.8),
           ),
           child: child,
         ),
@@ -398,7 +364,7 @@ class _CastStarsButton extends StatelessWidget {
         child: Ink(
           height: 62,
           decoration: BoxDecoration(
-            color: _P.ink,
+            color: AstroColors.ink,
             borderRadius: BorderRadius.circular(999),
           ),
           child: Stack(
@@ -412,12 +378,7 @@ class _CastStarsButton extends StatelessWidget {
               // Label
               Text(
                 label,
-                style: GoogleFonts.cinzel(
-                  color: InkWashBackground.parchment,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 3.0,
-                ),
+                style: AstroText.buttonFilled(size: 16).copyWith(letterSpacing: 3.0),
               ),
             ],
           ),
@@ -504,18 +465,14 @@ class _DateSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PickerSheet(
-      title: 'CHỌN NGÀY SINH',
+      title: AppLocalizations.of(context)!.imperialPickDate,
       onDone: onDone,
       child: CupertinoTheme(
         data: CupertinoThemeData(
           brightness: Brightness.light,
-          primaryColor: _P.red,
+          primaryColor: AstroColors.red,
           textTheme: CupertinoTextThemeData(
-            dateTimePickerTextStyle: GoogleFonts.cinzel(
-              color: _P.ink,
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
+            dateTimePickerTextStyle: AstroText.sectionLabel(size: 20).copyWith(color: AstroColors.ink, fontWeight: FontWeight.w500),
           ),
         ),
         child: Stack(
@@ -525,7 +482,7 @@ class _DateSheet extends StatelessWidget {
               height: 44,
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: _P.border.withValues(alpha: 0.30),
+                color: AstroColors.border.withValues(alpha: 0.30),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -562,7 +519,7 @@ class _HourSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _PickerSheet(
-      title: 'CHỌN GIỜ SINH',
+      title: AppLocalizations.of(context)!.imperialPickHour,
       onDone: onDone,
       child: CupertinoTheme(
         data: const CupertinoThemeData(brightness: Brightness.light),
@@ -573,7 +530,7 @@ class _HourSheet extends StatelessWidget {
               height: 44,
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: _P.border.withValues(alpha: 0.30),
+                color: AstroColors.border.withValues(alpha: 0.30),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -586,10 +543,7 @@ class _HourSheet extends StatelessWidget {
                 return Center(
                   child: Text(
                     '$b (${ranges[b] ?? ''})',
-                    style: GoogleFonts.cinzel(
-                      color: _P.ink,
-                      fontSize: 16,
-                    ),
+                    style: AstroText.sectionLabel(size: 16).copyWith(color: AstroColors.ink),
                   ),
                 );
               }).toList(),
@@ -618,9 +572,9 @@ class _PickerSheet extends StatelessWidget {
     return Container(
       height: 300,
       decoration: BoxDecoration(
-        color: _P.sheet,
+        color: AstroColors.board,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        border: Border.all(color: _P.border, width: 0.8),
+        border: Border.all(color: AstroColors.border, width: 0.8),
       ),
       child: Column(
         children: [
@@ -629,34 +583,25 @@ class _PickerSheet extends StatelessWidget {
             height: 54,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: _P.card,
+              color: AstroColors.card,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               border: Border(
-                bottom: BorderSide(color: _P.border, width: 0.8),
+                bottom: BorderSide(color: AstroColors.border, width: 0.8),
               ),
             ),
             child: Row(
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.cinzel(
-                    color: _P.mid,
-                    fontSize: 11,
-                    letterSpacing: 1.8,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.mid),
                 ),
                 const Spacer(),
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   onPressed: onDone,
                   child: Text(
-                    'Xong',
-                    style: GoogleFonts.cinzel(
-                      color: _P.red,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    AppLocalizations.of(context)!.commonDone,
+                    style: AstroText.sectionLabel(size: 15),
                   ),
                 ),
               ],

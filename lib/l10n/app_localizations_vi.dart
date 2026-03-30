@@ -30,7 +30,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get featureOracleTagline => 'Tìm điềm huyền bí từ sao.';
 
   @override
-  String get featureImperialTitle => 'ĐẾ BÀN';
+  String get featureImperialTitle => 'TỬ VI';
 
   @override
   String get featureImperialTagline => 'Vẽ vận mệnh thiên giới.';
@@ -113,7 +113,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'CỘNG HƯỞNG THỬ THÁCH: Khác biệt cao; thấu cảm sẽ mở ra cân bằng.';
 
   @override
-  String get imperialTitle => 'LÁ SỐ ĐẾ BÀN';
+  String get imperialTitle => 'LÁ SỐ TỬ VI';
 
   @override
   String get imperialSubtitle => 'BẢN ĐỒ TINH TÚ PHƯƠNG ĐÔNG';
@@ -344,4 +344,95 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get cosmicSentSnack => 'Đã gửi lời thì thầm vào hư không';
+
+  @override
+  String get settingsSectionPersonalize => 'CÁ NHÂN HÓA';
+
+  @override
+  String get settingsSectionSystem => 'HỆ THỐNG';
+
+  @override
+  String get settingsSectionSupport => 'HỖ TRỢ';
+
+  @override
+  String get settingsLanguage => 'Ngôn ngữ';
+
+  @override
+  String get settingsAppearance => 'Giao diện';
+
+  @override
+  String get settingsAppearanceLight => 'Sáng';
+
+  @override
+  String get settingsNotifications => 'Thông báo';
+
+  @override
+  String get settingsSound => 'Âm thanh';
+
+  @override
+  String get settingsTerms => 'Điều khoản';
+
+  @override
+  String get settingsContact => 'Liên hệ';
+
+  @override
+  String get settingsRate => 'Đánh giá ứng dụng';
+
+  @override
+  String get settingsChooseLanguage => 'Chọn ngôn ngữ';
+
+  @override
+  String get settingsSystemDefault => 'Theo hệ thống';
+
+  @override
+  String get settingsEnglish => 'English';
+
+  @override
+  String get settingsVietnamese => 'Tiếng Việt';
+
+  @override
+  String settingsVersion(String version) {
+    return 'Phiên bản $version';
+  }
+
+  @override
+  String get commonDone => 'Xong';
+
+  @override
+  String get alignmentBondType => 'LOẠI LIÊN KẾT';
+
+  @override
+  String get imperialPickDate => 'CHỌN NGÀY SINH';
+
+  @override
+  String get imperialPickHour => 'CHỌN GIỜ SINH';
+
+  @override
+  String cosmicEchoCount(int count) {
+    return '$count tiếng vọng';
+  }
+
+  @override
+  String get cosmicListening => 'đang lắng nghe...';
+
+  @override
+  String get soulBfiSubtitle => 'KHÁM PHÁ CĂN TÂM BFI-44';
+
+  @override
+  String get soulBfiResultSubtitle => 'KẾT QUẢ BFI-44';
+
+  @override
+  String get soulBfiRetake => 'LÀM LẠI BÀI TEST';
+
+  @override
+  String get soulBfiQuote =>
+      '\"Bắt đầu hành trình khám phá tâm hồn.\nTrả lời 44 câu hỏi trắc nghiệm.\"';
+
+  @override
+  String soulQuestionsCount(int total) {
+    return '$total câu hỏi';
+  }
+
+  @override
+  String get soulQuestionsFixed => '44 câu hỏi';
 }

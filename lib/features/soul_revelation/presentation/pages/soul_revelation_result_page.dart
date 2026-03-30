@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 import 'soul_revelation_intro_page.dart';
-
-// ─── Ink Wash palette ────────────────────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const light  = Color(0xFF8A8A8A);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const iconBg = Color(0xFFEAE3D8);
-  static const divider = Color(0xFFD8D0C6);
-  static const sheet  = Color(0xFFF2EDE4);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class SoulRevelationResultPage extends StatelessWidget {
   const SoulRevelationResultPage({super.key, required this.scores});
@@ -38,13 +25,13 @@ class SoulRevelationResultPage extends StatelessWidget {
         .toList();
 
     return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
+      backgroundColor: AstroColors.parchment,
       body: InkWashBackground(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ── Back button ────────────────────────────────────────────────
+              // ── Back button ──────────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
                 child: Align(
@@ -54,39 +41,31 @@ class SoulRevelationResultPage extends StatelessWidget {
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 18,
-                      color: _P.ink,
                     ),
+                    color: AstroColors.ink,
                   ),
                 ),
               ),
 
-              // ── Scrollable content ─────────────────────────────────────────
+              // ── Scrollable content ───────────────────────────────────────
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Header
                       _ResultHeader(vi: vi),
-
                       const SizedBox(height: 40),
-
-                      // Trait bars
                       ...rows.map((row) => _TraitSection(row: row, vi: vi)),
-
                       const SizedBox(height: 40),
-
-                      // Retake button
                       _RetakeButton(vi: vi),
-
                       const SizedBox(height: 8),
                     ],
                   ),
                 ),
               ),
 
-              // ── Bottom bar ─────────────────────────────────────────────────
+              // ── Bottom bar ───────────────────────────────────────────────
               _BottomBar(vi: vi),
             ],
           ),
@@ -96,44 +75,37 @@ class SoulRevelationResultPage extends StatelessWidget {
   }
 }
 
-// ─── Header ───────────────────────────────────────────────────────────────────
+// ─── Header ─────────────────────────────────────────────────────────────────
 class _ResultHeader extends StatelessWidget {
   const _ResultHeader({required this.vi});
   final bool vi;
 
   @override
   Widget build(BuildContext context) {
-    final title    = 'Big Five';
-    final subtitle = vi ? 'KẾT QUẢ BFI-44' : 'BFI-44 RESULTS';
+    final l10n = AppLocalizations.of(context)!;
+    final width = MediaQuery.sizeOf(context).width;
+    final title = 'BIG FIVE TEST';
+    final subtitle = l10n.soulBfiResultSubtitle;
 
     return Column(
       children: [
         Text(
           title,
           textAlign: TextAlign.center,
-          style: GoogleFonts.cinzel(
-            color: _P.ink,
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.6,
-          ),
+          style: AstroText.pageTitle(AstroSize.title(width)),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Text(
           subtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            color: _P.mid,
-            fontSize: 13,
-            letterSpacing: 0.3,
-          ),
+          style: AstroText.pageSubtitle(),
         ),
       ],
     );
   }
 }
 
-// ─── Trait section (bar + description) ───────────────────────────────────────
+// ─── Trait section (bar + description) ──────────────────────────────────────
 class _TraitSection extends StatelessWidget {
   const _TraitSection({required this.row, required this.vi});
   final _TraitRow row;
@@ -158,29 +130,17 @@ class _TraitSection extends StatelessWidget {
               Expanded(
                 child: Text(
                   row.label,
-                  style: GoogleFonts.cinzel(
-                    color: _P.ink,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.6,
-                  ),
+                  style: AstroText.resultLabel(),
                 ),
               ),
               Text(
                 '$scoreText / 100',
-                style: GoogleFonts.cinzel(
-                  color: _P.red,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: AstroText.score(),
               ),
               const SizedBox(width: 8),
               Text(
                 '· $levelText',
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
+                style: AstroText.caption(),
               ),
             ],
           ),
@@ -193,8 +153,8 @@ class _TraitSection extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 4,
-              backgroundColor: _P.iconBg,
-              color: _P.red.withValues(alpha: 0.70),
+              backgroundColor: AstroColors.border.withValues(alpha: 0.3),
+              color: AstroColors.red,
             ),
           ),
 
@@ -203,67 +163,66 @@ class _TraitSection extends StatelessWidget {
           // Description
           Text(
             desc,
-            style: GoogleFonts.inter(
-              color: _P.mid,
-              fontSize: 12,
-              height: 1.65,
-              fontStyle: FontStyle.italic,
-            ),
+            style: AstroText.bodyMuted(size: 12, height: 1.65),
           ),
 
           const SizedBox(height: 10),
 
           // Thin separator
-          Container(height: 0.5, color: _P.divider),
+          Container(height: 0.5, color: AstroColors.divider),
         ],
       ),
     );
   }
 }
 
-// ─── Retake button ────────────────────────────────────────────────────────────
+// ─── Retake button ──────────────────────────────────────────────────────────
 class _RetakeButton extends StatelessWidget {
   const _RetakeButton({required this.vi});
   final bool vi;
 
   @override
   Widget build(BuildContext context) {
-    final label = vi ? 'LÀM LẠI BÀI TEST' : 'RETAKE TEST';
-    return OutlinedButton(
-      onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute<void>(
-          builder: (_) => const SoulRevelationIntroPage(),
+    final l10n = AppLocalizations.of(context)!;
+    final label = l10n.soulBfiRetake;
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(999),
+      child: InkWell(
+        onTap: () => Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute<void>(
+            builder: (_) => const SoulRevelationIntroPage(),
+          ),
+          (route) => false,
         ),
-        (route) => false,
-      ),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: _P.red,
-        side: BorderSide(color: _P.red.withValues(alpha: 0.65)),
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(999),
-        ),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.cinzel(
-          fontSize: 13,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 2.0,
+        borderRadius: BorderRadius.circular(999),
+        splashColor: AstroColors.red.withValues(alpha: 0.08),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: AstroColors.red.withValues(alpha: 0.5), width: 1),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: AstroText.buttonOutline(size: 13),
+          ),
         ),
       ),
     );
   }
 }
 
-// ─── Bottom bar ──────────────────────────────────────────────────────────────
+// ─── Bottom bar ─────────────────────────────────────────────────────────────
 class _BottomBar extends StatelessWidget {
   const _BottomBar({required this.vi});
   final bool vi;
 
   @override
   Widget build(BuildContext context) {
-    final rightLabel = vi ? '44 câu hỏi' : '44 questions';
+    final l10n = AppLocalizations.of(context)!;
+    final rightLabel = l10n.soulQuestionsFixed;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
       child: Column(
@@ -271,13 +230,9 @@ class _BottomBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text('100%',
-                  style: GoogleFonts.inter(
-                      color: _P.light, fontSize: 11)),
+              Text('100%', style: AstroText.caption()),
               const Spacer(),
-              Text(rightLabel,
-                  style: GoogleFonts.inter(
-                      color: _P.light, fontSize: 11)),
+              Text(rightLabel, style: AstroText.caption()),
             ],
           ),
           const SizedBox(height: 6),
@@ -286,18 +241,14 @@ class _BottomBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: 1.0,
               minHeight: 3,
-              backgroundColor: _P.iconBg,
-              color: _P.red,
+              backgroundColor: AstroColors.border.withValues(alpha: 0.3),
+              color: AstroColors.red,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'BFI-44',
-            style: GoogleFonts.cinzel(
-              color: _P.light,
-              fontSize: 10,
-              letterSpacing: 2.0,
-            ),
+            style: AstroText.micro(),
           ),
         ],
       ),
@@ -305,7 +256,7 @@ class _BottomBar extends StatelessWidget {
   }
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+// ─── Data ───────────────────────────────────────────────────────────────────
 class _TraitRow {
   const _TraitRow({
     required this.trait,

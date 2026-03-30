@@ -1,22 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 import 'soul_revelation_result_page.dart';
-
-// ─── Ink Wash palette ────────────────────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const light  = Color(0xFF8A8A8A);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const iconBg = Color(0xFFEAE3D8);
-  static const divider = Color(0xFFD8D0C6);
-  static const sheet  = Color(0xFFF2EDE4);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class SoulRevelationQuizPage extends StatefulWidget {
   const SoulRevelationQuizPage({super.key});
@@ -28,7 +15,7 @@ class SoulRevelationQuizPage extends StatefulWidget {
 class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
     with SingleTickerProviderStateMixin {
   int _index = 0;
-  int? _selected; // currently highlighted circle (1-5)
+  int? _selected;
   final Map<int, int> _answers = {};
   late final AnimationController _fadeCtrl;
   late Animation<double> _fadeAnim;
@@ -52,7 +39,6 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
   void _selectAnswer(int value) {
     setState(() => _selected = value);
 
-    // Short delay then advance
     Future.delayed(const Duration(milliseconds: 350), () {
       if (!mounted) return;
       _answers[bfi44Questions[_index].id] = value;
@@ -87,13 +73,13 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
     final channeling = vi ? 'Đang kết nối...' : 'Channeling...';
 
     return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
+      backgroundColor: AstroColors.parchment,
       body: InkWashBackground(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ── Back button ──────────────────────────────────────────────
+              // ── Back button ────────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
                 child: Align(
@@ -103,13 +89,13 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 18,
-                      color: _P.ink,
                     ),
+                    color: AstroColors.ink,
                   ),
                 ),
               ),
 
-              // ── Question area (Expanded — vertically centered) ─────────
+              // ── Question area ──────────────────────────────────────────
               Expanded(
                 child: FadeTransition(
                   opacity: _fadeAnim,
@@ -118,23 +104,17 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Question text
                         Text(
                           question.promptFor(
                             Localizations.localeOf(context),
                           ),
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            color: _P.ink,
-                            fontSize: 16,
-                            height: 1.65,
-                            letterSpacing: 0.2,
-                          ),
+                          style: AstroText.body(size: 16, height: 1.65),
                         ),
 
                         const SizedBox(height: 48),
 
-                        // ── Circle selector ───────────────────────────────
+                        // ── Circle selector ─────────────────────────────
                         _CircleRow(
                           count: bfiScaleOptions.length,
                           selected: _selected,
@@ -143,23 +123,17 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
 
                         const SizedBox(height: 14),
 
-                        // ── Disagree / Agree labels ───────────────────────
+                        // ── Disagree / Agree labels ─────────────────────
                         Row(
                           children: [
                             Text(
                               disagree,
-                              style: GoogleFonts.inter(
-                                color: _P.light,
-                                fontSize: 11,
-                              ),
+                              style: AstroText.caption(),
                             ),
                             const Spacer(),
                             Text(
                               agree,
-                              style: GoogleFonts.inter(
-                                color: _P.light,
-                                fontSize: 11,
-                              ),
+                              style: AstroText.caption(),
                             ),
                           ],
                         ),
@@ -169,7 +143,7 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
                 ),
               ),
 
-              // ── Bottom bar ────────────────────────────────────────────────
+              // ── Bottom bar ─────────────────────────────────────────────
               _QuizBottomBar(
                 current: _index + 1,
                 total: total,
@@ -184,7 +158,7 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
   }
 }
 
-// ─── Circle row selector ──────────────────────────────────────────────────────
+// ─── Circle row selector ────────────────────────────────────────────────────
 class _CircleRow extends StatelessWidget {
   const _CircleRow({
     required this.count,
@@ -203,7 +177,6 @@ class _CircleRow extends StatelessWidget {
       children: List.generate(count, (i) {
         final value = i + 1;
         final isSelected = selected == value;
-        // Scale: first circle smallest, last largest
         final scale = 0.72 + (i / (count - 1)) * 0.28;
         final size = 38.0 * scale + 6;
 
@@ -217,11 +190,19 @@ class _CircleRow extends StatelessWidget {
               height: size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? _P.red : Colors.transparent,
+                color: isSelected ? AstroColors.red : Colors.transparent,
                 border: Border.all(
-                  color: isSelected ? _P.red : _P.border,
+                  color: isSelected ? AstroColors.red : AstroColors.border,
                   width: isSelected ? 0 : 1.5,
                 ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: AstroColors.red.withValues(alpha: 0.3),
+                          blurRadius: 8,
+                        )
+                      ]
+                    : null,
               ),
             ),
           ),
@@ -231,7 +212,7 @@ class _CircleRow extends StatelessWidget {
   }
 }
 
-// ─── Quiz bottom bar ──────────────────────────────────────────────────────────
+// ─── Quiz bottom bar ────────────────────────────────────────────────────────
 class _QuizBottomBar extends StatelessWidget {
   const _QuizBottomBar({
     required this.current,
@@ -256,18 +237,12 @@ class _QuizBottomBar extends StatelessWidget {
             children: [
               Text(
                 '$current / $total',
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
+                style: AstroText.caption(),
               ),
               const Spacer(),
               Text(
                 channeling,
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
+                style: AstroText.caption(),
               ),
             ],
           ),
@@ -277,18 +252,14 @@ class _QuizBottomBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 3,
-              backgroundColor: _P.iconBg,
-              color: _P.red,
+              backgroundColor: AstroColors.border.withValues(alpha: 0.3),
+              color: AstroColors.red,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'BFI-44',
-            style: GoogleFonts.cinzel(
-              color: _P.light,
-              fontSize: 10,
-              letterSpacing: 2.0,
-            ),
+            style: AstroText.micro(),
           ),
         ],
       ),

@@ -739,6 +739,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Whisper sent to the void'**
   String get cosmicSentSnack;
+
+  /// No description provided for @settingsSectionPersonalize.
+  ///
+  /// In en, this message translates to:
+  /// **'PERSONALIZE'**
+  String get settingsSectionPersonalize;
+
+  /// No description provided for @settingsSectionSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'SYSTEM'**
+  String get settingsSectionSystem;
+
+  /// No description provided for @settingsSectionSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPPORT'**
+  String get settingsSectionSupport;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearance;
+
+  /// No description provided for @settingsAppearanceLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsAppearanceLight;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get settingsSound;
+
+  /// No description provided for @settingsTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get settingsTerms;
+
+  /// No description provided for @settingsContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get settingsContact;
+
+  /// No description provided for @settingsRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate This App'**
+  String get settingsRate;
+
+  /// No description provided for @settingsChooseLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Language'**
+  String get settingsChooseLanguage;
+
+  /// No description provided for @settingsSystemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsSystemDefault;
+
+  /// No description provided for @settingsEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsEnglish;
+
+  /// No description provided for @settingsVietnamese.
+  ///
+  /// In en, this message translates to:
+  /// **'Vietnamese'**
+  String get settingsVietnamese;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String settingsVersion(String version);
+
+  /// No description provided for @commonDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get commonDone;
+
+  /// No description provided for @alignmentBondType.
+  ///
+  /// In en, this message translates to:
+  /// **'BOND TYPE'**
+  String get alignmentBondType;
+
+  /// No description provided for @imperialPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'CHOOSE BIRTH DATE'**
+  String get imperialPickDate;
+
+  /// No description provided for @imperialPickHour.
+  ///
+  /// In en, this message translates to:
+  /// **'CHOOSE BIRTH HOUR'**
+  String get imperialPickHour;
+
+  /// No description provided for @cosmicEchoCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} echoes'**
+  String cosmicEchoCount(int count);
+
+  /// No description provided for @cosmicListening.
+  ///
+  /// In en, this message translates to:
+  /// **'listening...'**
+  String get cosmicListening;
+
+  /// No description provided for @soulBfiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPLORE YOUR SOUL · BFI-44'**
+  String get soulBfiSubtitle;
+
+  /// No description provided for @soulBfiResultSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BFI-44 RESULTS'**
+  String get soulBfiResultSubtitle;
+
+  /// No description provided for @soulBfiRetake.
+  ///
+  /// In en, this message translates to:
+  /// **'RETAKE TEST'**
+  String get soulBfiRetake;
+
+  /// No description provided for @soulBfiQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Begin the journey of soul discovery.\nAnswer 44 questions.\"'**
+  String get soulBfiQuote;
+
+  /// No description provided for @soulQuestionsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} questions'**
+  String soulQuestionsCount(int total);
+
+  /// No description provided for @soulQuestionsFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'44 questions'**
+  String get soulQuestionsFixed;
 }
 
 class _AppLocalizationsDelegate

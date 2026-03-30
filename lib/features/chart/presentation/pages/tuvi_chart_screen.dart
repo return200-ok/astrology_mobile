@@ -4,16 +4,6 @@ import '../widgets/house_card.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
-// ─── Palette (Ink Wash / Parchment) ──────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const sheet  = Color(0xFFF2EDE4);
-}
-
 class TuViChartScreen extends StatefulWidget {
   final String name;
   final DateTime birthDate;
@@ -110,7 +100,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                       icon: const Icon(
                         Icons.arrow_back_ios_new_rounded,
                         size: 18,
-                        color: _P.ink,
+                        color: AstroColors.ink,
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -118,14 +108,14 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                       child: Text(
                         'Bảng Lá Số',
                         style: GoogleFonts.cinzel(
-                          color: _P.ink,
+                          color: AstroColors.ink,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.zoom_out, color: _P.mid),
+                      icon: Icon(Icons.zoom_out, color: AstroColors.mid),
                       onPressed: () {
                         _transformController.value = Matrix4.identity();
                       },
@@ -140,9 +130,9 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: _P.card,
+                    color: AstroColors.cardAlt,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: _P.border),
+                    border: Border.all(color: AstroColors.border),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +140,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                       Text(
                         widget.name,
                         style: GoogleFonts.cinzel(
-                          color: _P.ink,
+                          color: AstroColors.ink,
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                         ),
@@ -160,7 +150,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                         'Ngày: ${widget.birthDate.day}/${widget.birthDate.month}/${widget.birthDate.year} - '
                         'Giờ: ${widget.birthTime.hour.toString().padLeft(2, '0')}:${widget.birthTime.minute.toString().padLeft(2, '0')}',
                         style: GoogleFonts.inter(
-                          color: _P.mid,
+                          color: AstroColors.mid,
                           fontSize: 14,
                         ),
                       ),
@@ -197,7 +187,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: _P.border,
+                                  color: AstroColors.border,
                                 ),
                               ),
                             );
@@ -241,7 +231,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
   ) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: _P.sheet,
+      backgroundColor: AstroColors.board,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -264,7 +254,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
               Text(
                 'Không có sao',
                 style: GoogleFonts.inter(
-                  color: _P.mid,
+                  color: AstroColors.mid,
                   fontSize: 14,
                 ),
               )
@@ -290,7 +280,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
               child: OutlinedButton(
                 onPressed: () => Navigator.pop(context),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: _P.red, width: 1.2),
+                  side: const BorderSide(color: AstroColors.red, width: 1.2),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(999),
                   ),
@@ -299,7 +289,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                 child: Text(
                   'Đóng',
                   style: GoogleFonts.cinzel(
-                    color: _P.red,
+                    color: AstroColors.red,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),

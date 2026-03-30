@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/oracle_sign.dart';
 import 'oracle_sign_reading_page.dart';
-
-// ─── Palette (same constants as main.dart / reading page) ───────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const iconBg = Color(0xFFEAE3D8);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class OracleSignSelectionPage extends StatelessWidget {
   const OracleSignSelectionPage({super.key});
@@ -42,14 +32,14 @@ class OracleSignSelectionPage extends StatelessWidget {
                         Icons.arrow_back_ios_new_rounded,
                         size: 18,
                       ),
-                      color: _P.ink,
+                      color: AstroColors.ink,
                       tooltip: l10n.backTooltip,
                     ),
                     // Red-tinted sparkle — single accent icon
                     Icon(
                       Icons.auto_awesome_rounded,
                       size: 15,
-                      color: _P.red.withValues(alpha: 0.70),
+                      color: AstroColors.red.withValues(alpha: 0.70),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -59,20 +49,11 @@ class OracleSignSelectionPage extends StatelessWidget {
                         children: [
                           Text(
                             l10n.oracleTitle,
-                            style: GoogleFonts.cinzel(
-                              color: _P.ink,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.8,
-                            ),
+                            style: AstroText.sectionLabel(size: 16, spacing: 1.8),
                           ),
                           Text(
                             l10n.oracleSelectPrompt,
-                            style: GoogleFonts.inter(
-                              color: _P.mid,
-                              fontSize: 9,
-                              letterSpacing: 1.0,
-                            ),
+                            style: AstroText.caption(size: 9),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -142,9 +123,9 @@ class _SignTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: _P.card,
+          color: AstroColors.card,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: _P.border, width: 0.8),
+          border: Border.all(color: AstroColors.border, width: 0.8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -154,7 +135,7 @@ class _SignTile extends StatelessWidget {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: _P.iconBg,
+                color: AstroColors.iconBg,
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
@@ -162,7 +143,7 @@ class _SignTile extends StatelessWidget {
                 sign.symbol,
                 style: TextStyle(
                   // Muted red for zodiac symbols — the key visual accent
-                  color: _P.red.withValues(alpha: 0.85),
+                  color: AstroColors.red.withValues(alpha: 0.85),
                   fontSize: 24,
                   height: 1,
                 ),
@@ -178,12 +159,7 @@ class _SignTile extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   _titleCase(ZodiacLocalization.name(context, sign.id)),
-                  style: GoogleFonts.cinzel(
-                    color: _P.ink,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.6,
-                  ),
+                  style: AstroText.sectionLabel(size: 12, spacing: 0.6),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -198,11 +174,7 @@ class _SignTile extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   ZodiacLocalization.range(context, sign.id),
-                  style: GoogleFonts.inter(
-                    color: _P.mid,
-                    fontSize: 9,
-                    letterSpacing: 0.2,
-                  ),
+                  style: AstroText.caption(size: 9),
                   textAlign: TextAlign.center,
                 ),
               ),

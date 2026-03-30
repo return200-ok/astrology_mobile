@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
-import '../widgets/soul_revelation_starfield_background.dart';
 import '../widgets/soul_revelation_tabs.dart';
 import 'soul_revelation_intro_page.dart';
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class EnneagramQuizPage extends StatefulWidget {
   const EnneagramQuizPage({super.key});
@@ -15,19 +15,18 @@ class EnneagramQuizPage extends StatefulWidget {
 }
 
 class _EnneagramQuizPageState extends State<EnneagramQuizPage> {
-  static const Color _gold = Color(0xFFFFD438);
   int _index = 0;
   final Map<EnneagramType, int> _scores = {};
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final total = enneagramQuestions.length;
     final question = enneagramQuestions[_index];
     final progress = (_index + 1) / total;
 
     return Scaffold(
-      body: SoulRevelationStarfieldBackground(
+      backgroundColor: AstroColors.parchment,
+      body: InkWashBackground(
         child: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -37,8 +36,8 @@ class _EnneagramQuizPageState extends State<EnneagramQuizPage> {
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white70,
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+                    color: AstroColors.ink,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -60,12 +59,7 @@ class _EnneagramQuizPageState extends State<EnneagramQuizPage> {
                 Text(
                   question.prompt,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cormorantGaramond(
-                    color: _gold,
-                    fontSize: 30,
-                    fontStyle: FontStyle.italic,
-                    height: 1.3,
-                  ),
+                  style: AstroText.quote(26).copyWith(height: 1.3),
                 ),
                 const SizedBox(height: 30),
                 ...List.generate(soulScaleOptions.length, (i) {
@@ -94,20 +88,12 @@ class _EnneagramQuizPageState extends State<EnneagramQuizPage> {
           children: [
             Text(
               l10n.soulEssenceProgress(current, total),
-              style: GoogleFonts.cinzel(
-                color: _gold.withOpacity(0.85),
-                fontSize: 13,
-                letterSpacing: 1.4,
-              ),
+              style: AstroText.sectionLabel(size: 13, spacing: 1.4),
             ),
             const Spacer(),
             Text(
               l10n.soulChanneling,
-              style: GoogleFonts.cinzel(
-                color: _gold.withOpacity(0.85),
-                fontSize: 13,
-                letterSpacing: 1.4,
-              ),
+              style: AstroText.sectionLabel(size: 13, spacing: 1.4),
             ),
           ],
         ),
@@ -117,8 +103,8 @@ class _EnneagramQuizPageState extends State<EnneagramQuizPage> {
           child: LinearProgressIndicator(
             value: progress,
             minHeight: 6,
-            color: _gold,
-            backgroundColor: const Color(0xFF1B1953),
+            color: AstroColors.red,
+            backgroundColor: AstroColors.border.withValues(alpha: 0.3),
           ),
         ),
       ],
@@ -144,34 +130,25 @@ class _EnneagramQuizPageState extends State<EnneagramQuizPage> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1D1B5E),
+          backgroundColor: AstroColors.card,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: _gold.withOpacity(0.5)),
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(color: AstroColors.border),
           ),
           title: Text(
             l10n.soulArchetypeFound,
-            style: GoogleFonts.cinzel(
-              color: _gold,
-              fontSize: 18,
-              letterSpacing: 1.4,
-              fontWeight: FontWeight.w700,
-            ),
+            style: AstroText.resultLabel(size: 18),
           ),
           content: Text(
             dominant.label,
-            style: GoogleFonts.cormorantGaramond(
-              color: _gold,
-              fontSize: 32,
-              fontStyle: FontStyle.italic,
-            ),
+            style: AstroText.quote(32),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 l10n.commonReturnToSilence,
-                style: GoogleFonts.cinzel(color: _gold),
+                style: AstroText.link(),
               ),
             ),
           ],
@@ -206,12 +183,11 @@ class _ScaleChoiceButton extends StatelessWidget {
 
   final String label;
   final VoidCallback onTap;
-  static const Color _gold = Color(0xFFFFD438);
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final optionSize = width < 430 ? 24.0 : 30.0;
+    final optionSize = width < 430 ? 20.0 : 26.0;
 
     return InkWell(
       borderRadius: BorderRadius.circular(999),
@@ -221,18 +197,14 @@ class _ScaleChoiceButton extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 760),
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
         decoration: BoxDecoration(
-          color: const Color(0xFF1D1B5E).withOpacity(0.95),
+          color: AstroColors.card,
           borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: _gold.withOpacity(0.45)),
+          border: Border.all(color: AstroColors.border),
         ),
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: GoogleFonts.cinzel(
-            color: _gold,
-            fontSize: optionSize,
-            letterSpacing: 1.1,
-          ),
+          style: AstroText.body(size: optionSize),
         ),
       ),
     );

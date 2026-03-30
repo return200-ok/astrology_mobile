@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
 
 import '../../domain/models/oracle_sign.dart';
-
-// ─── Palette ─────────────────────────────────────────────────────────────────
-abstract final class _P {
-  static const ink     = Color(0xFF1A1A1A);
-  static const mid     = Color(0xFF5C5C5C);
-  static const light   = Color(0xFF8A8A8A);
-  static const red     = Color(0xFF8B3A3A);
-  static const card    = Color(0xFFFBF8F3);
-  static const border  = Color(0xFFCDC5B8);
-  static const iconBg  = Color(0xFFEAE3D8);
-  static const divider = Color(0xFFD8D0C6);
-}
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class OracleSignReadingPage extends StatelessWidget {
   const OracleSignReadingPage({super.key, required this.sign});
@@ -58,7 +46,7 @@ class OracleSignReadingPage extends StatelessWidget {
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-            color: _P.ink,
+            color: AstroColors.ink,
             tooltip: l10n.backTooltip,
           ),
           const Spacer(),
@@ -67,15 +55,15 @@ class OracleSignReadingPage extends StatelessWidget {
             width: 54,
             height: 54,
             decoration: BoxDecoration(
-              color: _P.iconBg,
+              color: AstroColors.iconBg,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: _P.border, width: 1),
+              border: Border.all(color: AstroColors.border, width: 1),
             ),
             alignment: Alignment.center,
             child: Text(
               sign.symbol,
               style: TextStyle(
-                color: _P.red.withValues(alpha: 0.85),
+                color: AstroColors.red.withValues(alpha: 0.85),
                 fontSize: 26,
                 height: 1,
               ),
@@ -98,9 +86,9 @@ class OracleSignReadingPage extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: _P.card,
+        color: AstroColors.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: _P.border, width: 0.8),
+        border: Border.all(color: AstroColors.border, width: 0.8),
       ),
       // Clip the pine-branch decor to the card's rounded corners.
       child: ClipRRect(
@@ -121,12 +109,7 @@ class OracleSignReadingPage extends StatelessWidget {
                   // Sign name
                   Text(
                     _titleCase(ZodiacLocalization.name(context, sign.id)),
-                    style: GoogleFonts.cinzel(
-                      color: _P.ink,
-                      fontSize: titleSize,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 3.0,
-                    ),
+                    style: AstroText.sectionLabel(size: titleSize, spacing: 3.0),
                   ),
                   const SizedBox(height: 12),
 
@@ -134,7 +117,7 @@ class OracleSignReadingPage extends StatelessWidget {
                   Container(
                     width: 80,
                     height: 1,
-                    color: _P.red.withValues(alpha: 0.55),
+                    color: AstroColors.red.withValues(alpha: 0.55),
                   ),
                   const SizedBox(height: 28),
 
@@ -142,12 +125,7 @@ class OracleSignReadingPage extends StatelessWidget {
                   Text(
                     '"${sign.guidance}"',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                      color: _P.ink,
-                      fontSize: guidanceSize,
-                      height: 1.65,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: AstroText.bodyMuted(size: guidanceSize, height: 1.65).copyWith(color: AstroColors.ink),
                   ),
                   const SizedBox(height: 32),
 
@@ -155,12 +133,12 @@ class OracleSignReadingPage extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: _P.red,
+                      foregroundColor: AstroColors.red,
                       side: BorderSide(
-                        color: _P.red.withValues(alpha: 0.65),
+                        color: AstroColors.red.withValues(alpha: 0.65),
                         width: 1,
                       ),
-                      backgroundColor: _P.card,
+                      backgroundColor: AstroColors.card,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
@@ -170,14 +148,10 @@ class OracleSignReadingPage extends StatelessWidget {
                       ),
                     ),
                     icon: Icon(Icons.refresh_rounded,
-                        size: 17, color: _P.red.withValues(alpha: 0.80)),
+                        size: 17, color: AstroColors.red.withValues(alpha: 0.80)),
                     label: Text(
                       l10n.oracleResetStars,
-                      style: GoogleFonts.cinzel(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.5,
-                      ),
+                      style: AstroText.sectionLabel(size: 12, spacing: 1.5),
                     ),
                   ),
                 ],
@@ -204,9 +178,9 @@ class OracleSignReadingPage extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: _P.card,
+        color: AstroColors.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: _P.border, width: 0.8),
+        border: Border.all(color: AstroColors.border, width: 0.8),
       ),
       child: Stack(
         children: [
@@ -218,12 +192,7 @@ class OracleSignReadingPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
                 child: Text(
                   l10n.oracleSoulPanelHeader,
-                  style: GoogleFonts.cinzel(
-                    color: _P.mid,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 2.0,
-                  ),
+                  style: AstroText.sectionLabel(size: 11).copyWith(color: AstroColors.mid),
                 ),
               ),
 
@@ -268,7 +237,7 @@ class _InsightSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(color: _P.divider, thickness: 0.8, height: 1),
+        const Divider(color: AstroColors.divider, thickness: 0.8, height: 1),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
           child: Column(
@@ -277,12 +246,7 @@ class _InsightSection extends StatelessWidget {
               // Section label — Cinzel small-caps feel
               Text(
                 title.toUpperCase(),
-                style: GoogleFonts.cinzel(
-                  color: _P.ink,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.8,
-                ),
+                style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.ink),
               ),
               const SizedBox(height: 10),
               // Items — Inter italic, mid-grey
@@ -291,12 +255,7 @@ class _InsightSection extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Text(
                     '- $item',
-                    style: GoogleFonts.inter(
-                      color: _P.mid,
-                      fontSize: 14,
-                      fontStyle: FontStyle.italic,
-                      height: 1.5,
-                    ),
+                    style: AstroText.bodyMuted(size: 14, height: 1.5),
                   ),
                 ),
               ),
@@ -414,18 +373,13 @@ class _ChineseSeal extends StatelessWidget {
       width: 42,
       height: 42,
       decoration: BoxDecoration(
-        color: _P.red,
+        color: AstroColors.red,
         borderRadius: BorderRadius.circular(5),
       ),
       alignment: Alignment.center,
       child: Text(
         '禮',
-        style: GoogleFonts.inter(
-          color: const Color(0xFFFBF8F3),
-          fontSize: 20,
-          fontWeight: FontWeight.w300,
-          height: 1,
-        ),
+        style: AstroText.body(size: 20).copyWith(color: const Color(0xFFFBF8F3), height: 1),
       ),
     );
   }

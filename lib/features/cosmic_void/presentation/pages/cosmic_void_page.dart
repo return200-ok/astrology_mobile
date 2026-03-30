@@ -1,25 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
-
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
-// ─── Palette (Ink Wash / Parchment) ──────────────────────────────────────────
-abstract final class _P {
-  static const ink    = Color(0xFF1A1A1A);
-  static const mid    = Color(0xFF5C5C5C);
-  static const light  = Color(0xFF8A8A8A);
-  static const red    = Color(0xFF8B3A3A);
-  static const card   = Color(0xFFFBF8F3);
-  static const border = Color(0xFFCDC5B8);
-  static const iconBg = Color(0xFFEAE3D8);
-  static const divider = Color(0xFFD8D0C6);
-  static const sheet  = Color(0xFFF2EDE4);
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
+// ─── Data ───────────────────────────────────────────────────────────────────
 class _SignOption {
   const _SignOption({required this.id, required this.symbol});
   final String id;
@@ -54,7 +40,7 @@ class _EchoEntry {
   final DateTime timestamp;
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// ─── Page ───────────────────────────────────────────────────────────────────
 class CosmicVoidPage extends StatefulWidget {
   const CosmicVoidPage({super.key});
 
@@ -78,10 +64,10 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final vi = Localizations.localeOf(context).languageCode == 'vi';
+    final width = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
+      backgroundColor: AstroColors.parchment,
       body: InkWashBackground(
         child: SafeArea(
           child: Column(
@@ -97,8 +83,8 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 18,
-                      color: _P.ink,
                     ),
+                    color: AstroColors.ink,
                   ),
                 ),
               ),
@@ -110,31 +96,22 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // ── Header ──────────────────────────────────────────────
+                      // ── Header ────────────────────────────────────────────
                       Text(
-                        'Cosmic Void',
+                        l10n.cosmicVoidTitle,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.cinzel(
-                          color: _P.ink,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.6,
-                        ),
+                        style: AstroText.pageTitle(AstroSize.title(width)),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 8),
                       Text(
                         l10n.cosmicVoidSubtitle,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
-                          color: _P.mid,
-                          fontSize: 13,
-                          letterSpacing: 0.3,
-                        ),
+                        style: AstroText.pageSubtitle(),
                       ),
 
                       const SizedBox(height: 40),
 
-                      // ── Alias field ─────────────────────────────────────────
+                      // ── Alias field ───────────────────────────────────────
                       _fieldLabel(l10n.cosmicSpiritAlias),
                       const SizedBox(height: 8),
                       _pillField(
@@ -144,7 +121,7 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
 
                       const SizedBox(height: 20),
 
-                      // ── Sign picker ─────────────────────────────────────────
+                      // ── Sign picker ───────────────────────────────────────
                       _fieldLabel(l10n.cosmicCelestialSign),
                       const SizedBox(height: 8),
                       _SignPicker(
@@ -154,30 +131,27 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
 
                       const SizedBox(height: 20),
 
-                      // ── Essence textarea ────────────────────────────────────
+                      // ── Essence textarea ──────────────────────────────────
                       _fieldLabel(l10n.cosmicSpiritualEssence),
                       const SizedBox(height: 8),
                       _essenceField(l10n),
 
                       const SizedBox(height: 28),
 
-                      // ── Send button ─────────────────────────────────────────
-                      _SendButton(
+                      // ── Send button ───────────────────────────────────────
+                      _RedButton(
                         label: l10n.cosmicWhisperToVoid,
                         onTap: () => _sendWhisper(l10n),
                       ),
 
                       const SizedBox(height: 36),
 
-                      // ── Thin separator ──────────────────────────────────────
-                      Container(
-                        height: 0.5,
-                        color: _P.divider,
-                      ),
+                      // ── Thin separator ────────────────────────────────────
+                      Container(height: 0.5, color: AstroColors.divider),
 
                       const SizedBox(height: 24),
 
-                      // ── Echoes section ──────────────────────────────────────
+                      // ── Echoes section ────────────────────────────────────
                       _echoHeader(l10n),
                       const SizedBox(height: 16),
 
@@ -190,7 +164,7 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                 ),
               ),
 
-              // ── Bottom bar ──────────────────────────────────────────────────
+              // ── Bottom bar ────────────────────────────────────────────────
               _BottomBar(echoCount: _echoes.length),
             ],
           ),
@@ -199,101 +173,73 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
     );
   }
 
-  // ── Field label ──────────────────────────────────────────────────────────────
+  // ── Field label ────────────────────────────────────────────────────────────
   Widget _fieldLabel(String text) {
-    return Text(
-      text,
-      style: GoogleFonts.cinzel(
-        color: _P.ink,
-        fontSize: 12,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 2.0,
-      ),
-    );
+    return Text(text, style: AstroText.fieldLabel());
   }
 
-  // ── Pill text field ──────────────────────────────────────────────────────────
+  // ── Pill text field ────────────────────────────────────────────────────────
   Widget _pillField({
     required TextEditingController controller,
     required String hint,
   }) {
     return TextField(
       controller: controller,
-      style: GoogleFonts.inter(
-        color: _P.ink,
-        fontSize: 15,
-      ),
-      cursorColor: _P.red,
+      style: AstroText.body(size: 15),
+      cursorColor: AstroColors.red,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.inter(
-          color: _P.light,
-          fontSize: 15,
-        ),
+        hintStyle: AstroText.caption(size: 15),
         contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
         filled: true,
-        fillColor: _P.sheet,
+        fillColor: AstroColors.card,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: _P.border),
+          borderSide: BorderSide(color: AstroColors.border),
           borderRadius: BorderRadius.circular(999),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: _P.red.withValues(alpha: 0.70), width: 1.2),
+          borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
           borderRadius: BorderRadius.circular(999),
         ),
       ),
     );
   }
 
-  // ── Essence textarea ─────────────────────────────────────────────────────────
+  // ── Essence textarea ───────────────────────────────────────────────────────
   Widget _essenceField(AppLocalizations l10n) {
     return TextField(
       controller: _essenceCtrl,
       minLines: 4,
       maxLines: 6,
-      style: GoogleFonts.inter(
-        color: _P.ink,
-        fontSize: 14,
-        height: 1.6,
-        fontStyle: FontStyle.italic,
-      ),
-      cursorColor: _P.red,
+      style: AstroText.quote(14),
+      cursorColor: AstroColors.red,
       decoration: InputDecoration(
         hintText: l10n.cosmicWhisperHint,
-        hintStyle: GoogleFonts.inter(
-          color: _P.light,
-          fontSize: 14,
-          fontStyle: FontStyle.italic,
-        ),
+        hintStyle: AstroText.bodyMuted(size: 14),
         contentPadding: const EdgeInsets.all(20),
         filled: true,
-        fillColor: _P.sheet,
+        fillColor: AstroColors.card,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: _P.border),
-          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: AstroColors.border),
+          borderRadius: BorderRadius.circular(16),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: _P.red.withValues(alpha: 0.70), width: 1.2),
-          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
+          borderRadius: BorderRadius.circular(16),
         ),
       ),
     );
   }
 
-  // ── Echo header ──────────────────────────────────────────────────────────────
+  // ── Echo header ────────────────────────────────────────────────────────────
   Widget _echoHeader(AppLocalizations l10n) {
     return Text(
       l10n.cosmicEchoesTitle,
-      style: GoogleFonts.cinzel(
-        color: _P.mid,
-        fontSize: 12,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 2.0,
-      ),
+      style: AstroText.sectionLabel(),
     );
   }
 
-  // ── Empty state ──────────────────────────────────────────────────────────────
+  // ── Empty state ────────────────────────────────────────────────────────────
   Widget _emptyState(AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40),
@@ -302,22 +248,13 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
           Text(
             l10n.cosmicSilentPrimary,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              color: _P.light,
-              fontSize: 13,
-              fontStyle: FontStyle.italic,
-              height: 1.5,
-            ),
+            style: AstroText.bodyMuted(size: 13),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.cosmicSilentSecondary,
             textAlign: TextAlign.center,
-            style: GoogleFonts.cinzel(
-              color: _P.light,
-              fontSize: 9,
-              letterSpacing: 3.0,
-            ),
+            style: AstroText.micro(size: 9, spacing: 3.0),
           ),
         ],
       ),
@@ -333,39 +270,30 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
       builder: (_) {
         return Container(
           height: 300,
-          decoration: const BoxDecoration(
-            color: _P.sheet,
+          decoration: BoxDecoration(
+            color: AstroColors.card,
             borderRadius:
-                BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border(
-              top: BorderSide(color: _P.border),
-              left: BorderSide(color: _P.border),
-              right: BorderSide(color: _P.border),
-            ),
+                const BorderRadius.vertical(top: Radius.circular(20)),
+            border: Border.all(color: AstroColors.border),
           ),
           child: Column(
             children: [
               Container(
                 height: 56,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: const BoxDecoration(
-                  color: _P.card,
+                decoration: BoxDecoration(
+                  color: AstroColors.parchment,
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20)),
+                      const BorderRadius.vertical(top: Radius.circular(20)),
                   border: Border(
-                    bottom: BorderSide(color: _P.divider),
+                    bottom: BorderSide(color: AstroColors.divider),
                   ),
                 ),
                 child: Row(
                   children: [
                     Text(
-                      'CELESTIAL SIGN',
-                      style: GoogleFonts.cinzel(
-                        color: _P.ink,
-                        fontSize: 11,
-                        letterSpacing: 2.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      AppLocalizations.of(context)!.cosmicCelestialSign,
+                      style: AstroText.sectionLabel(size: 11),
                     ),
                     const Spacer(),
                     CupertinoButton(
@@ -373,12 +301,8 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                       onPressed: () =>
                           Navigator.of(context).pop(_kSigns[idx]),
                       child: Text(
-                        'Xong',
-                        style: GoogleFonts.cinzel(
-                          color: _P.red,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        AppLocalizations.of(context)!.commonDone,
+                        style: AstroText.buttonOutline(size: 16),
                       ),
                     ),
                   ],
@@ -394,10 +318,10 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: _P.red.withValues(alpha: 0.08),
+                          color: AstroColors.red.withValues(alpha: 0.06),
                           borderRadius: BorderRadius.circular(10),
                           border:
-                              Border.all(color: _P.red.withValues(alpha: 0.18)),
+                              Border.all(color: AstroColors.red.withValues(alpha: 0.15)),
                         ),
                       ),
                       CupertinoPicker(
@@ -409,10 +333,7 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                           return Center(
                             child: Text(
                               '${s.symbol}  ${ZodiacLocalization.name(context, s.id)}',
-                              style: GoogleFonts.cinzel(
-                                color: _P.ink,
-                                fontSize: 17,
-                              ),
+                              style: AstroText.body(size: 17),
                             ),
                           );
                         }).toList(),
@@ -429,7 +350,7 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
     if (picked != null && mounted) setState(() => _sign = picked);
   }
 
-  // ── Send whisper ─────────────────────────────────────────────────────────────
+  // ── Send whisper ───────────────────────────────────────────────────────────
   void _sendWhisper(AppLocalizations l10n) {
     final alias = _aliasCtrl.text.trim();
     final essence = _essenceCtrl.text.trim();
@@ -437,7 +358,6 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.cosmicFillRequiredSnack),
-          backgroundColor: _P.ink,
         ),
       );
       return;
@@ -457,13 +377,12 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(l10n.cosmicSentSnack),
-        backgroundColor: _P.ink,
       ),
     );
   }
 }
 
-// ─── Sign picker tile ─────────────────────────────────────────────────────────
+// ─── Sign picker tile ───────────────────────────────────────────────────────
 class _SignPicker extends StatelessWidget {
   const _SignPicker({required this.sign, required this.onTap});
   final _SignOption sign;
@@ -477,13 +396,13 @@ class _SignPicker extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
-        splashColor: _P.red.withValues(alpha: 0.10),
+        splashColor: AstroColors.red.withValues(alpha: 0.06),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
           decoration: BoxDecoration(
-            color: _P.card,
+            color: AstroColors.card,
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: _P.border),
+            border: Border.all(color: AstroColors.border),
           ),
           child: Row(
             children: [
@@ -495,15 +414,12 @@ class _SignPicker extends StatelessWidget {
               Expanded(
                 child: Text(
                   ZodiacLocalization.name(context, sign.id),
-                  style: GoogleFonts.inter(
-                    color: _P.ink,
-                    fontSize: 15,
-                  ),
+                  style: AstroText.body(size: 15),
                 ),
               ),
               Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: _P.light,
+                color: AstroColors.gold,
                 size: 22,
               ),
             ],
@@ -514,37 +430,37 @@ class _SignPicker extends StatelessWidget {
   }
 }
 
-// ─── Outlined accent button ──────────────────────────────────────────────────
-class _SendButton extends StatelessWidget {
-  const _SendButton({required this.label, required this.onTap});
+// ─── Red button ─────────────────────────────────────────────────────────────
+class _RedButton extends StatelessWidget {
+  const _RedButton({required this.label, required this.onTap});
   final String label;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: onTap,
-      style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: _P.red, width: 1.2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(999),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.cinzel(
-          color: _P.red,
-          fontSize: 14,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 2.0,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(999),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(999),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            color: Colors.white,
+            border: Border.all(color: AstroColors.red, width: 1.5),
+          ),
+          child: Center(
+            child: Text(label, style: AstroText.buttonOutline(size: 14)),
+          ),
         ),
       ),
     );
   }
 }
 
-// ─── Echo tile (no card frame) ────────────────────────────────────────────────
+// ─── Echo tile ──────────────────────────────────────────────────────────────
 class _EchoTile extends StatelessWidget {
   const _EchoTile({required this.entry});
   final _EchoEntry entry;
@@ -562,61 +478,36 @@ class _EchoTile extends StatelessWidget {
           // Header: alias · sign · time
           Row(
             children: [
-              Text(
-                entry.alias,
-                style: GoogleFonts.cinzel(
-                  color: _P.red,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.0,
-                ),
-              ),
+              Text(entry.alias, style: AstroText.resultLabel()),
               const SizedBox(width: 8),
               Text(
                 '${entry.sign.symbol} ${ZodiacLocalization.name(context, entry.sign.id)}',
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
+                style: AstroText.body(size: 11).copyWith(color: AstroColors.mid),
               ),
               const Spacer(),
-              Text(
-                time,
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
-              ),
+              Text(time, style: AstroText.caption()),
             ],
           ),
           const SizedBox(height: 8),
           // Essence quote
-          Text(
-            '"${entry.essence}"',
-            style: GoogleFonts.inter(
-              color: _P.mid,
-              fontSize: 13,
-              fontStyle: FontStyle.italic,
-              height: 1.6,
-            ),
-          ),
+          Text('"${entry.essence}"', style: AstroText.bodyMuted(size: 13)),
           const SizedBox(height: 14),
           // Separator
-          Container(height: 0.5, color: _P.divider),
+          Container(height: 0.5, color: AstroColors.divider),
         ],
       ),
     );
   }
 }
 
-// ─── Bottom bar ───────────────────────────────────────────────────────────────
+// ─── Bottom bar ─────────────────────────────────────────────────────────────
 class _BottomBar extends StatelessWidget {
   const _BottomBar({required this.echoCount});
   final int echoCount;
 
   @override
   Widget build(BuildContext context) {
-    final vi = Localizations.localeOf(context).languageCode == 'vi';
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
       child: Column(
@@ -624,21 +515,9 @@ class _BottomBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                '$echoCount ${vi ? "tiếng vọng" : "echoes"}',
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
-              ),
+              Text(l10n.cosmicEchoCount(echoCount), style: AstroText.caption()),
               const Spacer(),
-              Text(
-                vi ? 'đang lắng nghe...' : 'listening...',
-                style: GoogleFonts.inter(
-                  color: _P.light,
-                  fontSize: 11,
-                ),
-              ),
+              Text(l10n.cosmicListening, style: AstroText.caption()),
             ],
           ),
           const SizedBox(height: 6),
@@ -647,19 +526,12 @@ class _BottomBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: echoCount > 0 ? 1.0 : 0.0,
               minHeight: 3,
-              backgroundColor: _P.iconBg,
-              color: _P.red.withValues(alpha: 0.70),
+              backgroundColor: AstroColors.border.withValues(alpha: 0.3),
+              color: AstroColors.red,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            'COSMIC VOID',
-            style: GoogleFonts.cinzel(
-              color: _P.light,
-              fontSize: 10,
-              letterSpacing: 2.0,
-            ),
-          ),
+          Text('COSMIC VOID', style: AstroText.micro()),
         ],
       ),
     );

@@ -122,5 +122,50 @@
   "cosmicSilentPrimary": "The celestial void is currently silent.",
   "cosmicSilentSecondary": "THE ASTRAL SILENCE IS PROFOUND.",
   "cosmicFillRequiredSnack": "Please fill SPIRIT_ID and SPIRITUAL ESSENCE",
-  "cosmicSentSnack": "Whisper sent to the void"
+  "cosmicSentSnack": "Whisper sent to the void",
+
+  "settingsSectionPersonalize": "PERSONALIZE",
+  "settingsSectionSystem": "SYSTEM",
+  "settingsSectionSupport": "SUPPORT",
+  "settingsLanguage": "Language",
+  "settingsAppearance": "Appearance",
+  "settingsAppearanceLight": "Light",
+  "settingsNotifications": "Notifications",
+  "settingsSound": "Sound",
+  "settingsTerms": "Terms & Conditions",
+  "settingsContact": "Contact Us",
+  "settingsRate": "Rate This App",
+  "settingsChooseLanguage": "Choose Language",
+  "settingsSystemDefault": "System default",
+  "settingsEnglish": "English",
+  "settingsVietnamese": "Vietnamese",
+  "settingsVersion": "Version {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+
+  "commonDone": "Done",
+  "alignmentBondType": "BOND TYPE",
+  "imperialPickDate": "CHOOSE BIRTH DATE",
+  "imperialPickHour": "CHOOSE BIRTH HOUR",
+  "cosmicEchoCount": "{count} echoes",
+  "@cosmicEchoCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "cosmicListening": "listening...",
+  "soulBfiSubtitle": "EXPLORE YOUR SOUL · BFI-44",
+  "soulBfiResultSubtitle": "BFI-44 RESULTS",
+  "soulBfiRetake": "RETAKE TEST",
+  "soulBfiQuote": "\"Begin the journey of soul discovery.\nAnswer 44 questions.\"",
+  "soulQuestionsCount": "{total} questions",
+  "@soulQuestionsCount": {
+    "placeholders": {
+      "total": { "type": "int" }
+    }
+  },
+  "soulQuestionsFixed": "44 questions"
 }

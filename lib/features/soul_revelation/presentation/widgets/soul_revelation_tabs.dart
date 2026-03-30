@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:astroweb_mobile/l10n/app_localizations.dart';
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 class SoulRevelationTabs extends StatelessWidget {
   const SoulRevelationTabs({
@@ -10,22 +11,23 @@ class SoulRevelationTabs extends StatelessWidget {
 
   final int selectedIndex;
   final ValueChanged<int>? onTabSelected;
-  static const Color _gold = Color(0xFFFFD438);
-  static const List<String> _tabs = ['BFI_44', 'ENNEAGRAM_V9'];
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final tabs = ['BFI-44', l10n.enneagramTitle];
+
     return Container(
       width: 450,
       constraints: const BoxConstraints(maxWidth: 450),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: const Color(0xFF1D1B5E),
+        color: AstroColors.card,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: _gold.withOpacity(0.5)),
+        border: Border.all(color: AstroColors.border),
       ),
       child: Row(
-        children: List.generate(_tabs.length, (index) {
+        children: List.generate(tabs.length, (index) {
           final active = index == selectedIndex;
           return Expanded(
             child: InkWell(
@@ -35,16 +37,14 @@ class SoulRevelationTabs extends StatelessWidget {
                 duration: const Duration(milliseconds: 220),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: active ? _gold : Colors.transparent,
+                  color: active ? AstroColors.red : Colors.transparent,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
-                  _tabs[index],
+                  tabs[index],
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cinzel(
-                    color: active ? const Color(0xFF1E1A57) : Colors.white70,
-                    fontSize: 14,
-                    letterSpacing: 1.1,
+                  style: AstroText.sectionLabel(size: 14, spacing: 1.1).copyWith(
+                    color: active ? Colors.white : AstroColors.ink.withValues(alpha: 0.5),
                   ),
                 ),
               ),
