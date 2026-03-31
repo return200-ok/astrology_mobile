@@ -10,21 +10,6 @@ class HouseCard extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  static const List<String> houseNames = [
-    'Mệnh',
-    'Phụ Mẫu',
-    'Phúc Đức',
-    'Điền Trạch',
-    'Quan Lộc',
-    'Nô Bộc',
-    'Thiên Di',
-    'Tật Ách',
-    'Tài Bạch',
-    'Tử Tức',
-    'Phu Thê',
-    'Huynh Đệ',
-  ];
-
   const HouseCard({
     Key? key,
     required this.houseIndex,

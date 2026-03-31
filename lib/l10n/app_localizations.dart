@@ -871,6 +871,29 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'BOND TYPE'**
   String get alignmentBondType;
+  String get alignmentBondRomantic;
+  String get alignmentBondFriendship;
+  String get alignmentBondSoul;
+  String get alignmentBondKinship;
+  String get alignmentFooterBonds;
+  String get alignmentFooterRecent;
+  String get chartTitle;
+  String get chartDateLabel;
+  String get chartTimeLabel;
+  String get chartNoStars;
+  String get chartClose;
+  String get chartHouseMenh;
+  String get chartHousePhuMau;
+  String get chartHousePhuDuc;
+  String get chartHouseDienTrach;
+  String get chartHouseQuanLoc;
+  String get chartHouseNoBoc;
+  String get chartHouseThienDi;
+  String get chartHouseTatAch;
+  String get chartHouseTaiBach;
+  String get chartHouseTuTuc;
+  String get chartHousePhuThe;
+  String get chartHouseHuynhDe;
 
   /// No description provided for @imperialPickDate.
   ///

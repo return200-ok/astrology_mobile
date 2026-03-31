@@ -27,11 +27,11 @@ const List<_SignOption> _kSigns = [
   _SignOption(id: 'pisces', symbol: '\u2653'),
 ];
 
-const List<String> _kBondTypes = [
-  'Romantic Connection',
-  'Friendship Bond',
-  'Soul Resonance',
-  'Celestial Kinship',
+List<String> _bondTypes(AppLocalizations l10n) => [
+  l10n.alignmentBondRomantic,
+  l10n.alignmentBondFriendship,
+  l10n.alignmentBondSoul,
+  l10n.alignmentBondKinship,
 ];
 
 enum _Element { fire, earth, air, water }
@@ -47,13 +47,15 @@ class AlignmentPage extends StatefulWidget {
 class _AlignmentPageState extends State<AlignmentPage> {
   _SignOption _origin = _kSigns.firstWhere((s) => s.id == 'gemini');
   _SignOption? _distant;
-  String _bondType = _kBondTypes.first;
+  String? _bondType;
   int? _score;
   String? _message;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final bondTypes = _bondTypes(l10n);
+    _bondType ??= bondTypes.first;
     return Scaffold(
       backgroundColor: InkWashBackground.parchment,
       body: InkWashBackground(
@@ -68,7 +70,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                 _MainCard(
                   origin: _origin,
                   distant: _distant,
-                  bondType: _bondType,
+                  bondType: _bondType!,
                   onOriginTap: () => _pickSign(isOrigin: true),
                   onDistantTap: () => _pickSign(isOrigin: false),
                   onBondTypeTap: _pickBondType,
@@ -256,7 +258,8 @@ class _AlignmentPageState extends State<AlignmentPage> {
   // ── Bond type picker ──────────────────────────────────────────────────────
   Future<void> _pickBondType() async {
     final l10n = AppLocalizations.of(context)!;
-    var idx = _kBondTypes.indexOf(_bondType).clamp(0, _kBondTypes.length - 1);
+    final types = _bondTypes(l10n);
+    var idx = (_bondType != null ? types.indexOf(_bondType!) : 0).clamp(0, types.length - 1);
 
     final picked = await showModalBottomSheet<String>(
       context: context,
@@ -291,7 +294,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                     CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () =>
-                          Navigator.of(context).pop(_kBondTypes[idx]),
+                          Navigator.of(context).pop(types[idx]),
                       child: Text(
                         l10n.commonDone,
                         style: AstroText.sectionLabel(size: 16),
@@ -322,7 +325,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         scrollController:
                             FixedExtentScrollController(initialItem: idx),
                         onSelectedItemChanged: (i) => idx = i,
-                        children: _kBondTypes.map((type) {
+                        children: types.map((type) {
                           return Center(
                             child: Text(
                               type,
@@ -544,14 +547,14 @@ class _MainCard extends StatelessWidget {
 
           // ── Footer ──────────────────────────────────────────────────────
           Text(
-            '\u221E Bonds Available',
+            l10n.alignmentFooterBonds,
             style: AstroText.body(size: 13).copyWith(color: AstroColors.light),
           ),
           const SizedBox(height: 6),
           GestureDetector(
             onTap: () {},
             child: Text(
-              'View Recent Alignments',
+              l10n.alignmentFooterRecent,
               style: AstroText.body(size: 13).copyWith(
                 decoration: TextDecoration.underline,
                 decorationColor: AstroColors.border,

@@ -415,6 +415,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alignmentBondType => 'BOND TYPE';
 
   @override
+  String get alignmentBondRomantic => 'Romantic Connection';
+
+  @override
+  String get alignmentBondFriendship => 'Friendship Bond';
+
+  @override
+  String get alignmentBondSoul => 'Soul Resonance';
+
+  @override
+  String get alignmentBondKinship => 'Celestial Kinship';
+
+  @override
+  String get alignmentFooterBonds => '∞ Bonds Available';
+
+  @override
+  String get alignmentFooterRecent => 'View Recent Alignments';
+
+  @override
+  String get chartTitle => 'Birth Chart';
+
+  @override
+  String get chartDateLabel => 'Date';
+
+  @override
+  String get chartTimeLabel => 'Time';
+
+  @override
+  String get chartNoStars => 'No stars';
+
+  @override
+  String get chartClose => 'Close';
+
+  @override
+  String get chartHouseMenh => 'Mệnh';
+
+  @override
+  String get chartHousePhuMau => 'Phụ Mẫu';
+
+  @override
+  String get chartHousePhuDuc => 'Phúc Đức';
+
+  @override
+  String get chartHouseDienTrach => 'Điền Trạch';
+
+  @override
+  String get chartHouseQuanLoc => 'Quan Lộc';
+
+  @override
+  String get chartHouseNoBoc => 'Nô Bộc';
+
+  @override
+  String get chartHouseThienDi => 'Thiên Di';
+
+  @override
+  String get chartHouseTatAch => 'Tật Ách';
+
+  @override
+  String get chartHouseTaiBach => 'Tài Bạch';
+
+  @override
+  String get chartHouseTuTuc => 'Tử Tức';
+
+  @override
+  String get chartHousePhuThe => 'Phu Thê';
+
+  @override
+  String get chartHouseHuynhDe => 'Huynh Đệ';
+
+  @override
   String get imperialPickDate => 'CHOOSE BIRTH DATE';
 
   @override

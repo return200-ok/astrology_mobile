@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/house_card.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/l10n/app_localizations.dart';
 
 class TuViChartScreen extends StatefulWidget {
   final String name;
@@ -29,19 +30,19 @@ class _TuViChartScreenState extends State<TuViChartScreen>
   final TransformationController _transformController =
       TransformationController();
 
-  static const List<String> houseNames = [
-    'Mệnh',
-    'Phụ Mẫu',
-    'Phúc Đức',
-    'Điền Trạch',
-    'Quan Lộc',
-    'Nô Bộc',
-    'Thiên Di',
-    'Tật Ách',
-    'Tài Bạch',
-    'Tử Tức',
-    'Phu Thê',
-    'Huynh Đệ',
+  static List<String> houseNames(AppLocalizations l10n) => [
+    l10n.chartHouseMenh,
+    l10n.chartHousePhuMau,
+    l10n.chartHousePhuDuc,
+    l10n.chartHouseDienTrach,
+    l10n.chartHouseQuanLoc,
+    l10n.chartHouseNoBoc,
+    l10n.chartHouseThienDi,
+    l10n.chartHouseTatAch,
+    l10n.chartHouseTaiBach,
+    l10n.chartHouseTuTuc,
+    l10n.chartHousePhuThe,
+    l10n.chartHouseHuynhDe,
   ];
 
   static const Map<int, int> gridIndexMap = {
@@ -84,8 +85,10 @@ class _TuViChartScreenState extends State<TuViChartScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final names = houseNames(l10n);
     return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: InkWashBackground(
         child: SafeArea(
           child: Column(
@@ -106,7 +109,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        'Bảng Lá Số',
+                        l10n.chartTitle,
                         style: GoogleFonts.cinzel(
                           color: AstroColors.ink,
                           fontSize: 20,
@@ -147,8 +150,8 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Ngày: ${widget.birthDate.day}/${widget.birthDate.month}/${widget.birthDate.year} - '
-                        'Giờ: ${widget.birthTime.hour.toString().padLeft(2, '0')}:${widget.birthTime.minute.toString().padLeft(2, '0')}',
+                        '${l10n.chartDateLabel}: ${widget.birthDate.day}/${widget.birthDate.month}/${widget.birthDate.year} — '
+                        '${l10n.chartTimeLabel}: ${widget.birthTime.hour.toString().padLeft(2, '0')}:${widget.birthTime.minute.toString().padLeft(2, '0')}',
                         style: GoogleFonts.inter(
                           color: AstroColors.mid,
                           fontSize: 14,
@@ -199,14 +202,14 @@ class _TuViChartScreenState extends State<TuViChartScreen>
 
                           return HouseCard(
                             houseIndex: houseIndex,
-                            houseName: houseNames[houseIndex],
+                            houseName: names[houseIndex],
                             stars: stars,
                             elementColor: elementColor,
                             isSelected: _selectedHouseIndex == houseIndex,
                             onTap: () {
                               setState(() {
                                 _selectedHouseIndex = houseIndex;
-                                _showHouseDetail(context, houseIndex, stars, elementColor);
+                                _showHouseDetail(context, l10n, names, houseIndex, stars, elementColor);
                               });
                             },
                           );
@@ -225,6 +228,8 @@ class _TuViChartScreenState extends State<TuViChartScreen>
 
   void _showHouseDetail(
     BuildContext context,
+    AppLocalizations l10n,
+    List<String> names,
     int houseIndex,
     List<String> stars,
     Color elementColor,
@@ -242,7 +247,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              houseNames[houseIndex],
+              names[houseIndex],
               style: GoogleFonts.cinzel(
                 color: elementColor,
                 fontSize: 22,
@@ -252,7 +257,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
             const SizedBox(height: 16),
             if (stars.isEmpty)
               Text(
-                'Không có sao',
+                l10n.chartNoStars,
                 style: GoogleFonts.inter(
                   color: AstroColors.mid,
                   fontSize: 14,
@@ -287,7 +292,7 @@ class _TuViChartScreenState extends State<TuViChartScreen>
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
                 child: Text(
-                  'Đóng',
+                  l10n.chartClose,
                   style: GoogleFonts.cinzel(
                     color: AstroColors.red,
                     fontSize: 14,
