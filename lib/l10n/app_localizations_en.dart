@@ -118,6 +118,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get imperialSubtitle => 'EASTERN CELESTIAL MAPPING';
 
   @override
+  String get imperialResultTitle => 'IMPERIAL CELESTIAL CODEX';
+
+  @override
+  String get imperialResultSubtitle => 'Eastern Celestial Mapping';
+
+  @override
+  String get imperialResultIdentity => 'IDENTITY';
+
+  @override
+  String get imperialResultDate => 'DATE';
+
+  @override
+  String get imperialResultHour => 'HOUR';
+
+  @override
   String get imperialTabChart => 'CHART';
 
   @override

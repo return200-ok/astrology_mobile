@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/l10n/app_localizations.dart';
 
 import '../../domain/models/imperial_cast_request.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
@@ -108,6 +109,7 @@ class ImperialResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final hourRange = _kHourRanges[request.streamHour] ?? '';
     final dateStr = DateFormat('dd/MM/yyyy').format(request.arrivalDay);
 
@@ -150,7 +152,7 @@ class ImperialResultPage extends StatelessWidget {
 
                 // ── Title ───────────────────────────────────────────────
                 Text(
-                  'IMPERIAL CELESTIAL CODEX',
+                  l10n.imperialResultTitle,
                   textAlign: TextAlign.center,
                   style: AstroText.resultLabel(size: 22),
                 ),
@@ -158,7 +160,7 @@ class ImperialResultPage extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 Text(
-                  'Eastern Celestial Mapping',
+                  l10n.imperialResultSubtitle,
                   textAlign: TextAlign.center,
                   style: AstroText.pageSubtitle(size: 13),
                 ),
@@ -166,12 +168,12 @@ class ImperialResultPage extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 // ── Identity info lines ─────────────────────────────────
-                _InfoLine(label: 'IDENTITY', value: request.spiritId),
+                _InfoLine(label: l10n.imperialResultIdentity, value: request.spiritId),
                 const SizedBox(height: 4),
-                _InfoLine(label: 'DATE', value: dateStr),
+                _InfoLine(label: l10n.imperialResultDate, value: dateStr),
                 const SizedBox(height: 4),
                 _InfoLine(
-                  label: 'HOUR',
+                  label: l10n.imperialResultHour,
                   value: '${request.streamHour} ($hourRange)',
                 ),
 

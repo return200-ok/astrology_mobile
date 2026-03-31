@@ -37,6 +37,11 @@
 
   "imperialTitle": "IMPERIAL CHART",
   "imperialSubtitle": "EASTERN CELESTIAL MAPPING",
+  "imperialResultTitle": "IMPERIAL CELESTIAL CODEX",
+  "imperialResultSubtitle": "Eastern Celestial Mapping",
+  "imperialResultIdentity": "IDENTITY",
+  "imperialResultDate": "DATE",
+  "imperialResultHour": "HOUR",
   "imperialTabChart": "CHART",
   "imperialTabCompatibility": "COMPATIBILITY",
   "imperialTabCalendar": "CALENDAR",

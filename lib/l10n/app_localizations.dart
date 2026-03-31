@@ -308,6 +308,16 @@ abstract class AppLocalizations {
   /// **'EASTERN CELESTIAL MAPPING'**
   String get imperialSubtitle;
 
+  String get imperialResultTitle;
+
+  String get imperialResultSubtitle;
+
+  String get imperialResultIdentity;
+
+  String get imperialResultDate;
+
+  String get imperialResultHour;
+
   /// No description provided for @imperialTabChart.
   ///
   /// In en, this message translates to:
@@ -871,28 +881,143 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'BOND TYPE'**
   String get alignmentBondType;
+
+  /// No description provided for @alignmentBondRomantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Romantic Connection'**
   String get alignmentBondRomantic;
+
+  /// No description provided for @alignmentBondFriendship.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendship Bond'**
   String get alignmentBondFriendship;
+
+  /// No description provided for @alignmentBondSoul.
+  ///
+  /// In en, this message translates to:
+  /// **'Soul Resonance'**
   String get alignmentBondSoul;
+
+  /// No description provided for @alignmentBondKinship.
+  ///
+  /// In en, this message translates to:
+  /// **'Celestial Kinship'**
   String get alignmentBondKinship;
+
+  /// No description provided for @alignmentFooterBonds.
+  ///
+  /// In en, this message translates to:
+  /// **'∞ Bonds Available'**
   String get alignmentFooterBonds;
+
+  /// No description provided for @alignmentFooterRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'View Recent Alignments'**
   String get alignmentFooterRecent;
+
+  /// No description provided for @chartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth Chart'**
   String get chartTitle;
+
+  /// No description provided for @chartDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
   String get chartDateLabel;
+
+  /// No description provided for @chartTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
   String get chartTimeLabel;
+
+  /// No description provided for @chartNoStars.
+  ///
+  /// In en, this message translates to:
+  /// **'No stars'**
   String get chartNoStars;
+
+  /// No description provided for @chartClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
   String get chartClose;
+
+  /// No description provided for @chartHouseMenh.
+  ///
+  /// In en, this message translates to:
+  /// **'Mệnh'**
   String get chartHouseMenh;
+
+  /// No description provided for @chartHousePhuMau.
+  ///
+  /// In en, this message translates to:
+  /// **'Phụ Mẫu'**
   String get chartHousePhuMau;
+
+  /// No description provided for @chartHousePhuDuc.
+  ///
+  /// In en, this message translates to:
+  /// **'Phúc Đức'**
   String get chartHousePhuDuc;
+
+  /// No description provided for @chartHouseDienTrach.
+  ///
+  /// In en, this message translates to:
+  /// **'Điền Trạch'**
   String get chartHouseDienTrach;
+
+  /// No description provided for @chartHouseQuanLoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Quan Lộc'**
   String get chartHouseQuanLoc;
+
+  /// No description provided for @chartHouseNoBoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Nô Bộc'**
   String get chartHouseNoBoc;
+
+  /// No description provided for @chartHouseThienDi.
+  ///
+  /// In en, this message translates to:
+  /// **'Thiên Di'**
   String get chartHouseThienDi;
+
+  /// No description provided for @chartHouseTatAch.
+  ///
+  /// In en, this message translates to:
+  /// **'Tật Ách'**
   String get chartHouseTatAch;
+
+  /// No description provided for @chartHouseTaiBach.
+  ///
+  /// In en, this message translates to:
+  /// **'Tài Bạch'**
   String get chartHouseTaiBach;
+
+  /// No description provided for @chartHouseTuTuc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tử Tức'**
   String get chartHouseTuTuc;
+
+  /// No description provided for @chartHousePhuThe.
+  ///
+  /// In en, this message translates to:
+  /// **'Phu Thê'**
   String get chartHousePhuThe;
+
+  /// No description provided for @chartHouseHuynhDe.
+  ///
+  /// In en, this message translates to:
+  /// **'Huynh Đệ'**
   String get chartHouseHuynhDe;
 
   /// No description provided for @imperialPickDate.

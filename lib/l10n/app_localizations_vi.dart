@@ -119,6 +119,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get imperialSubtitle => 'BẢN ĐỒ TINH TÚ PHƯƠNG ĐÔNG';
 
   @override
+  String get imperialResultTitle => 'THIÊN ĐỒ TỬ VI';
+
+  @override
+  String get imperialResultSubtitle => 'Bản Đồ Tinh Tú Phương Đông';
+
+  @override
+  String get imperialResultIdentity => 'DANH TÍNH';
+
+  @override
+  String get imperialResultDate => 'NGÀY SINH';
+
+  @override
+  String get imperialResultHour => 'GIỜ SINH';
+
+  @override
   String get imperialTabChart => 'LÁ SỐ';
 
   @override
