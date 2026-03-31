@@ -169,8 +169,6 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                 ),
               ),
 
-              // ── Bottom bar ────────────────────────────────────────────────
-              _BottomBar(echoCount: _echoes.length),
             ],
           ),
         ),
@@ -533,40 +531,3 @@ class _EchoTile extends StatelessWidget {
   }
 }
 
-// ─── Bottom bar ─────────────────────────────────────────────────────────────
-class _BottomBar extends StatelessWidget {
-  const _BottomBar({required this.echoCount});
-  final int echoCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Text(l10n.cosmicEchoCount(echoCount), style: AstroText.caption()),
-              const Spacer(),
-              Text(l10n.cosmicListening, style: AstroText.caption()),
-            ],
-          ),
-          const SizedBox(height: 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: echoCount > 0 ? 1.0 : 0.0,
-              minHeight: 3,
-              backgroundColor: AstroColors.border.withValues(alpha: 0.3),
-              color: AstroColors.red,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text('COSMIC VOID', style: AstroText.micro()),
-        ],
-      ),
-    );
-  }
-}
