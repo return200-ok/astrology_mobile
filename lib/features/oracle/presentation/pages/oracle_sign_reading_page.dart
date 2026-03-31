@@ -123,7 +123,7 @@ class OracleSignReadingPage extends StatelessWidget {
 
                   // Guidance text — Inter italic, near-black
                   Text(
-                    '"${sign.guidance}"',
+                    '"${ZodiacLocalization.guidance(context, sign.id, sign.guidance)}"',
                     textAlign: TextAlign.center,
                     style: AstroText.bodyMuted(size: guidanceSize, height: 1.65).copyWith(color: AstroColors.ink),
                   ),
@@ -167,12 +167,12 @@ class OracleSignReadingPage extends StatelessWidget {
 
   Widget _buildSoulPanel(BuildContext context, AppLocalizations l10n) {
     final sections = [
-      (l10n.oracleEssence,       sign.essence),
-      (l10n.oracleSpiritualFlow, sign.spiritualFlow),
-      (l10n.oracleDrawnTo,       sign.drawnTo),
-      (l10n.oracleRadiatesTo,    sign.radiatesTo),
-      (l10n.oracleDharmaPath,    sign.dharmaPath),
-      (l10n.oracleSacredNeeds,   sign.sacredNeeds),
+      (l10n.oracleEssence,       ZodiacLocalization.essence(context, sign.id, sign.essence)),
+      (l10n.oracleSpiritualFlow, ZodiacLocalization.spiritualFlow(context, sign.id, sign.spiritualFlow)),
+      (l10n.oracleDrawnTo,       ZodiacLocalization.drawnTo(context, sign.id, sign.drawnTo)),
+      (l10n.oracleRadiatesTo,    ZodiacLocalization.radiatesTo(context, sign.id, sign.radiatesTo)),
+      (l10n.oracleDharmaPath,    ZodiacLocalization.dharmaPath(context, sign.id, sign.dharmaPath)),
+      (l10n.oracleSacredNeeds,   ZodiacLocalization.sacredNeeds(context, sign.id, sign.sacredNeeds)),
     ];
 
     return Container(
