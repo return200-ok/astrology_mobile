@@ -214,13 +214,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                     ),
                     Column(
                       children: [
-                        const SizedBox(height: 8),
-                        Icon(
-                          Icons.nightlight_round,
-                          size: 36,
-                          color: AstroColors.ink.withValues(alpha: 0.60),
-                        ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 16),
                         Text(
                           l10n.homeHeroTitle,
                           style: AstroText.sectionLabel(size: 26, spacing: 3.2),
