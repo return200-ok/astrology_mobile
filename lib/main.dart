@@ -186,50 +186,40 @@ class _MainScaffoldState extends State<MainScaffold> {
         child: SafeArea(
           child: Column(
             children: [
-              // ── Header with minimal settings icon ───────────────
+              // ── Settings row ─────────────────────────────────────
               Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 8, hPad, 0),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Settings — borderless, tonal icon
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: GestureDetector(
-                        onTap: _goSettings,
-                        behavior: HitTestBehavior.opaque,
-                        child: SizedBox(
-                          width: 44,
-                          height: 44,
-                          child: Center(
-                            child: Icon(
-                              Icons.tune_rounded,
-                              size: 20,
-                              color: AstroColors.light,
-                            ),
-                          ),
+                padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: _goSettings,
+                    behavior: HitTestBehavior.opaque,
+                    child: SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: Center(
+                        child: Icon(
+                          Icons.tune_rounded,
+                          size: 20,
+                          color: AstroColors.light,
                         ),
                       ),
                     ),
-                    Column(
-                      children: [
-                        const SizedBox(height: 16),
-                        Text(
-                          l10n.homeHeroTitle,
-                          style: AstroText.sectionLabel(size: 26, spacing: 3.2),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          l10n.homeHeroSubtitle,
-                          style: AstroText.bodyMuted(size: 11, height: 1.0),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
+
+              // ── Hero title ────────────────────────────────────────
+              Text(
+                l10n.homeHeroTitle,
+                style: AstroText.sectionLabel(size: 26, spacing: 3.2),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                l10n.homeHeroSubtitle,
+                style: AstroText.bodyMuted(size: 11, height: 1.0),
+              ),
+              const SizedBox(height: 20),
 
               // ── Feature grid ───────────────────────────────────
               Expanded(
