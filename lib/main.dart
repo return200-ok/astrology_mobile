@@ -116,7 +116,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     FeatureMenuItem(
       feature: AppFeature.oracle,
       title: l10n.featureOracleTitle,
-      icon: Icons.all_inclusive_rounded,
+      icon: Icons.all_inclusive_outlined,
       tagline: l10n.featureOracleTagline,
       page: const OracleSignSelectionPage(),
       accent: CardAccent.red,          // Tiên tri — huyền bí
@@ -186,55 +186,51 @@ class _MainScaffoldState extends State<MainScaffold> {
         child: SafeArea(
           child: Column(
             children: [
-              // ── Header with settings gear top-right ────────────
+              // ── Header with minimal settings icon ───────────────
               Padding(
-                padding: EdgeInsets.fromLTRB(hPad, 16, hPad, 0),
+                padding: EdgeInsets.fromLTRB(hPad, 8, hPad, 0),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    // Settings — borderless, tonal icon
                     Positioned(
                       right: 0,
                       top: 0,
                       child: GestureDetector(
                         onTap: _goSettings,
-                        child: Container(
-                          width: 38,
-                          height: 38,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AstroColors.card.withValues(alpha: 0.7),
-                            border: Border.all(
-                              color: AstroColors.border.withValues(alpha: 0.5),
-                              width: 0.8,
+                        behavior: HitTestBehavior.opaque,
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: Center(
+                            child: Icon(
+                              Icons.tune_rounded,
+                              size: 20,
+                              color: AstroColors.light,
                             ),
-                          ),
-                          child: Icon(
-                            Icons.settings_outlined,
-                            size: 18,
-                            color: AstroColors.ink.withValues(alpha: 0.55),
                           ),
                         ),
                       ),
                     ),
                     Column(
                       children: [
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 8),
                         Icon(
                           Icons.nightlight_round,
-                          size: 38,
-                          color: AstroColors.ink.withValues(alpha: 0.65),
+                          size: 36,
+                          color: AstroColors.ink.withValues(alpha: 0.60),
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 12),
                         Text(
                           l10n.homeHeroTitle,
                           style: AstroText.sectionLabel(size: 26, spacing: 3.2),
                         ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 6),
                         Text(
                           l10n.homeHeroSubtitle,
-                          style: AstroText.caption(size: 10),
+                          style: AstroText.bodyMuted(size: 11, height: 1.0),
                         ),
-                        const SizedBox(height: 22),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ],
@@ -250,8 +246,8 @@ class _MainScaffoldState extends State<MainScaffold> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
                       childAspectRatio: 0.95,
                     ),
                     itemCount: items.length,
@@ -301,14 +297,23 @@ class _FeatureCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AstroColors.card,
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [AstroColors.cardAlt, AstroColors.card],
+          ),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AstroColors.border, width: 0.8),
+          border: Border.all(color: AstroColors.border.withValues(alpha: 0.6), width: 0.8),
           boxShadow: [
             BoxShadow(
-              color: AstroColors.ink.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: AstroColors.ink.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+            BoxShadow(
+              color: AstroColors.ink.withValues(alpha: 0.03),
+              blurRadius: 4,
+              offset: const Offset(0, 1),
             ),
           ],
         ),
@@ -317,13 +322,13 @@ class _FeatureCard extends StatelessWidget {
           children: [
             // Icon circle
             Container(
-              width: 58,
-              height: 58,
+              width: 56,
+              height: 56,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: circleBorder, width: 1),
               ),
-              child: Icon(item.icon, size: 27, color: iconColor),
+              child: Icon(item.icon, size: 26, color: iconColor),
             ),
             const SizedBox(height: 11),
             // Title — Playfair Display
@@ -333,11 +338,11 @@ class _FeatureCard extends StatelessWidget {
               style: AstroText.sectionLabel(size: 12, spacing: 1.1).copyWith(height: 1.35),
             ),
             const SizedBox(height: 5),
-            // Tagline — Be Vietnam Pro
+            // Tagline — Be Vietnam Pro, enhanced readability
             Text(
               item.tagline,
               textAlign: TextAlign.center,
-              style: AstroText.bodyMuted(size: 10, height: 1.45),
+              style: AstroText.bodyMuted(size: 10.5, height: 1.45),
             ),
           ],
         ),
