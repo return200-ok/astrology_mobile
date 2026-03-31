@@ -775,9 +775,29 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get settingsAppearanceLight;
+
+  /// No description provided for @settingsAppearanceDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
   String get settingsAppearanceDark;
+
+  /// No description provided for @settingsAppearanceSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
   String get settingsAppearanceSystem;
+
+  /// No description provided for @settingsChooseAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Appearance'**
   String get settingsChooseAppearance;
+
+  /// No description provided for @settingsComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
   String get settingsComingSoon;
 
   /// No description provided for @settingsNotifications.
