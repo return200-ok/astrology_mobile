@@ -385,12 +385,13 @@ class _CastStarsButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
-        splashColor: Colors.white.withValues(alpha: 0.08),
+        splashColor: AstroColors.red.withValues(alpha: 0.06),
         child: Ink(
           height: 62,
           decoration: BoxDecoration(
-            color: AstroColors.ink,
+            color: AstroColors.card,
             borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: AstroColors.red, width: 1.5),
           ),
           child: Stack(
             alignment: Alignment.center,
@@ -403,7 +404,7 @@ class _CastStarsButton extends StatelessWidget {
               // Label
               Text(
                 label,
-                style: AstroText.buttonFilled(size: 16).copyWith(letterSpacing: 3.0),
+                style: AstroText.buttonFilled(size: 16).copyWith(color: AstroColors.red, letterSpacing: 3.0),
               ),
             ],
           ),
