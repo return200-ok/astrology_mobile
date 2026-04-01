@@ -75,15 +75,9 @@ class _IChingInputPageState extends State<IChingInputPage> {
       builder: (context, constraints) {
         final narrow = constraints.maxWidth < 860;
         if (narrow) {
-          return Column(
-            children: [
-              _InputCard(
-                queryController: _queryController,
-                onCast: _castYarrowStalks,
-              ),
-              const SizedBox(height: 16),
-              const _AltarCard(),
-            ],
+          return _InputCard(
+            queryController: _queryController,
+            onCast: _castYarrowStalks,
           );
         }
 
