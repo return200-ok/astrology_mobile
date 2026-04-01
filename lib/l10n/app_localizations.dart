@@ -308,14 +308,34 @@ abstract class AppLocalizations {
   /// **'EASTERN CELESTIAL MAPPING'**
   String get imperialSubtitle;
 
+  /// No description provided for @imperialResultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'IMPERIAL CELESTIAL CODEX'**
   String get imperialResultTitle;
 
+  /// No description provided for @imperialResultSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Eastern Celestial Mapping'**
   String get imperialResultSubtitle;
 
+  /// No description provided for @imperialResultIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'IDENTITY'**
   String get imperialResultIdentity;
 
+  /// No description provided for @imperialResultDate.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE'**
   String get imperialResultDate;
 
+  /// No description provided for @imperialResultHour.
+  ///
+  /// In en, this message translates to:
+  /// **'HOUR'**
   String get imperialResultHour;
 
   /// No description provided for @imperialTabChart.
