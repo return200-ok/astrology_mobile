@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_card.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 
 import '../../domain/models/oracle_sign.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
@@ -15,63 +17,43 @@ class OracleSignReadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 36),
-            child: Column(
-              children: [
-                _buildHeader(context, l10n),
-                const SizedBox(height: 16),
-                _buildMainCard(context, l10n),
-                const SizedBox(height: 14),
-                _buildSoulPanel(context, l10n),
-              ],
-            ),
-          ),
-        ),
+    return AstroPageScaffold(
+      backTooltip: l10n.backTooltip,
+      horizontalPadding: 16,
+      bottomPadding: 36,
+      body: Column(
+        children: [
+          _buildSymbolHeader(context),
+          const SizedBox(height: 16),
+          _buildMainCard(context, l10n),
+          const SizedBox(height: 14),
+          _buildSoulPanel(context, l10n),
+        ],
       ),
     );
   }
 
-  // ── Header: back arrow + centred symbol bubble ───────────────────────────
+  // ── Centred symbol bubble ───────────────────────────────────────────────
 
-  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-            color: AstroColors.ink,
-            tooltip: l10n.backTooltip,
+  Widget _buildSymbolHeader(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 54,
+        height: 54,
+        decoration: BoxDecoration(
+          color: AstroColors.iconBg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AstroColors.border, width: 1),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          sign.symbol,
+          style: TextStyle(
+            color: AstroColors.red.withValues(alpha: 0.85),
+            fontSize: 26,
+            height: 1,
           ),
-          const Spacer(),
-          // Zodiac symbol — red accent on warm square
-          Container(
-            width: 54,
-            height: 54,
-            decoration: BoxDecoration(
-              color: AstroColors.iconBg,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AstroColors.border, width: 1),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              sign.symbol,
-              style: TextStyle(
-                color: AstroColors.red.withValues(alpha: 0.85),
-                fontSize: 26,
-                height: 1,
-              ),
-            ),
-          ),
-          const Spacer(),
-          const SizedBox(width: 48), // balances back button
-        ],
+        ),
       ),
     );
   }
@@ -87,12 +69,22 @@ class OracleSignReadingPage extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: AstroColors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AstroColors.border, width: 0.8),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AstroColors.border.withValues(alpha: 0.7),
+          width: 0.8,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AstroColors.ink.withValues(alpha: 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       // Clip the pine-branch decor to the card's rounded corners.
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         child: Stack(
           children: [
             // Pine branch — top-right decorative layer
@@ -121,7 +113,7 @@ class OracleSignReadingPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 28),
 
-                  // Guidance text — Inter italic, near-black
+                  // Guidance text
                   Text(
                     '"${ZodiacLocalization.guidance(context, sign.id, sign.guidance)}"',
                     textAlign: TextAlign.center,
@@ -130,29 +122,13 @@ class OracleSignReadingPage extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   // Reset Stars button
-                  OutlinedButton.icon(
-                    onPressed: () => Navigator.of(context).pop(),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AstroColors.red,
-                      side: BorderSide(
-                        color: AstroColors.red.withValues(alpha: 0.65),
-                        width: 1,
-                      ),
-                      backgroundColor: AstroColors.card,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 13,
-                      ),
-                    ),
+                  AstroButton.outline(
+                    label: l10n.oracleResetStars,
+                    expanded: false,
+                    height: 48,
                     icon: Icon(Icons.refresh_rounded,
                         size: 17, color: AstroColors.red.withValues(alpha: 0.80)),
-                    label: Text(
-                      l10n.oracleResetStars,
-                      style: AstroText.sectionLabel(size: 12, spacing: 1.5),
-                    ),
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                 ],
               ),
@@ -175,13 +151,8 @@ class OracleSignReadingPage extends StatelessWidget {
       (l10n.oracleSacredNeeds,   ZodiacLocalization.sacredNeeds(context, sign.id, sign.sacredNeeds)),
     ];
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AstroColors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AstroColors.border, width: 0.8),
-      ),
+    return AstroCard(
+      padding: EdgeInsets.zero,
       child: Stack(
         children: [
           Column(
@@ -243,13 +214,11 @@ class _InsightSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Section label — Cinzel small-caps feel
               Text(
                 title.toUpperCase(),
                 style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.ink),
               ),
               const SizedBox(height: 10),
-              // Items — Inter italic, mid-grey
               ...items.map(
                 (item) => Padding(
                   padding: const EdgeInsets.only(bottom: 5),
@@ -286,7 +255,6 @@ class _PinePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Main branch — very low opacity
     final branchPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
@@ -301,7 +269,6 @@ class _PinePainter extends CustomPainter {
       );
     canvas.drawPath(trunk, branchPaint);
 
-    // Sub-branches
     branchPaint.strokeWidth = 0.8;
     branchPaint.color = _ink.withValues(alpha: 0.07);
     final subs = <(double, double, double, double)>[
@@ -319,7 +286,6 @@ class _PinePainter extends CustomPainter {
       );
     }
 
-    // Needle clusters
     final needlePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
@@ -345,13 +311,9 @@ class _PinePainter extends CustomPainter {
     }
   }
 
-  double _cos(double a) {
-    // Simple approximation via dart:math — avoid import duplication.
-    return _sin(a + 3.14159 / 2);
-  }
+  double _cos(double a) => _sin(a + 3.14159 / 2);
 
   double _sin(double a) {
-    // Taylor series sin(a) ≈ a - a³/6 + a⁵/120, sufficient for 0–2π.
     a = a % (2 * 3.14159);
     if (a > 3.14159) a -= 2 * 3.14159;
     final a3 = a * a * a;

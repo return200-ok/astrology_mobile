@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 
 import 'soul_revelation_quiz_page.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
@@ -11,45 +12,27 @@ class SoulRevelationIntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final vi = Localizations.localeOf(context).languageCode == 'vi';
     final total = 44;
 
-    return Scaffold(
-      backgroundColor: AstroColors.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Back button
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
-                    ),
-                    color: AstroColors.ink,
-                  ),
-                ),
-              ),
-
-              // ── Content ─────────────────────────────────────────────────
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(28, 4, 28, 16),
-                  child: _IntroContent(l10n: l10n, vi: vi),
-                ),
-              ),
-
-              // ── Bottom bar ──────────────────────────────────────────────
-              _BottomBar(progress: 0, current: 0, total: total, vi: vi),
-            ],
+    return AstroPageScaffold(
+      scrollable: false,
+      horizontalPadding: 0,
+      topPadding: 0,
+      bottomPadding: 0,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // ── Content ─────────────────────────────────────────────────
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(28, 4, 28, 16),
+              child: _IntroContent(l10n: l10n),
+            ),
           ),
-        ),
+
+          // ── Bottom bar ──────────────────────────────────────────────
+          _BottomBar(progress: 0, current: 0, total: total),
+        ],
       ),
     );
   }
@@ -57,10 +40,9 @@ class SoulRevelationIntroPage extends StatelessWidget {
 
 // ─── Intro content ──────────────────────────────────────────────────────────
 class _IntroContent extends StatelessWidget {
-  const _IntroContent({required this.l10n, required this.vi});
+  const _IntroContent({required this.l10n});
 
   final AppLocalizations l10n;
-  final bool vi;
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +88,10 @@ class _IntroContent extends StatelessWidget {
         const SizedBox(height: 48),
 
         // Begin button
-        _RedButton(
+        AstroButton.outline(
           label: btnLabel,
+          expanded: false,
+          icon: const _Sparkle(size: 16, color: AstroColors.red),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (_) => const SoulRevelationQuizPage(),
@@ -115,46 +99,6 @@ class _IntroContent extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-// ─── Red gradient button ─────────────────────────────────────────────────────
-class _RedButton extends StatelessWidget {
-  const _RedButton({required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            color: Colors.white,
-            border: Border.all(color: AstroColors.red, width: 1.5),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const _Sparkle(size: 16, color: AstroColors.red),
-              const SizedBox(width: 10),
-              Text(
-                label,
-                style: AstroText.buttonOutline(size: 15),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
@@ -213,13 +157,11 @@ class _BottomBar extends StatelessWidget {
     required this.progress,
     required this.current,
     required this.total,
-    required this.vi,
   });
 
   final double progress;
   final int current;
   final int total;
-  final bool vi;
 
   @override
   Widget build(BuildContext context) {

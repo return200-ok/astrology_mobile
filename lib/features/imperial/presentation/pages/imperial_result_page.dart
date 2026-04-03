@@ -2,7 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 
 import '../../domain/models/imperial_cast_request.dart';
@@ -113,29 +114,12 @@ class ImperialResultPage extends StatelessWidget {
     final hourRange = _kHourRanges[request.streamHour] ?? '';
     final dateStr = DateFormat('dd/MM/yyyy').format(request.arrivalDay);
 
-    return Scaffold(
-      backgroundColor: AstroColors.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
-            child: Column(
+    return AstroPageScaffold(
+      horizontalPadding: 16,
+      topPadding: 8,
+      body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // ── Back button ─────────────────────────────────────────
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
-                    ),
-                    color: AstroColors.ink,
-                  ),
-                ),
-
-                const SizedBox(height: 4),
 
                 // ── Seal emblem ─────────────────────────────────────────
                 Center(
@@ -190,12 +174,13 @@ class ImperialResultPage extends StatelessWidget {
                 const SizedBox(height: 28),
 
                 // ── Detailed Analysis button ────────────────────────────
-                _DetailedAnalysisButton(),
+                AstroButton.filled(
+                  label: 'DETAILED ANALYSIS',
+                  onTap: () {},
+                  fontSize: 16,
+                ),
               ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -461,51 +446,6 @@ class _ElementsRow extends StatelessWidget {
   }
 }
 
-// ─── Detailed Analysis button ───────────────────────────────────────────────
-class _DetailedAnalysisButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: () {},
-        borderRadius: BorderRadius.circular(999),
-        splashColor: Colors.white.withValues(alpha: 0.12),
-        child: Ink(
-          height: 62,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            color: AstroColors.red,
-            boxShadow: [
-              BoxShadow(
-                color: AstroColors.red.withValues(alpha: 0.25),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Bagua watermark
-              CustomPaint(
-                size: const Size(52, 52),
-                painter: _BaguaPainter(),
-              ),
-              // Label
-              Text(
-                'DETAILED ANALYSIS',
-                style: AstroText.buttonFilled(size: 16).copyWith(letterSpacing: 3.0),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 // ─── Seal painter ───────────────────────────────────────────────────────────
 class _SealPainter extends CustomPainter {
   @override
@@ -658,64 +598,3 @@ class _ConstellationPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-// ─── Bagua watermark painter ────────────────────────────────────────────────
-class _BaguaPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.15)
-      ..strokeWidth = 1.4
-      ..style = PaintingStyle.stroke;
-
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r = size.width / 2;
-
-    // Outer circle
-    canvas.drawCircle(Offset(cx, cy), r * 0.98, paint);
-    // Inner circle
-    canvas.drawCircle(Offset(cx, cy), r * 0.52, paint);
-
-    // 8 trigram lines
-    for (int i = 0; i < 8; i++) {
-      final angle = (i * math.pi / 4) - math.pi / 2;
-      for (int line = 0; line < 3; line++) {
-        final lineR = r * 0.60 + line * r * 0.11;
-        final lineLen = r * 0.14;
-        final cosA = math.cos(angle);
-        final sinA = math.sin(angle);
-        final isBroken = (i + line) % 2 == 1;
-        if (isBroken) {
-          canvas.drawLine(
-            Offset(cx + cosA * lineR - sinA * lineLen * 0.4,
-                cy + sinA * lineR + cosA * lineLen * 0.4),
-            Offset(cx + cosA * lineR - sinA * lineLen * 0.05,
-                cy + sinA * lineR + cosA * lineLen * 0.05),
-            paint,
-          );
-          canvas.drawLine(
-            Offset(cx + cosA * lineR + sinA * lineLen * 0.05,
-                cy + sinA * lineR - cosA * lineLen * 0.05),
-            Offset(cx + cosA * lineR + sinA * lineLen * 0.4,
-                cy + sinA * lineR - cosA * lineLen * 0.4),
-            paint,
-          );
-        } else {
-          canvas.drawLine(
-            Offset(cx + cosA * lineR - sinA * lineLen * 0.4,
-                cy + sinA * lineR + cosA * lineLen * 0.4),
-            Offset(cx + cosA * lineR + sinA * lineLen * 0.4,
-                cy + sinA * lineR - cosA * lineLen * 0.4),
-            paint,
-          );
-        }
-      }
-    }
-
-    // Yin-yang circle
-    canvas.drawCircle(Offset(cx, cy), r * 0.22, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}

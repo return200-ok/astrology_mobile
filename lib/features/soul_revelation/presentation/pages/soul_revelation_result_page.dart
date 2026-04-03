@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
 import 'soul_revelation_intro_page.dart';
@@ -24,33 +25,19 @@ class SoulRevelationResultPage extends StatelessWidget {
             ))
         .toList();
 
-    return Scaffold(
-      backgroundColor: AstroColors.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ── Back button ──────────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
-                    ),
-                    color: AstroColors.ink,
-                  ),
-                ),
-              ),
-
+    return AstroPageScaffold(
+      scrollable: false,
+      horizontalPadding: 0,
+      topPadding: 0,
+      bottomPadding: 0,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
               // ── Scrollable content ───────────────────────────────────────
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -69,8 +56,6 @@ class SoulRevelationResultPage extends StatelessWidget {
               _BottomBar(vi: vi),
             ],
           ),
-        ),
-      ),
     );
   }
 }
@@ -184,31 +169,13 @@ class _RetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final label = l10n.soulBfiRetake;
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: () => Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute<void>(
-            builder: (_) => const SoulRevelationIntroPage(),
-          ),
-          (route) => false,
+    return AstroButton.outline(
+      label: l10n.soulBfiRetake,
+      onTap: () => Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute<void>(
+          builder: (_) => const SoulRevelationIntroPage(),
         ),
-        borderRadius: BorderRadius.circular(999),
-        splashColor: AstroColors.red.withValues(alpha: 0.08),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: AstroColors.red.withValues(alpha: 0.5), width: 1),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: AstroText.buttonOutline(size: 13),
-          ),
-        ),
+        (route) => false,
       ),
     );
   }

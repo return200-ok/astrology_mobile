@@ -1,6 +1,7 @@
 import 'package:astroweb_mobile/core/i18n/locale_controller.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_section_header.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +18,10 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final bg = Theme.of(context).scaffoldBackgroundColor;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: bg,
       body: InkWashBackground(
         child: SafeArea(
           child: Column(
@@ -31,10 +33,10 @@ class SettingsPage extends StatelessWidget {
                   builder: (context, _) {
                     return ListView(
                       physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                      padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
                       children: [
                         // ── CÁ NHÂN HÓA ────────────────────────
-                        _SectionHeader(title: l10n.settingsSectionPersonalize),
+                        AstroSectionHeader(title: l10n.settingsSectionPersonalize),
                         _SettingsGroup(
                           children: [
                             _SettingsTile(
@@ -55,7 +57,7 @@ class SettingsPage extends StatelessWidget {
                         const SizedBox(height: 24),
 
                         // ── HỆ THỐNG ────────────────────────────
-                        _SectionHeader(title: l10n.settingsSectionSystem),
+                        AstroSectionHeader(title: l10n.settingsSectionSystem),
                         _SettingsGroup(
                           children: [
                             _SettingsTile(
@@ -74,7 +76,7 @@ class SettingsPage extends StatelessWidget {
                         const SizedBox(height: 24),
 
                         // ── HỖ TRỢ ─────────────────────────────
-                        _SectionHeader(title: l10n.settingsSectionSupport),
+                        AstroSectionHeader(title: l10n.settingsSectionSupport),
                         _SettingsGroup(
                           children: [
                             _SettingsTile(
@@ -206,53 +208,23 @@ class _SettingsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 20, 0),
+      padding: const EdgeInsets.fromLTRB(8, 4, 24, 0),
       child: Row(
         children: [
           SizedBox(
-            width: 48,
-            height: 48,
+            width: 44,
+            height: 44,
             child: IconButton(
               onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-              color: AstroColors.ink.withValues(alpha: 0.7),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+              color: AstroColors.ink,
               padding: EdgeInsets.zero,
             ),
           ),
           const SizedBox(width: 4),
-          // Playfair Display for heading — serif, sang trọng
           Text(
             title,
             style: AstroText.sectionLabel(size: 22, spacing: 1.0).copyWith(color: AstroColors.ink),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Section header with đỏ huyết dụ accent line ────────────────────────────
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 0, 0, 10),
-      child: Row(
-        children: [
-          // Thin red thread — "sợi chỉ đỏ định mệnh"
-          Container(
-            width: 16,
-            height: 1,
-            color: AstroColors.red.withValues(alpha: 0.45),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: AstroText.micro(size: 11, spacing: 1.8).copyWith(color: AstroColors.light),
           ),
         ],
       ),
@@ -271,11 +243,14 @@ class _SettingsGroup extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AstroColors.card,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AstroColors.border, width: 0.8),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AstroColors.border.withValues(alpha: 0.7),
+          width: 0.8,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AstroColors.ink.withValues(alpha: 0.04),
+            color: AstroColors.ink.withValues(alpha: 0.06),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -286,7 +261,6 @@ class _SettingsGroup extends StatelessWidget {
           for (var i = 0; i < children.length; i++) ...[
             children[i],
             if (i < children.length - 1)
-              // Thin red divider — chỉ đỏ kết nối
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Divider(
@@ -325,7 +299,7 @@ class _SettingsTile extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
@@ -514,7 +488,6 @@ class _LanguageOption extends StatelessWidget {
                   ),
                 ),
               ),
-              // Đỏ huyết dụ checkmark
               if (isActive)
                 const Icon(
                   Icons.check_rounded,

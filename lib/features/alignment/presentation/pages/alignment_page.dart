@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_card.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -56,57 +58,13 @@ class _AlignmentPageState extends State<AlignmentPage> {
     final l10n = AppLocalizations.of(context)!;
     final bondTypes = _bondTypes(l10n);
     _bondType ??= bondTypes.first;
-    return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildHeader(context, l10n),
-                const SizedBox(height: 16),
-                _MainCard(
-                  origin: _origin,
-                  distant: _distant,
-                  bondType: _bondType!,
-                  onOriginTap: () => _pickSign(isOrigin: true),
-                  onDistantTap: () => _pickSign(isOrigin: false),
-                  onBondTypeTap: _pickBondType,
-                  onViewBond: _seekAlignment,
-                  l10n: l10n,
-                ),
-                if (_score != null && _message != null) ...[
-                  const SizedBox(height: 14),
-                  _ResultCard(score: _score!, message: _message!),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ── Header ──────────────────────────────────────────────────────────────────
-
-  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
     final width = MediaQuery.sizeOf(context).width;
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Column(
-        children: [
-          // Back button row
-          Align(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-              onPressed: () => Navigator.of(context).maybePop(),
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-              color: AstroColors.ink,
-            ),
-          ),
 
+    return AstroPageScaffold(
+      horizontalPadding: 16,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
           const SizedBox(height: 4),
 
           // Overlapping rings icon
@@ -142,11 +100,30 @@ class _AlignmentPageState extends State<AlignmentPage> {
           const SizedBox(height: 20),
 
           // Red divider
-          Container(
-            width: 80,
-            height: 1,
-            color: AstroColors.red.withValues(alpha: 0.55),
+          Center(
+            child: Container(
+              width: 80,
+              height: 1,
+              color: AstroColors.red.withValues(alpha: 0.55),
+            ),
           ),
+
+          const SizedBox(height: 16),
+
+          _MainCard(
+            origin: _origin,
+            distant: _distant,
+            bondType: _bondType!,
+            onOriginTap: () => _pickSign(isOrigin: true),
+            onDistantTap: () => _pickSign(isOrigin: false),
+            onBondTypeTap: _pickBondType,
+            onViewBond: _seekAlignment,
+            l10n: l10n,
+          ),
+          if (_score != null && _message != null) ...[
+            const SizedBox(height: 14),
+            _ResultCard(score: _score!, message: _message!),
+          ],
         ],
       ),
     );
@@ -164,16 +141,17 @@ class _AlignmentPageState extends State<AlignmentPage> {
       builder: (_) {
         return Container(
           height: 320,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AstroColors.board,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            border: Border.all(color: AstroColors.border, width: 0.8),
           ),
           child: Column(
             children: [
               // Header
               Container(
-                height: 56,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 54,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: const BoxDecoration(
                   color: AstroColors.card,
                   borderRadius:
@@ -186,7 +164,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                   children: [
                     Text(
                       isOrigin ? l10n.alignmentOriginSoul : l10n.alignmentDistantSoul,
-                      style: AstroText.sectionLabel(size: 12).copyWith(color: AstroColors.mid),
+                      style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.mid),
                     ),
                     const Spacer(),
                     CupertinoButton(
@@ -195,7 +173,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                           Navigator.of(context).pop(_kSigns[idx]),
                       child: Text(
                         l10n.commonDone,
-                        style: AstroText.sectionLabel(size: 16),
+                        style: AstroText.sectionLabel(size: 15),
                       ),
                     ),
                   ],
@@ -212,11 +190,8 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: AstroColors.red.withValues(alpha: 0.08),
+                          color: AstroColors.border.withValues(alpha: 0.30),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: AstroColors.red.withValues(alpha: 0.15),
-                          ),
                         ),
                       ),
                       CupertinoPicker(
@@ -267,15 +242,16 @@ class _AlignmentPageState extends State<AlignmentPage> {
       builder: (_) {
         return Container(
           height: 280,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AstroColors.board,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            border: Border.all(color: AstroColors.border, width: 0.8),
           ),
           child: Column(
             children: [
               Container(
-                height: 56,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 54,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: const BoxDecoration(
                   color: AstroColors.card,
                   borderRadius:
@@ -288,7 +264,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                   children: [
                     Text(
                       l10n.alignmentBondType,
-                      style: AstroText.sectionLabel(size: 12).copyWith(color: AstroColors.mid),
+                      style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.mid),
                     ),
                     const Spacer(),
                     CupertinoButton(
@@ -297,7 +273,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
                           Navigator.of(context).pop(types[idx]),
                       child: Text(
                         l10n.commonDone,
-                        style: AstroText.sectionLabel(size: 16),
+                        style: AstroText.sectionLabel(size: 15),
                       ),
                     ),
                   ],
@@ -313,11 +289,8 @@ class _AlignmentPageState extends State<AlignmentPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: AstroColors.red.withValues(alpha: 0.08),
+                          color: AstroColors.border.withValues(alpha: 0.30),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: AstroColors.red.withValues(alpha: 0.15),
-                          ),
                         ),
                       ),
                       CupertinoPicker(
@@ -440,12 +413,7 @@ class _MainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AstroColors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AstroColors.border, width: 0.8),
-      ),
+    return AstroCard(
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
       child: Column(
         children: [
@@ -483,7 +451,7 @@ class _MainCard extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: AstroColors.border, width: 1),
+                border: Border.all(color: AstroColors.border, width: 0.8),
                 color: AstroColors.card,
               ),
               child: Row(
@@ -515,27 +483,13 @@ class _MainCard extends StatelessWidget {
           const SizedBox(height: 18),
 
           // ── Seek button ─────────────────────────────────────────────────
-          OutlinedButton.icon(
-            onPressed: onViewBond,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AstroColors.red,
-              side: BorderSide(
-                color: AstroColors.red.withValues(alpha: 0.65),
-                width: 1,
-              ),
-              backgroundColor: AstroColors.card,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28),
-              ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-            ),
+          AstroButton.outline(
+            label: l10n.alignmentSeekButton,
+            expanded: false,
+            height: 48,
             icon: Icon(Icons.auto_awesome_rounded,
                 size: 17, color: AstroColors.red.withValues(alpha: 0.80)),
-            label: Text(
-              l10n.alignmentSeekButton,
-              style: AstroText.buttonOutline(size: 13),
-            ),
+            onTap: onViewBond,
           ),
 
           const SizedBox(height: 18),
@@ -586,7 +540,6 @@ class _AvatarPicker extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          // Circle avatar
           Container(
             width: 90,
             height: 90,
@@ -619,7 +572,6 @@ class _AvatarPicker extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // Label + arrow
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -653,12 +605,7 @@ class _ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
-      decoration: BoxDecoration(
-        color: AstroColors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AstroColors.border, width: 0.8),
-      ),
+    return AstroCard(
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -671,7 +618,6 @@ class _ResultCard extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          // Score row
           Row(
             children: [
               Text(
@@ -688,7 +634,6 @@ class _ResultCard extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // Progress bar
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
@@ -701,7 +646,6 @@ class _ResultCard extends StatelessWidget {
 
           const SizedBox(height: 22),
 
-          // Message
           Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 18),

@@ -1,11 +1,11 @@
-import 'dart:math' as math;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
+import 'package:astroweb_mobile/core/widgets/astro_text_field.dart';
+import 'package:astroweb_mobile/core/widgets/astro_section_header.dart';
 
 import '../../domain/models/imperial_cast_request.dart';
 import 'imperial_result_page.dart';
@@ -48,87 +48,83 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
     final l10n = AppLocalizations.of(context)!;
     final w = MediaQuery.sizeOf(context).width;
 
-    return Scaffold(
-      backgroundColor: InkWashBackground.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // ── Back button ─────────────────────────────────────────
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
-                      color: AstroColors.ink,
-                    ),
-                  ),
-                ),
+    return AstroPageScaffold(
+      backTooltip: l10n.backTooltip,
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 4),
 
-                const SizedBox(height: 4),
-
-                // ── Hero title ──────────────────────────────────────────
-                Text(
-                  l10n.imperialTitle,
-                  textAlign: TextAlign.center,
-                  style: AstroText.pageTitle(AstroSize.title(w)),
-                ),
-
-                const SizedBox(height: 8),
-
-                Text(
-                  l10n.imperialSubtitle,
-                  textAlign: TextAlign.center,
-                  style: AstroText.pageSubtitle(size: 11),
-                ),
-
-                const SizedBox(height: 40),
-
-                // ── Celestial Identity ──────────────────────────────────
-                _FieldLabel(text: l10n.imperialSpiritId),
-                const SizedBox(height: 10),
-                _NameField(controller: _nameCtrl, hint: l10n.imperialSpiritPlaceholder),
-
-                const SizedBox(height: 22),
-
-                // ── Date of Descent ─────────────────────────────────────
-                _FieldLabel(text: l10n.imperialArrivalDay),
-                const SizedBox(height: 10),
-                _DateTile(
-                  date: _birthDate,
-                  placeholder: l10n.imperialDatePlaceholder,
-                  onTap: _pickDate,
-                ),
-
-                const SizedBox(height: 22),
-
-                // ── Hour of Destiny ─────────────────────────────────────
-                _FieldLabel(text: l10n.imperialStreamsHour),
-                const SizedBox(height: 10),
-                _HourTile(
-                  hour: _birthHour,
-                  range: _ranges[_birthHour] ?? '',
-                  onTap: _pickHour,
-                ),
-
-                const SizedBox(height: 48),
-
-                // ── Cast Stars button ────────────────────────────────────
-                _CastStarsButton(
-                  label: l10n.imperialCastStars,
-                  onTap: () => _submit(l10n),
-                ),
-              ],
+            // ── Hero title ──────────────────────────────────────────
+            Text(
+              l10n.imperialTitle,
+              textAlign: TextAlign.center,
+              style: AstroText.pageTitle(AstroSize.title(w)),
             ),
-          ),
-          ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              l10n.imperialSubtitle,
+              textAlign: TextAlign.center,
+              style: AstroText.pageSubtitle(size: 11),
+            ),
+
+            const SizedBox(height: 40),
+
+            // ── Celestial Identity ──────────────────────────────────
+            AstroFieldLabel(text: l10n.imperialSpiritId),
+            const SizedBox(height: 10),
+            AstroTextField(
+              controller: _nameCtrl,
+              hint: l10n.imperialSpiritPlaceholder,
+              style: AstroText.sectionLabel(size: 15)
+                  .copyWith(color: AstroColors.ink, fontStyle: FontStyle.italic),
+              hintStyle: AstroText.sectionLabel(size: 15).copyWith(
+                color: AstroColors.mid.withValues(alpha: 0.55),
+                fontStyle: FontStyle.italic,
+              ),
+              validator: (value) {
+                final v = value?.trim() ?? '';
+                if (v.isEmpty) return 'Vui lòng nhập tên';
+                if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
+                return null;
+              },
+            ),
+
+            const SizedBox(height: 22),
+
+            // ── Date of Descent ─────────────────────────────────────
+            AstroFieldLabel(text: l10n.imperialArrivalDay),
+            const SizedBox(height: 10),
+            _DateTile(
+              date: _birthDate,
+              placeholder: l10n.imperialDatePlaceholder,
+              onTap: _pickDate,
+            ),
+
+            const SizedBox(height: 22),
+
+            // ── Hour of Destiny ─────────────────────────────────────
+            AstroFieldLabel(text: l10n.imperialStreamsHour),
+            const SizedBox(height: 10),
+            _HourTile(
+              hour: _birthHour,
+              range: _ranges[_birthHour] ?? '',
+              onTap: _pickHour,
+            ),
+
+            const SizedBox(height: 48),
+
+            // ── Cast Stars button ────────────────────────────────────
+            AstroButton.outline(
+              label: l10n.imperialCastStars,
+              onTap: () => _submit(l10n),
+              fontSize: 16,
+            ),
+          ],
         ),
       ),
     );
@@ -202,73 +198,6 @@ class _ImperialInputPageState extends State<ImperialInputPage> {
   }
 }
 
-// ─── Field label ──────────────────────────────────────────────────────────────
-
-class _FieldLabel extends StatelessWidget {
-  const _FieldLabel({required this.text});
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: AstroText.sectionLabel(size: 12).copyWith(color: AstroColors.ink),
-    );
-  }
-}
-
-// ─── Name text field ──────────────────────────────────────────────────────────
-
-class _NameField extends StatelessWidget {
-  const _NameField({required this.controller, required this.hint});
-  final TextEditingController controller;
-  final String hint;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      maxLength: 50,
-      inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp(r'[<>&"' "'" r']')),
-      ],
-      validator: (value) {
-        final v = value?.trim() ?? '';
-        if (v.isEmpty) return 'Vui lòng nhập tên';
-        if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
-        return null;
-      },
-      style: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.ink, fontStyle: FontStyle.italic),
-      cursorColor: AstroColors.red,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: AstroText.sectionLabel(size: 15).copyWith(color: AstroColors.mid.withValues(alpha: 0.55), fontStyle: FontStyle.italic),
-        counterText: '',
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 22, vertical: 17),
-        filled: true,
-        fillColor: AstroColors.card,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AstroColors.border, width: 0.8),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.50), width: 1),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red, width: 1),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red, width: 1.2),
-          borderRadius: BorderRadius.circular(999),
-        ),
-      ),
-    );
-  }
-}
-
 // ─── Date tile ────────────────────────────────────────────────────────────────
 
 class _DateTile extends StatelessWidget {
@@ -299,7 +228,6 @@ class _DateTile extends StatelessWidget {
               ),
             ),
           ),
-          // Calendar icon — red accent
           Icon(Icons.calendar_month_outlined,
               color: AstroColors.red.withValues(alpha: 0.75), size: 20),
         ],
@@ -357,7 +285,7 @@ class _PillTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
         splashColor: AstroColors.red.withValues(alpha: 0.06),
         child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 17),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
           decoration: BoxDecoration(
             color: AstroColors.card,
             borderRadius: BorderRadius.circular(999),
@@ -368,110 +296,6 @@ class _PillTile extends StatelessWidget {
       ),
     );
   }
-}
-
-// ─── Cast Stars button ────────────────────────────────────────────────────────
-
-class _CastStarsButton extends StatelessWidget {
-  const _CastStarsButton({required this.label, required this.onTap});
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        splashColor: AstroColors.red.withValues(alpha: 0.06),
-        child: Ink(
-          height: 62,
-          decoration: BoxDecoration(
-            color: AstroColors.card,
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: AstroColors.red, width: 1.5),
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Bagua watermark — muted red, very low opacity
-              CustomPaint(
-                size: const Size(52, 52),
-                painter: _BaguaPainter(),
-              ),
-              // Label
-              Text(
-                label,
-                style: AstroText.buttonFilled(size: 16).copyWith(color: AstroColors.red, letterSpacing: 3.0),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Bagua watermark ──────────────────────────────────────────────────────────
-
-class _BaguaPainter extends CustomPainter {
-  static const _red = Color(0xFF8B3A3A);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = _red.withValues(alpha: 0.22)
-      ..strokeWidth = 1.2
-      ..style = PaintingStyle.stroke;
-
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r  = size.width / 2;
-
-    canvas.drawCircle(Offset(cx, cy), r * 0.98, paint);
-    canvas.drawCircle(Offset(cx, cy), r * 0.52, paint);
-    canvas.drawCircle(Offset(cx, cy), r * 0.22, paint);
-
-    for (var i = 0; i < 8; i++) {
-      final angle   = (i * math.pi / 4) - math.pi / 2;
-      final cos     = math.cos(angle);
-      final sin     = math.sin(angle);
-      for (var line = 0; line < 3; line++) {
-        final lineR   = r * 0.60 + line * r * 0.11;
-        final halfLen = r * 0.13;
-        final isBroken = (i + line) % 2 == 1;
-        if (isBroken) {
-          canvas.drawLine(
-            Offset(cx + cos * lineR - sin * halfLen * 0.9,
-                   cy + sin * lineR + cos * halfLen * 0.9),
-            Offset(cx + cos * lineR - sin * halfLen * 0.1,
-                   cy + sin * lineR + cos * halfLen * 0.1),
-            paint,
-          );
-          canvas.drawLine(
-            Offset(cx + cos * lineR + sin * halfLen * 0.1,
-                   cy + sin * lineR - cos * halfLen * 0.1),
-            Offset(cx + cos * lineR + sin * halfLen * 0.9,
-                   cy + sin * lineR - cos * halfLen * 0.9),
-            paint,
-          );
-        } else {
-          canvas.drawLine(
-            Offset(cx + cos * lineR - sin * halfLen,
-                   cy + sin * lineR + cos * halfLen),
-            Offset(cx + cos * lineR + sin * halfLen,
-                   cy + sin * lineR - cos * halfLen),
-            paint,
-          );
-        }
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_BaguaPainter old) => false;
 }
 
 // ─── Date bottom sheet ────────────────────────────────────────────────────────

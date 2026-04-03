@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
 
 import '../../domain/models/soul_revelation_models.dart';
 import 'soul_revelation_result_page.dart';
@@ -72,29 +72,14 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
     final agree = vi ? 'Đồng ý' : 'Agree';
     final channeling = vi ? 'Đang kết nối...' : 'Channeling...';
 
-    return Scaffold(
-      backgroundColor: AstroColors.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ── Back button ────────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
-                    ),
-                    color: AstroColors.ink,
-                  ),
-                ),
-              ),
-
+    return AstroPageScaffold(
+      scrollable: false,
+      horizontalPadding: 0,
+      topPadding: 0,
+      bottomPadding: 0,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
               // ── Question area ──────────────────────────────────────────
               Expanded(
                 child: FadeTransition(
@@ -152,8 +137,6 @@ class _SoulRevelationQuizPageState extends State<SoulRevelationQuizPage>
               ),
             ],
           ),
-        ),
-      ),
     );
   }
 }

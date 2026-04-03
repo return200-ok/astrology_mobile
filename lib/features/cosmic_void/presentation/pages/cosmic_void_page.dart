@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
-import 'package:astroweb_mobile/core/widgets/ink_wash_background.dart';
+import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
+import 'package:astroweb_mobile/core/widgets/astro_button.dart';
+import 'package:astroweb_mobile/core/widgets/astro_text_field.dart';
+import 'package:astroweb_mobile/core/widgets/astro_section_header.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -68,212 +70,105 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
     final l10n = AppLocalizations.of(context)!;
     final width = MediaQuery.sizeOf(context).width;
 
-    return Scaffold(
-      backgroundColor: AstroColors.parchment,
-      body: InkWashBackground(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Back button
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
+    return AstroPageScaffold(
+      scrollable: false,
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // ── Header ────────────────────────────────────────────
+                    Text(
+                      l10n.cosmicVoidTitle,
+                      textAlign: TextAlign.center,
+                      style: AstroText.pageTitle(AstroSize.title(width)),
                     ),
-                    color: AstroColors.ink,
-                  ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.cosmicVoidSubtitle,
+                      textAlign: TextAlign.center,
+                      style: AstroText.pageSubtitle(),
+                    ),
+
+                    const SizedBox(height: 40),
+
+                    // ── Alias field ───────────────────────────────────────
+                    AstroFieldLabel(text: l10n.cosmicSpiritAlias),
+                    const SizedBox(height: 8),
+                    AstroTextField(
+                      controller: _aliasCtrl,
+                      hint: l10n.cosmicSpiritPlaceholder,
+                      maxLength: 30,
+                      validator: (value) {
+                        final v = value?.trim() ?? '';
+                        if (v.isEmpty) return 'Vui lòng nhập tên';
+                        if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // ── Sign picker ───────────────────────────────────────
+                    AstroFieldLabel(text: l10n.cosmicCelestialSign),
+                    const SizedBox(height: 8),
+                    _SignPicker(
+                      sign: _sign,
+                      onTap: _pickSign,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // ── Essence textarea ──────────────────────────────────
+                    AstroFieldLabel(text: l10n.cosmicSpiritualEssence),
+                    const SizedBox(height: 8),
+                    AstroTextArea(
+                      controller: _essenceCtrl,
+                      hint: l10n.cosmicWhisperHint,
+                      validator: (value) {
+                        final v = value?.trim() ?? '';
+                        if (v.isEmpty) return 'Vui lòng nhập tinh hoa';
+                        if (v.length < 5) return 'Nội dung phải có ít nhất 5 ký tự';
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 28),
+
+                    // ── Send button ───────────────────────────────────────
+                    AstroButton.outline(
+                      label: l10n.cosmicWhisperToVoid,
+                      onTap: () => _sendWhisper(l10n),
+                    ),
+
+                    const SizedBox(height: 36),
+
+                    // ── Thin separator ────────────────────────────────────
+                    Container(height: 0.5, color: AstroColors.divider),
+
+                    const SizedBox(height: 24),
+
+                    // ── Echoes section ────────────────────────────────────
+                    AstroSectionHeader(title: l10n.cosmicEchoesTitle),
+                    const SizedBox(height: 16),
+
+                    if (_echoes.isEmpty)
+                      _emptyState(l10n)
+                    else
+                      ..._echoes.map((e) => _EchoTile(entry: e)),
+                  ],
                 ),
               ),
-
-              // Scrollable content
-              Expanded(
-                child: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // ── Header ────────────────────────────────────────────
-                      Text(
-                        l10n.cosmicVoidTitle,
-                        textAlign: TextAlign.center,
-                        style: AstroText.pageTitle(AstroSize.title(width)),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        l10n.cosmicVoidSubtitle,
-                        textAlign: TextAlign.center,
-                        style: AstroText.pageSubtitle(),
-                      ),
-
-                      const SizedBox(height: 40),
-
-                      // ── Alias field ───────────────────────────────────────
-                      _fieldLabel(l10n.cosmicSpiritAlias),
-                      const SizedBox(height: 8),
-                      _pillField(
-                        controller: _aliasCtrl,
-                        hint: l10n.cosmicSpiritPlaceholder,
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // ── Sign picker ───────────────────────────────────────
-                      _fieldLabel(l10n.cosmicCelestialSign),
-                      const SizedBox(height: 8),
-                      _SignPicker(
-                        sign: _sign,
-                        onTap: _pickSign,
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // ── Essence textarea ──────────────────────────────────
-                      _fieldLabel(l10n.cosmicSpiritualEssence),
-                      const SizedBox(height: 8),
-                      _essenceField(l10n),
-
-                      const SizedBox(height: 28),
-
-                      // ── Send button ───────────────────────────────────────
-                      _RedButton(
-                        label: l10n.cosmicWhisperToVoid,
-                        onTap: () => _sendWhisper(l10n),
-                      ),
-
-                      const SizedBox(height: 36),
-
-                      // ── Thin separator ────────────────────────────────────
-                      Container(height: 0.5, color: AstroColors.divider),
-
-                      const SizedBox(height: 24),
-
-                      // ── Echoes section ────────────────────────────────────
-                      _echoHeader(l10n),
-                      const SizedBox(height: 16),
-
-                      if (_echoes.isEmpty)
-                        _emptyState(l10n)
-                      else
-                        ..._echoes.map((e) => _EchoTile(entry: e)),
-                    ],
-                  ),
-                ),
-                ),
-              ),
-
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  // ── Field label ────────────────────────────────────────────────────────────
-  Widget _fieldLabel(String text) {
-    return Text(text, style: AstroText.fieldLabel());
-  }
-
-  // ── Pill text field ────────────────────────────────────────────────────────
-  Widget _pillField({
-    required TextEditingController controller,
-    required String hint,
-  }) {
-    return TextFormField(
-      controller: controller,
-      maxLength: 30,
-      inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp(r'[<>&"' "'" r']')),
-      ],
-      validator: (value) {
-        final v = value?.trim() ?? '';
-        if (v.isEmpty) return 'Vui lòng nhập tên';
-        if (v.length < 2) return 'Tên phải có ít nhất 2 ký tự';
-        return null;
-      },
-      style: AstroText.body(size: 15),
-      cursorColor: AstroColors.red,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: AstroText.caption(size: 15),
-        counterText: '',
-        contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-        filled: true,
-        fillColor: AstroColors.card,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.border),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red, width: 1),
-          borderRadius: BorderRadius.circular(999),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red, width: 1.2),
-          borderRadius: BorderRadius.circular(999),
-        ),
-      ),
-    );
-  }
-
-  // ── Essence textarea ───────────────────────────────────────────────────────
-  Widget _essenceField(AppLocalizations l10n) {
-    return TextFormField(
-      controller: _essenceCtrl,
-      minLines: 4,
-      maxLines: 6,
-      maxLength: 500,
-      validator: (value) {
-        final v = value?.trim() ?? '';
-        if (v.isEmpty) return 'Vui lòng nhập tinh hoa';
-        if (v.length < 5) return 'Nội dung phải có ít nhất 5 ký tự';
-        return null;
-      },
-      style: AstroText.quote(14),
-      cursorColor: AstroColors.red,
-      decoration: InputDecoration(
-        hintText: l10n.cosmicWhisperHint,
-        hintStyle: AstroText.bodyMuted(size: 14),
-        counterText: '',
-        contentPadding: const EdgeInsets.all(20),
-        filled: true,
-        fillColor: AstroColors.card,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.border),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red.withValues(alpha: 0.6), width: 1.2),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red, width: 1),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AstroColors.red, width: 1.2),
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-    );
-  }
-
-  // ── Echo header ────────────────────────────────────────────────────────────
-  Widget _echoHeader(AppLocalizations l10n) {
-    return Text(
-      l10n.cosmicEchoesTitle,
-      style: AstroText.sectionLabel(),
     );
   }
 
@@ -312,26 +207,26 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
             color: AstroColors.card,
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(20)),
-            border: Border.all(color: AstroColors.border),
+            border: Border.all(color: AstroColors.border, width: 0.8),
           ),
           child: Column(
             children: [
               Container(
-                height: 56,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 54,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: AstroColors.parchment,
+                  color: AstroColors.board,
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(20)),
                   border: Border(
-                    bottom: BorderSide(color: AstroColors.divider),
+                    bottom: BorderSide(color: AstroColors.border, width: 0.8),
                   ),
                 ),
                 child: Row(
                   children: [
                     Text(
                       AppLocalizations.of(context)!.cosmicCelestialSign,
-                      style: AstroText.sectionLabel(size: 11),
+                      style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.mid),
                     ),
                     const Spacer(),
                     CupertinoButton(
@@ -340,7 +235,7 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                           Navigator.of(context).pop(_kSigns[idx]),
                       child: Text(
                         AppLocalizations.of(context)!.commonDone,
-                        style: AstroText.buttonOutline(size: 16),
+                        style: AstroText.sectionLabel(size: 15),
                       ),
                     ),
                   ],
@@ -356,10 +251,8 @@ class _CosmicVoidPageState extends State<CosmicVoidPage> {
                         height: 44,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: AstroColors.red.withValues(alpha: 0.06),
+                          color: AstroColors.border.withValues(alpha: 0.30),
                           borderRadius: BorderRadius.circular(10),
-                          border:
-                              Border.all(color: AstroColors.red.withValues(alpha: 0.15)),
                         ),
                       ),
                       CupertinoPicker(
@@ -429,11 +322,11 @@ class _SignPicker extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
         splashColor: AstroColors.red.withValues(alpha: 0.06),
         child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
           decoration: BoxDecoration(
             color: AstroColors.card,
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: AstroColors.border),
+            border: Border.all(color: AstroColors.border, width: 0.8),
           ),
           child: Row(
             children: [
@@ -454,36 +347,6 @@ class _SignPicker extends StatelessWidget {
                 size: 22,
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Red button ─────────────────────────────────────────────────────────────
-class _RedButton extends StatelessWidget {
-  const _RedButton({required this.label, required this.onTap});
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        child: Ink(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            color: Colors.white,
-            border: Border.all(color: AstroColors.red, width: 1.5),
-          ),
-          child: Center(
-            child: Text(label, style: AstroText.buttonOutline(size: 14)),
           ),
         ),
       ),
@@ -530,4 +393,3 @@ class _EchoTile extends StatelessWidget {
     );
   }
 }
-
