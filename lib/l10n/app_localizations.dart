@@ -584,47 +584,95 @@ abstract class AppLocalizations {
   /// **'RESET STARS'**
   String get oracleResetStars;
 
-  /// No description provided for @oracleSoulPanelHeader.
+  /// No description provided for @oracleMaleLabel.
   ///
   /// In en, this message translates to:
-  /// **'SOUL_REVELATION_V4.2'**
-  String get oracleSoulPanelHeader;
+  /// **'MALE'**
+  String get oracleMaleLabel;
 
-  /// No description provided for @oracleEssence.
+  /// No description provided for @oracleFemaleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FEMALE'**
+  String get oracleFemaleLabel;
+
+  /// No description provided for @oraclePersonalityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Personality'**
+  String get oraclePersonalityLabel;
+
+  /// No description provided for @oracleInLoveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'In Love'**
+  String get oracleInLoveLabel;
+
+  /// No description provided for @oracleCareerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Career'**
+  String get oracleCareerLabel;
+
+  /// No description provided for @oracleWeaknessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weakness'**
+  String get oracleWeaknessLabel;
+
+  /// No description provided for @oracleDecansTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DECAN ANALYSIS'**
+  String get oracleDecansTitle;
+
+  /// No description provided for @oraclePlanetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Planetary Influence'**
+  String get oraclePlanetLabel;
+
+  /// No description provided for @oracleStrengthsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengths'**
+  String get oracleStrengthsLabel;
+
+  /// No description provided for @oracleWeaknessesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weaknesses'**
+  String get oracleWeaknessesLabel;
+
+  /// No description provided for @oracleLayersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SUN · MOON · RISING'**
+  String get oracleLayersTitle;
+
+  /// No description provided for @oracleSunLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SUN SIGN'**
+  String get oracleSunLabel;
+
+  /// No description provided for @oracleMoonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MOON SIGN'**
+  String get oracleMoonLabel;
+
+  /// No description provided for @oracleRisingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'RISING SIGN'**
+  String get oracleRisingLabel;
+
+  /// No description provided for @oracleEssenceLabel.
   ///
   /// In en, this message translates to:
   /// **'ESSENCE'**
-  String get oracleEssence;
-
-  /// No description provided for @oracleSpiritualFlow.
-  ///
-  /// In en, this message translates to:
-  /// **'SPIRITUAL FLOW'**
-  String get oracleSpiritualFlow;
-
-  /// No description provided for @oracleDrawnTo.
-  ///
-  /// In en, this message translates to:
-  /// **'DRAWN TO'**
-  String get oracleDrawnTo;
-
-  /// No description provided for @oracleRadiatesTo.
-  ///
-  /// In en, this message translates to:
-  /// **'RADIATES TO'**
-  String get oracleRadiatesTo;
-
-  /// No description provided for @oracleDharmaPath.
-  ///
-  /// In en, this message translates to:
-  /// **'DHARMA PATH'**
-  String get oracleDharmaPath;
-
-  /// No description provided for @oracleSacredNeeds.
-  ///
-  /// In en, this message translates to:
-  /// **'SACRED NEEDS'**
-  String get oracleSacredNeeds;
+  String get oracleEssenceLabel;
 
   /// No description provided for @soulRevelationTitle.
   ///

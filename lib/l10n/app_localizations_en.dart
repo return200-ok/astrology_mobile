@@ -265,25 +265,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get oracleResetStars => 'RESET STARS';
 
   @override
-  String get oracleSoulPanelHeader => 'SOUL_REVELATION_V4.2';
+  String get oracleMaleLabel => 'MALE';
 
   @override
-  String get oracleEssence => 'ESSENCE';
+  String get oracleFemaleLabel => 'FEMALE';
 
   @override
-  String get oracleSpiritualFlow => 'SPIRITUAL FLOW';
+  String get oraclePersonalityLabel => 'Personality';
 
   @override
-  String get oracleDrawnTo => 'DRAWN TO';
+  String get oracleInLoveLabel => 'In Love';
 
   @override
-  String get oracleRadiatesTo => 'RADIATES TO';
+  String get oracleCareerLabel => 'Career';
 
   @override
-  String get oracleDharmaPath => 'DHARMA PATH';
+  String get oracleWeaknessLabel => 'Weakness';
 
   @override
-  String get oracleSacredNeeds => 'SACRED NEEDS';
+  String get oracleDecansTitle => 'DECAN ANALYSIS';
+
+  @override
+  String get oraclePlanetLabel => 'Planetary Influence';
+
+  @override
+  String get oracleStrengthsLabel => 'Strengths';
+
+  @override
+  String get oracleWeaknessesLabel => 'Weaknesses';
+
+  @override
+  String get oracleLayersTitle => 'SUN · MOON · RISING';
+
+  @override
+  String get oracleSunLabel => 'SUN SIGN';
+
+  @override
+  String get oracleMoonLabel => 'MOON SIGN';
+
+  @override
+  String get oracleRisingLabel => 'RISING SIGN';
+
+  @override
+  String get oracleEssenceLabel => 'ESSENCE';
 
   @override
   String get soulRevelationTitle => 'SOUL REVELATION';

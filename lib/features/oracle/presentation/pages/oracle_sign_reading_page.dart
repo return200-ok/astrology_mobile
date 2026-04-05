@@ -3,7 +3,6 @@ import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
 import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
 import 'package:astroweb_mobile/core/widgets/astro_card.dart';
-import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 
 import '../../domain/models/oracle_sign.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
@@ -25,15 +24,19 @@ class OracleSignReadingPage extends StatelessWidget {
         children: [
           _buildSymbolHeader(context),
           const SizedBox(height: 16),
-          _buildMainCard(context, l10n),
+          _buildMetaCard(context, l10n),
           const SizedBox(height: 14),
-          _buildSoulPanel(context, l10n),
+          _GenderSection(sign: sign, l10n: l10n),
+          const SizedBox(height: 14),
+          _buildDecanSection(context, l10n),
+          const SizedBox(height: 14),
+          _buildLayerSection(context, l10n),
         ],
       ),
     );
   }
 
-  // ── Centred symbol bubble ───────────────────────────────────────────────
+  // ── Symbol bubble ────────────────────────────────────────────────────────
 
   Widget _buildSymbolHeader(BuildContext context) {
     return Center(
@@ -58,150 +61,182 @@ class OracleSignReadingPage extends StatelessWidget {
     );
   }
 
-  // ── Main oracle card ─────────────────────────────────────────────────────
+  // ── Meta card: name + badges + summary ──────────────────────────────────
 
-  Widget _buildMainCard(BuildContext context, AppLocalizations l10n) {
+  Widget _buildMetaCard(BuildContext context, AppLocalizations l10n) {
     final w = MediaQuery.sizeOf(context).width;
-    final titleSize    = w < 430 ? 34.0 : 40.0;
-    final guidanceSize = w < 430 ? 16.0 : 19.0;
+    final titleSize = w < 430 ? 30.0 : 36.0;
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AstroColors.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AstroColors.border.withValues(alpha: 0.7),
-          width: 0.8,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AstroColors.ink.withValues(alpha: 0.06),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+    return AstroCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Sign name
+          Text(
+            ZodiacLocalization.name(context, sign.id).toUpperCase(),
+            style: AstroText.sectionLabel(size: titleSize, spacing: 3.0),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+
+          // Date range
+          Text(
+            ZodiacLocalization.range(context, sign.id),
+            style: AstroText.bodyMuted(size: 13),
+          ),
+          const SizedBox(height: 12),
+
+          // Element + modality badges
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _Badge(label: sign.element, color: AstroColors.red),
+              const SizedBox(width: 8),
+              _Badge(label: sign.modality, color: AstroColors.mid),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Divider
+          Container(
+            width: 60,
+            height: 1,
+            color: AstroColors.red.withValues(alpha: 0.45),
+          ),
+          const SizedBox(height: 16),
+
+          // Summary
+          Text(
+            sign.summary,
+            textAlign: TextAlign.center,
+            style: AstroText.bodyMuted(size: 14, height: 1.65),
           ),
         ],
-      ),
-      // Clip the pine-branch decor to the card's rounded corners.
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Stack(
-          children: [
-            // Pine branch — top-right decorative layer
-            const Positioned(
-              top: 0,
-              right: 0,
-              child: _PineBranchDecor(),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 36, 24, 30),
-              child: Column(
-                children: [
-                  // Sign name
-                  Text(
-                    _titleCase(ZodiacLocalization.name(context, sign.id)),
-                    style: AstroText.sectionLabel(size: titleSize, spacing: 3.0),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Red divider line
-                  Container(
-                    width: 80,
-                    height: 1,
-                    color: AstroColors.red.withValues(alpha: 0.55),
-                  ),
-                  const SizedBox(height: 28),
-
-                  // Guidance text
-                  Text(
-                    '"${ZodiacLocalization.guidance(context, sign.id, sign.guidance)}"',
-                    textAlign: TextAlign.center,
-                    style: AstroText.bodyMuted(size: guidanceSize, height: 1.65).copyWith(color: AstroColors.ink),
-                  ),
-                  const SizedBox(height: 32),
-
-                  // Reset Stars button
-                  AstroButton.outline(
-                    label: l10n.oracleResetStars,
-                    expanded: false,
-                    height: 48,
-                    icon: Icon(Icons.refresh_rounded,
-                        size: 17, color: AstroColors.red.withValues(alpha: 0.80)),
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
 
-  // ── Soul insight panel ───────────────────────────────────────────────────
+  // ── Decan section ────────────────────────────────────────────────────────
 
-  Widget _buildSoulPanel(BuildContext context, AppLocalizations l10n) {
-    final sections = [
-      (l10n.oracleEssence,       ZodiacLocalization.essence(context, sign.id, sign.essence)),
-      (l10n.oracleSpiritualFlow, ZodiacLocalization.spiritualFlow(context, sign.id, sign.spiritualFlow)),
-      (l10n.oracleDrawnTo,       ZodiacLocalization.drawnTo(context, sign.id, sign.drawnTo)),
-      (l10n.oracleRadiatesTo,    ZodiacLocalization.radiatesTo(context, sign.id, sign.radiatesTo)),
-      (l10n.oracleDharmaPath,    ZodiacLocalization.dharmaPath(context, sign.id, sign.dharmaPath)),
-      (l10n.oracleSacredNeeds,   ZodiacLocalization.sacredNeeds(context, sign.id, sign.sacredNeeds)),
-    ];
+  Widget _buildDecanSection(BuildContext context, AppLocalizations l10n) {
+    return AstroCard(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _SectionHeader(title: l10n.oracleDecansTitle),
+          _DecanCard(decan: sign.decan1, number: 1, l10n: l10n),
+          _DecanCard(decan: sign.decan2, number: 2, l10n: l10n),
+          _DecanCard(decan: sign.decan3, number: 3, l10n: l10n),
+          const SizedBox(height: 4),
+        ],
+      ),
+    );
+  }
+
+  // ── Layer section ────────────────────────────────────────────────────────
+
+  Widget _buildLayerSection(BuildContext context, AppLocalizations l10n) {
+    return AstroCard(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _SectionHeader(title: l10n.oracleLayersTitle),
+          _LayerCard(
+            label: l10n.oracleSunLabel,
+            layer: sign.sunLayer,
+            essenceLabel: l10n.oracleEssenceLabel,
+            accentColor: AstroColors.red,
+          ),
+          _LayerCard(
+            label: l10n.oracleMoonLabel,
+            layer: sign.moonLayer,
+            essenceLabel: l10n.oracleEssenceLabel,
+            accentColor: AstroColors.mid,
+          ),
+          _LayerCard(
+            label: l10n.oracleRisingLabel,
+            layer: sign.risingLayer,
+            essenceLabel: l10n.oracleEssenceLabel,
+            accentColor: AstroColors.border,
+          ),
+          const SizedBox(height: 4),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Gender section (stateful toggle) ────────────────────────────────────────
+
+class _GenderSection extends StatefulWidget {
+  const _GenderSection({required this.sign, required this.l10n});
+
+  final OracleSign sign;
+  final AppLocalizations l10n;
+
+  @override
+  State<_GenderSection> createState() => _GenderSectionState();
+}
+
+class _GenderSectionState extends State<_GenderSection> {
+  bool _showMale = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+    final analysis = _showMale ? widget.sign.male : widget.sign.female;
 
     return AstroCard(
       padding: EdgeInsets.zero,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Panel header
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
-                child: Text(
-                  l10n.oracleSoulPanelHeader,
-                  style: AstroText.sectionLabel(size: 11).copyWith(color: AstroColors.mid),
+          // Toggle row
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+            child: Row(
+              children: [
+                _ToggleButton(
+                  label: l10n.oracleMaleLabel,
+                  selected: _showMale,
+                  onTap: () => setState(() => _showMale = true),
                 ),
-              ),
-
-              // Sections
-              ...sections.asMap().entries.map((e) => _InsightSection(
-                title: e.value.$1,
-                items: e.value.$2,
-              )),
-
-              const SizedBox(height: 18),
-            ],
+                const SizedBox(width: 8),
+                _ToggleButton(
+                  label: l10n.oracleFemaleLabel,
+                  selected: !_showMale,
+                  onTap: () => setState(() => _showMale = false),
+                ),
+              ],
+            ),
           ),
 
-          // Chinese seal stamp — purely decorative, low opacity
-          Positioned(
-            right: 12,
-            bottom: 12,
-            child: Opacity(
-              opacity: 0.65,
-              child: _ChineseSeal(),
-            ),
+          // Analysis rows
+          _AnalysisRow(label: l10n.oraclePersonalityLabel, text: analysis.personality),
+          _AnalysisRow(label: l10n.oracleInLoveLabel, text: analysis.inLove),
+          _AnalysisRow(label: l10n.oracleCareerLabel, text: analysis.career),
+          _AnalysisRow(
+            label: l10n.oracleWeaknessLabel,
+            text: analysis.weakness,
+            labelColor: AstroColors.red.withValues(alpha: 0.75),
+            isLast: true,
           ),
         ],
       ),
     );
   }
-
-  String _titleCase(String s) =>
-      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1).toLowerCase();
 }
 
-// ─── Insight section ─────────────────────────────────────────────────────────
+// ─── Decan card ───────────────────────────────────────────────────────────────
 
-class _InsightSection extends StatelessWidget {
-  const _InsightSection({required this.title, required this.items});
+class _DecanCard extends StatelessWidget {
+  const _DecanCard({required this.decan, required this.number, required this.l10n});
 
-  final String title;
-  final List<String> items;
+  final SignDecan decan;
+  final int number;
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
@@ -210,23 +245,57 @@ class _InsightSection extends StatelessWidget {
       children: [
         const Divider(color: AstroColors.divider, thickness: 0.8, height: 1),
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title.toUpperCase(),
-                style: AstroText.sectionLabel(size: 11, spacing: 1.8).copyWith(color: AstroColors.ink),
+              // Header row: decan number + date range + planet
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _Badge(label: 'DECAN $number', color: AstroColors.red),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          decan.dateRange,
+                          style: AstroText.sectionLabel(size: 11, spacing: 0.5)
+                              .copyWith(color: AstroColors.ink),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '${l10n.oraclePlanetLabel}: ${decan.planetInfluence}',
+                          style: AstroText.bodyMuted(size: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 10),
-              ...items.map(
-                (item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    '- $item',
-                    style: AstroText.bodyMuted(size: 14, height: 1.5),
-                  ),
-                ),
+
+              // Description
+              Text(
+                decan.description,
+                style: AstroText.bodyMuted(size: 14, height: 1.6),
+              ),
+              const SizedBox(height: 10),
+
+              // Strengths
+              _InlineRow(
+                label: l10n.oracleStrengthsLabel,
+                text: decan.strengths,
+                labelColor: AstroColors.ink,
+              ),
+              const SizedBox(height: 6),
+
+              // Weaknesses
+              _InlineRow(
+                label: l10n.oracleWeaknessesLabel,
+                text: decan.weaknesses,
+                labelColor: AstroColors.red.withValues(alpha: 0.75),
               ),
             ],
           ),
@@ -236,112 +305,223 @@ class _InsightSection extends StatelessWidget {
   }
 }
 
-// ─── Pine branch decor (top-right corner of main card) ───────────────────────
+// ─── Layer card ───────────────────────────────────────────────────────────────
 
-class _PineBranchDecor extends StatelessWidget {
-  const _PineBranchDecor();
+class _LayerCard extends StatelessWidget {
+  const _LayerCard({
+    required this.label,
+    required this.layer,
+    required this.essenceLabel,
+    required this.accentColor,
+  });
+
+  final String label;
+  final SignLayer layer;
+  final String essenceLabel;
+  final Color accentColor;
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(120, 110),
-      painter: _PinePainter(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: AstroColors.divider, thickness: 0.8, height: 1),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Layer label
+              Text(
+                label,
+                style: AstroText.sectionLabel(size: 11, spacing: 1.8)
+                    .copyWith(color: accentColor),
+              ),
+              const SizedBox(height: 8),
+
+              // Essence headline
+              Text(
+                layer.essence,
+                style: AstroText.sectionLabel(size: 13, spacing: 0.5)
+                    .copyWith(color: AstroColors.ink),
+              ),
+              const SizedBox(height: 8),
+
+              // Description
+              Text(
+                layer.description,
+                style: AstroText.bodyMuted(size: 14, height: 1.65),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _PinePainter extends CustomPainter {
-  static const _ink = Color(0xFF1A1A1A);
+// ─── Section header ───────────────────────────────────────────────────────────
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title});
+
+  final String title;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final branchPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 1.3
-      ..color = _ink.withValues(alpha: 0.09);
-
-    final trunk = Path()
-      ..moveTo(size.width, 0)
-      ..quadraticBezierTo(
-        size.width * 0.62, size.height * 0.28,
-        size.width * 0.28, size.height * 0.60,
-      );
-    canvas.drawPath(trunk, branchPaint);
-
-    branchPaint.strokeWidth = 0.8;
-    branchPaint.color = _ink.withValues(alpha: 0.07);
-    final subs = <(double, double, double, double)>[
-      (0.88, 0.08, 0.76, 0.04),
-      (0.76, 0.16, 0.86, 0.24),
-      (0.62, 0.28, 0.50, 0.22),
-      (0.50, 0.38, 0.60, 0.46),
-      (0.38, 0.48, 0.28, 0.42),
-    ];
-    for (final (x1, y1, x2, y2) in subs) {
-      canvas.drawLine(
-        Offset(size.width * x1, size.height * y1),
-        Offset(size.width * x2, size.height * y2),
-        branchPaint,
-      );
-    }
-
-    final needlePaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 0.6
-      ..color = _ink.withValues(alpha: 0.06);
-
-    final clusters = [
-      (size.width * 0.76, size.height * 0.04, 8.0),
-      (size.width * 0.86, size.height * 0.24, 7.0),
-      (size.width * 0.50, size.height * 0.22, 7.0),
-      (size.width * 0.60, size.height * 0.46, 6.0),
-      (size.width * 0.28, size.height * 0.42, 6.0),
-    ];
-    for (final (cx, cy, r) in clusters) {
-      for (var i = 0; i < 8; i++) {
-        final angle = i / 8 * 2 * 3.14159;
-        canvas.drawLine(
-          Offset(cx, cy),
-          Offset(cx + r * _cos(angle), cy + r * _sin(angle)),
-          needlePaint,
-        );
-      }
-    }
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+      child: Text(
+        title,
+        style: AstroText.sectionLabel(size: 11).copyWith(color: AstroColors.mid),
+      ),
+    );
   }
-
-  double _cos(double a) => _sin(a + 3.14159 / 2);
-
-  double _sin(double a) {
-    a = a % (2 * 3.14159);
-    if (a > 3.14159) a -= 2 * 3.14159;
-    final a3 = a * a * a;
-    final a5 = a3 * a * a;
-    final a7 = a5 * a * a;
-    return a - a3 / 6 + a5 / 120 - a7 / 5040;
-  }
-
-  @override
-  bool shouldRepaint(_PinePainter old) => false;
 }
 
-// ─── Chinese seal stamp ───────────────────────────────────────────────────────
+// ─── Analysis row ─────────────────────────────────────────────────────────────
 
-class _ChineseSeal extends StatelessWidget {
+class _AnalysisRow extends StatelessWidget {
+  const _AnalysisRow({
+    required this.label,
+    required this.text,
+    this.labelColor,
+    this.isLast = false,
+  });
+
+  final String label;
+  final String text;
+  final Color? labelColor;
+  final bool isLast;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: AstroColors.divider, thickness: 0.8, height: 1),
+        Padding(
+          padding: EdgeInsets.fromLTRB(16, 12, 16, isLast ? 16 : 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label.toUpperCase(),
+                style: AstroText.sectionLabel(size: 10, spacing: 1.5)
+                    .copyWith(color: labelColor ?? AstroColors.ink),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                text,
+                style: AstroText.bodyMuted(size: 14, height: 1.6),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Inline label + text ──────────────────────────────────────────────────────
+
+class _InlineRow extends StatelessWidget {
+  const _InlineRow({
+    required this.label,
+    required this.text,
+    required this.labelColor,
+  });
+
+  final String label;
+  final String text;
+  final Color labelColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: '$label: ',
+            style: AstroText.sectionLabel(size: 12, spacing: 0.3)
+                .copyWith(color: labelColor),
+          ),
+          TextSpan(
+            text: text,
+            style: AstroText.bodyMuted(size: 13, height: 1.55),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Toggle button ────────────────────────────────────────────────────────────
+
+class _ToggleButton extends StatelessWidget {
+  const _ToggleButton({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        height: 36,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: selected ? AstroColors.red.withValues(alpha: 0.12) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: selected
+                ? AstroColors.red.withValues(alpha: 0.60)
+                : AstroColors.border,
+            width: selected ? 1.2 : 0.8,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: AstroText.sectionLabel(size: 12, spacing: 1.0).copyWith(
+            color: selected
+                ? AstroColors.red.withValues(alpha: 0.85)
+                : AstroColors.mid,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Badge chip ───────────────────────────────────────────────────────────────
+
+class _Badge extends StatelessWidget {
+  const _Badge({required this.label, required this.color});
+
+  final String label;
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 42,
-      height: 42,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AstroColors.red,
-        borderRadius: BorderRadius.circular(5),
+        color: color.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: color.withValues(alpha: 0.35), width: 0.8),
       ),
-      alignment: Alignment.center,
       child: Text(
-        '禮',
-        style: AstroText.body(size: 20).copyWith(color: const Color(0xFFFBF8F3), height: 1),
+        label,
+        style: AstroText.sectionLabel(size: 10, spacing: 0.8)
+            .copyWith(color: color.withValues(alpha: 0.85)),
       ),
     );
   }

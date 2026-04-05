@@ -24,7 +24,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get homeHeroSubtitle => 'MINH TRIẾT CỔ XƯA TỪ CÁC VÌ SAO';
 
   @override
-  String get featureOracleTitle => 'TIÊN TRI';
+  String get featureOracleTitle => 'CUNG HOÀNG ĐẠO';
 
   @override
   String get featureOracleTagline => 'Tìm điềm huyền bí từ sao.';
@@ -253,7 +253,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get ichingGuidanceDefault3 => 'Chọn con đường giữ được cân bằng';
 
   @override
-  String get oracleTitle => 'THIÊN DỤ TINH GIỚI';
+  String get oracleTitle => 'CHỌN CUNG THEO NGÀY SINH DƯƠNG LỊCH';
 
   @override
   String get oracleSelectPrompt =>
@@ -263,25 +263,49 @@ class AppLocalizationsVi extends AppLocalizations {
   String get oracleResetStars => 'ĐẶT LẠI TINH TÚ';
 
   @override
-  String get oracleSoulPanelHeader => 'SOUL_REVELATION_V4.2';
+  String get oracleMaleLabel => 'NAM';
 
   @override
-  String get oracleEssence => 'BẢN CHẤT';
+  String get oracleFemaleLabel => 'NỮ';
 
   @override
-  String get oracleSpiritualFlow => 'DÒNG CHẢY TINH THẦN';
+  String get oraclePersonalityLabel => 'Tính cách';
 
   @override
-  String get oracleDrawnTo => 'BỊ THU HÚT BỞI';
+  String get oracleInLoveLabel => 'Trong tình yêu';
 
   @override
-  String get oracleRadiatesTo => 'LAN TỎA ĐẾN';
+  String get oracleCareerLabel => 'Sự nghiệp';
 
   @override
-  String get oracleDharmaPath => 'ĐƯỜNG DHARMA';
+  String get oracleWeaknessLabel => 'Điểm yếu';
 
   @override
-  String get oracleSacredNeeds => 'NHU CẦU THIÊNG';
+  String get oracleDecansTitle => 'PHÂN TÍCH DECAN';
+
+  @override
+  String get oraclePlanetLabel => 'Ảnh hưởng hành tinh';
+
+  @override
+  String get oracleStrengthsLabel => 'Điểm mạnh';
+
+  @override
+  String get oracleWeaknessesLabel => 'Điểm yếu';
+
+  @override
+  String get oracleLayersTitle => 'MẶT TRỜI · MẶT TRĂNG · MỌỌC';
+
+  @override
+  String get oracleSunLabel => 'MẶT TRỜI';
+
+  @override
+  String get oracleMoonLabel => 'MẶT TRĂNG';
+
+  @override
+  String get oracleRisingLabel => 'MỌỌC';
+
+  @override
+  String get oracleEssenceLabel => 'BẢN CHẤT';
 
   @override
   String get soulRevelationTitle => 'KHAI MỞ LINH HỒN';
