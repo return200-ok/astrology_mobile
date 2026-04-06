@@ -57,7 +57,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get featureCosmicVoidTitle => 'HƯ VÔ\nVŨ TRỤ';
 
   @override
-  String get featureCosmicVoidTagline => 'Chiêm nghiệm trong tĩnh lặng.';
+  String get featureCosmicVoidTagline => 'Nhắn gửi mong muốn đến vũ trụ.';
 
   @override
   String get featureComingSoon => 'Tính năng sẽ sớm ra mắt';
@@ -308,7 +308,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get oracleEssenceLabel => 'BẢN CHẤT';
 
   @override
-  String get soulRevelationTitle => 'KHAI MỞ LINH HỒN';
+  String get soulRevelationTitle => 'KHÁM PHÁ TÍNH CÁCH';
 
   @override
   String get enneagramTitle => 'ENNEAGRAM V9';
@@ -341,7 +341,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get cosmicVoidTitle => 'HƯ VÔ VŨ TRỤ';
+  String get cosmicVoidTitle => 'MANIFEST';
 
   @override
   String get cosmicVoidSubtitle => 'TIẾNG VỌNG TỪ TẦNG TINH GIỚI';

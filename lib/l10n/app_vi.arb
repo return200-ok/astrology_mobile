@@ -16,7 +16,7 @@
   "featureSoulRevelationTitle": "KHAI MỞ\nLINH HỒN",
   "featureSoulRevelationTagline": "Khám phá bản ngã.",
   "featureCosmicVoidTitle": "HƯ VÔ\nVŨ TRỤ",
-  "featureCosmicVoidTagline": "Chiêm nghiệm trong tĩnh lặng.",
+  "featureCosmicVoidTagline": "Nhắn gửi mong muốn đến vũ trụ.",
   "featureComingSoon": "Tính năng sẽ sớm ra mắt",
   "backTooltip": "Quay lại",
   "commonReturnToSilence": "TRỞ VỀ TĨNH LẶNG",
@@ -101,7 +101,7 @@
   "oracleRisingLabel": "MỌỌC",
   "oracleEssenceLabel": "BẢN CHẤT",
 
-  "soulRevelationTitle": "KHAI MỞ LINH HỒN",
+  "soulRevelationTitle": "KHÁM PHÁ TÍNH CÁCH",
   "enneagramTitle": "ENNEAGRAM V9",
   "soulQuote": "\"Trước khi các vì sao soi đường, bản ngã nội tâm cần được khai mở.\"",
   "soulBeginRevelation": "BẮT ĐẦU BÀI TEST",
@@ -122,7 +122,7 @@
     }
   },
 
-  "cosmicVoidTitle": "HƯ VÔ VŨ TRỤ",
+  "cosmicVoidTitle": "MANIFEST",
   "cosmicVoidSubtitle": "TIẾNG VỌNG TỪ TẦNG TINH GIỚI",
   "cosmicPanelTitle": "GIAO CẢM VỚI HƯ VÔ",
   "cosmicSpiritAlias": "LINH DANH / BÍ DANH",

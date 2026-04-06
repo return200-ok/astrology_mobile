@@ -36,9 +36,9 @@ lib/
 │   ├── oracle/          # Tiên Tri — đọc cung hoàng đạo
 │   ├── alignment/       # Tương Hợp — tương hợp cung hoàng đạo
 │   ├── iching/          # Kinh Dịch — xin quẻ
-│   ├── soul_revelation/ # Khai Mở Linh Hồn — trắc nghiệm BFI-44
+│   ├── soul_revelation/ # KHÁM PHÁ TÍNH CÁCH — trắc nghiệm BFI-44
 │   ├── imperial/        # Tử Vi — lá số tử vi
-│   └── cosmic_void/     # Hư Vô Vũ Trụ — thì thầm cộng đồng
+│   └── cosmic_void/     # MANIFEST — thì thầm cộng đồng
 ├── core/
 │   ├── i18n/            # Bản địa hóa bổ sung (zodiac_localization.dart)
 │   └── theme/           # Giao diện, màu sắc
@@ -169,7 +169,7 @@ Logic chọn bộ lời giải nằm trong:
 
 ---
 
-### 4. Khai Mở Linh Hồn (Soul Revelation) — Trắc nghiệm & kết quả
+### 4. KHÁM PHÁ TÍNH CÁCH (Soul Revelation) — Trắc nghiệm & kết quả
 
 #### 44 câu hỏi BFI
 
