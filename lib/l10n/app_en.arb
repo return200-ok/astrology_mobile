@@ -100,6 +100,18 @@
   "oracleMoonLabel": "MOON SIGN",
   "oracleRisingLabel": "RISING SIGN",
   "oracleEssenceLabel": "ESSENCE",
+  "oracleAskAiButton": "ASK AI",
+  "oracleAiTitle": "ASK ABOUT THIS SIGN",
+  "oracleAiHint": "Ask a question...",
+  "oracleAiSuggest1": "Which sign is most compatible with this one?",
+  "oracleAiSuggest2": "What is the greatest strength of this sign?",
+  "oracleAiSuggest3": "What weakness should this sign watch out for?",
+  "oracleAiSessionLimit": "Session limit reached ({count} questions)",
+  "@oracleAiSessionLimit": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
 
   "soulRevelationTitle": "SOUL REVELATION",
   "enneagramTitle": "ENNEAGRAM_V9",
@@ -207,5 +219,12 @@
       "total": { "type": "int" }
     }
   },
-  "soulQuestionsFixed": "44 questions"
+  "soulQuestionsFixed": "44 questions",
+
+  "settingsPrivacyPolicy": "Privacy Policy",
+  "oracleAiDisclaimer": "AI-generated content · For entertainment purposes only",
+  "soulEntertainmentDisclaimer": "This test is for entertainment and self-reflection only. It is not a clinically validated psychological assessment.",
+  "privacyPolicyTitle": "Privacy Policy",
+  "privacyPolicyBody": "Mystic Cosmos collects your name and birth date solely to perform astrology calculations on your device. This data is never stored on our servers or shared with third parties.\n\nWhen you use the Oracle AI Chat feature, your question and zodiac sign are sent to our secure server (Supabase) and processed by Google Gemini AI to generate a response. No personally identifiable information is retained after the session ends.\n\nWe use app preferences (theme, language) stored locally on your device via standard iOS mechanisms.\n\nThis app does not use advertising, analytics tracking, or any third-party tracking SDKs.\n\nFor questions, contact us via the Settings screen.",
+  "termsBody": "Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional advice of any kind.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms."
 }

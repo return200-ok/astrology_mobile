@@ -674,6 +674,48 @@ abstract class AppLocalizations {
   /// **'ESSENCE'**
   String get oracleEssenceLabel;
 
+  /// No description provided for @oracleAskAiButton.
+  ///
+  /// In en, this message translates to:
+  /// **'ASK AI'**
+  String get oracleAskAiButton;
+
+  /// No description provided for @oracleAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ASK ABOUT THIS SIGN'**
+  String get oracleAiTitle;
+
+  /// No description provided for @oracleAiHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question...'**
+  String get oracleAiHint;
+
+  /// No description provided for @oracleAiSuggest1.
+  ///
+  /// In en, this message translates to:
+  /// **'Which sign is most compatible with this one?'**
+  String get oracleAiSuggest1;
+
+  /// No description provided for @oracleAiSuggest2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the greatest strength of this sign?'**
+  String get oracleAiSuggest2;
+
+  /// No description provided for @oracleAiSuggest3.
+  ///
+  /// In en, this message translates to:
+  /// **'What weakness should this sign watch out for?'**
+  String get oracleAiSuggest3;
+
+  /// No description provided for @oracleAiSessionLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Session limit reached ({count} questions)'**
+  String oracleAiSessionLimit(int count);
+
   /// No description provided for @soulRevelationTitle.
   ///
   /// In en, this message translates to:
@@ -1147,6 +1189,13 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'44 questions'**
   String get soulQuestionsFixed;
+
+  String get settingsPrivacyPolicy;
+  String get oracleAiDisclaimer;
+  String get soulEntertainmentDisclaimer;
+  String get privacyPolicyTitle;
+  String get privacyPolicyBody;
+  String get termsBody;
 }
 
 class _AppLocalizationsDelegate

@@ -3,9 +3,10 @@ import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/i18n/zodiac_localization.dart';
 import 'package:astroweb_mobile/core/widgets/astro_page_scaffold.dart';
 import 'package:astroweb_mobile/core/widgets/astro_card.dart';
+import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 import '../../domain/models/oracle_sign.dart';
-import 'package:astroweb_mobile/core/theme/astro_theme.dart';
+import 'oracle_ai_chat_page.dart';
 
 class OracleSignReadingPage extends StatelessWidget {
   const OracleSignReadingPage({super.key, required this.sign});
@@ -31,6 +32,8 @@ class OracleSignReadingPage extends StatelessWidget {
           _buildDecanSection(context, l10n),
           const SizedBox(height: 14),
           _buildLayerSection(context, l10n),
+          const SizedBox(height: 20),
+          _AskAiButton(sign: sign, l10n: l10n),
         ],
       ),
     );
@@ -522,6 +525,54 @@ class _Badge extends StatelessWidget {
         label,
         style: AstroText.sectionLabel(size: 10, spacing: 0.8)
             .copyWith(color: color.withValues(alpha: 0.85)),
+      ),
+    );
+  }
+}
+
+// ─── Ask AI button ────────────────────────────────────────────────────────────
+
+class _AskAiButton extends StatelessWidget {
+  const _AskAiButton({required this.sign, required this.l10n});
+
+  final OracleSign sign;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => OracleAiChatPage(sign: sign),
+        ),
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: AstroColors.red.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: AstroColors.red.withValues(alpha: 0.35),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.auto_awesome_rounded,
+              size: 16,
+              color: AstroColors.red.withValues(alpha: 0.80),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              l10n.oracleAskAiButton,
+              style: AstroText.sectionLabel(size: 12, spacing: 1.5)
+                  .copyWith(color: AstroColors.red.withValues(alpha: 0.85)),
+            ),
+          ],
+        ),
       ),
     );
   }

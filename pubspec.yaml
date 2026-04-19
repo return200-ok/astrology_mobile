@@ -20,6 +20,7 @@ dependencies:
   lunar: ^1.4.1 # Gần giống lunar-javascript nhất
   flutter_svg: ^2.0.10+1
   logger: ^2.5.0
+  supabase_flutter: ^2.8.4
 
 dev_dependencies:
   flutter_test:

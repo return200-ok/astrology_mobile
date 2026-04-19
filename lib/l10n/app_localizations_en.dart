@@ -310,6 +310,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get oracleEssenceLabel => 'ESSENCE';
 
   @override
+  String get oracleAskAiButton => 'ASK AI';
+
+  @override
+  String get oracleAiTitle => 'ASK ABOUT THIS SIGN';
+
+  @override
+  String get oracleAiHint => 'Ask a question...';
+
+  @override
+  String get oracleAiSuggest1 => 'Which sign is most compatible with this one?';
+
+  @override
+  String get oracleAiSuggest2 => 'What is the greatest strength of this sign?';
+
+  @override
+  String get oracleAiSuggest3 =>
+      'What weakness should this sign watch out for?';
+
+  @override
+  String oracleAiSessionLimit(int count) {
+    return 'Session limit reached ($count questions)';
+  }
+
+  @override
   String get soulRevelationTitle => 'SOUL REVELATION';
 
   @override
@@ -556,4 +580,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get soulQuestionsFixed => '44 questions';
+
+  @override
+  String get settingsPrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get oracleAiDisclaimer => 'AI-generated content · For entertainment purposes only';
+
+  @override
+  String get soulEntertainmentDisclaimer =>
+      'This test is for entertainment and self-reflection only. It is not a clinically validated psychological assessment.';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyBody =>
+      'Mystic Cosmos collects your name and birth date solely to perform astrology calculations on your device. This data is never stored on our servers or shared with third parties.\n\nWhen you use the Oracle AI Chat feature, your question and zodiac sign are sent to our secure server (Supabase) and processed by Google Gemini AI to generate a response. No personally identifiable information is retained after the session ends.\n\nWe use app preferences (theme, language) stored locally on your device via standard iOS mechanisms.\n\nThis app does not use advertising, analytics tracking, or any third-party tracking SDKs.\n\nFor questions, contact us via the Settings screen.';
+
+  @override
+  String get termsBody =>
+      'Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional advice of any kind.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.';
 }

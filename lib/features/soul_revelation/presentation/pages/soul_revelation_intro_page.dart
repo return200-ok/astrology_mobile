@@ -85,7 +85,24 @@ class _IntroContent extends StatelessWidget {
           style: AstroText.bodyMuted(size: 13, height: 1.7),
         ),
 
-        const SizedBox(height: 48),
+        const SizedBox(height: 24),
+
+        // Entertainment disclaimer
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            color: AstroColors.iconBg,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AstroColors.border, width: 0.8),
+          ),
+          child: Text(
+            l10n.soulEntertainmentDisclaimer,
+            textAlign: TextAlign.center,
+            style: AstroText.bodyMuted(size: 11, height: 1.6),
+          ),
+        ),
+
+        const SizedBox(height: 24),
 
         // Begin button
         AstroButton.outline(

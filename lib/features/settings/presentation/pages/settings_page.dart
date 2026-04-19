@@ -85,6 +85,11 @@ class SettingsPage extends StatelessWidget {
                               onTap: () => _showTerms(context, l10n),
                             ),
                             _SettingsTile(
+                              icon: Icons.privacy_tip_outlined,
+                              label: l10n.settingsPrivacyPolicy,
+                              onTap: () => _showPrivacyPolicy(context, l10n),
+                            ),
+                            _SettingsTile(
                               icon: Icons.chat_bubble_outline_rounded,
                               label: l10n.settingsContact,
                               onTap: () => _showComingSoon(context, l10n.settingsContact),
@@ -155,14 +160,21 @@ class SettingsPage extends StatelessWidget {
   }
 
   void _showTerms(BuildContext context, AppLocalizations l10n) {
+    _showTextDialog(context, title: l10n.settingsTerms, body: l10n.termsBody);
+  }
+
+  void _showPrivacyPolicy(BuildContext context, AppLocalizations l10n) {
+    _showTextDialog(context, title: l10n.privacyPolicyTitle, body: l10n.privacyPolicyBody);
+  }
+
+  void _showTextDialog(BuildContext context, {required String title, required String body}) {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(context).cardColor,
-        title: Text(l10n.settingsTerms, style: AstroText.sectionLabel(size: 16).copyWith(color: AstroColors.ink)),
-        content: Text(
-          'Mystic Cosmos (Tử Vi) là ứng dụng chiêm tinh học phục vụ mục đích giải trí và khám phá bản thân. Các thông tin cung cấp không thay thế lời khuyên chuyên nghiệp.\n\nDữ liệu cá nhân (ngày sinh, tên) được xử lý cục bộ trên thiết bị và không được chia sẻ với bên thứ ba.',
-          style: AstroText.bodyMuted(size: 13),
+        title: Text(title, style: AstroText.sectionLabel(size: 16).copyWith(color: AstroColors.ink)),
+        content: SingleChildScrollView(
+          child: Text(body, style: AstroText.bodyMuted(size: 13)),
         ),
         actions: [
           TextButton(

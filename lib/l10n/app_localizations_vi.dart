@@ -308,6 +308,29 @@ class AppLocalizationsVi extends AppLocalizations {
   String get oracleEssenceLabel => 'BẢN CHẤT';
 
   @override
+  String get oracleAskAiButton => 'HỎI AI';
+
+  @override
+  String get oracleAiTitle => 'HỎI VỀ CUNG NÀY';
+
+  @override
+  String get oracleAiHint => 'Nhập câu hỏi về cung này...';
+
+  @override
+  String get oracleAiSuggest1 => 'Cung này hợp với cung nào nhất?';
+
+  @override
+  String get oracleAiSuggest2 => 'Điểm mạnh lớn nhất của cung này là gì?';
+
+  @override
+  String get oracleAiSuggest3 => 'Điểm yếu nào của cung này cần chú ý nhất?';
+
+  @override
+  String oracleAiSessionLimit(int count) {
+    return 'Đã dùng hết $count câu hỏi trong phiên này';
+  }
+
+  @override
   String get soulRevelationTitle => 'KHÁM PHÁ TÍNH CÁCH';
 
   @override
@@ -555,4 +578,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get soulQuestionsFixed => '44 câu hỏi';
+
+  @override
+  String get settingsPrivacyPolicy => 'Chính sách bảo mật';
+
+  @override
+  String get oracleAiDisclaimer => 'Nội dung do AI tạo ra · Chỉ mang tính giải trí';
+
+  @override
+  String get soulEntertainmentDisclaimer =>
+      'Bài test này chỉ mang tính giải trí và tự khám phá bản thân. Đây không phải là công cụ đánh giá tâm lý được kiểm chứng lâm sàng.';
+
+  @override
+  String get privacyPolicyTitle => 'Chính sách bảo mật';
+
+  @override
+  String get privacyPolicyBody =>
+      'Mystic Cosmos thu thập tên và ngày sinh của bạn chỉ để thực hiện tính toán chiêm tinh học ngay trên thiết bị. Dữ liệu này không bao giờ được lưu trữ trên máy chủ hay chia sẻ với bên thứ ba.\n\nKhi bạn sử dụng tính năng Oracle AI Chat, câu hỏi và cung hoàng đạo của bạn được gửi đến máy chủ bảo mật (Supabase) và xử lý bởi Google Gemini AI để tạo câu trả lời. Không có thông tin nhận dạng cá nhân nào được giữ lại sau khi phiên kết thúc.\n\nChúng tôi lưu tùy chọn ứng dụng (giao diện, ngôn ngữ) cục bộ trên thiết bị của bạn thông qua cơ chế tiêu chuẩn của iOS.\n\nỨng dụng không sử dụng quảng cáo, theo dõi phân tích hay bất kỳ SDK theo dõi nào của bên thứ ba.\n\nMọi thắc mắc, vui lòng liên hệ qua màn hình Cài đặt.';
+
+  @override
+  String get termsBody =>
+      'Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên chuyên nghiệp dưới bất kỳ hình thức nào.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật.';
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
+import 'core/config/app_config.dart';
 import 'core/i18n/locale_controller.dart';
 import 'core/widgets/ink_wash_background.dart';
 import 'features/alignment/presentation/pages/alignment_page.dart';
@@ -15,6 +17,10 @@ import 'features/soul_revelation/presentation/pages/soul_revelation_intro_page.d
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: AppConfig.supabaseUrl,
+    anonKey: AppConfig.supabaseAnonKey,
+  );
   final localeController = LocaleController();
   final themeController = ThemeController();
   try {
