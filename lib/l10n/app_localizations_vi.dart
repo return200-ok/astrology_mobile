@@ -195,7 +195,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get ichingQueryRequiredSnack => 'Vui lòng nhập câu hỏi trước';
 
   @override
-  String get ichingOracleResponse => 'LỜI HỒI ĐÁP ORACLE';
+  String get ichingOracleResponse => 'DIỄN GIẢI THAM CHIẾU';
 
   @override
   String get ichingCosmicAnalysis => 'PHÂN TÍCH VŨ TRỤ';
@@ -356,7 +356,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get soulSpiritualProfile => 'HỒ SƠ TÍNH CÁCH';
 
   @override
-  String get soulArchetypeFound => 'ĐÃ TÌM THẤY NGUYÊN MẪU LINH HỒN';
+  String get soulArchetypeFound => 'ĐÃ XÁC ĐỊNH MẪU TÍNH CÁCH';
 
   @override
   String soulEssenceProgress(int current, int total) {
@@ -598,5 +598,5 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get termsBody =>
-      'Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên chuyên nghiệp dưới bất kỳ hình thức nào.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật.';
+      'Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên y tế, tài chính, pháp lý hay tâm lý lâm sàng. Vui lòng không dựa vào các nội dung này cho các quyết định quan trọng trong cuộc sống; hãy tham khảo chuyên gia có chuyên môn cho các vấn đề nghiêm trọng.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng. Bộ câu hỏi Big Five được phỏng theo Big Five Inventory (BFI-44) của John, Donahue & Kentle (1991), sử dụng cho mục đích giáo dục và giải trí.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật.';
 }

@@ -194,7 +194,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ichingQueryRequiredSnack => 'Please whisper your query first';
 
   @override
-  String get ichingOracleResponse => 'ORACLE RESPONSE';
+  String get ichingOracleResponse => 'REFLECTIVE INTERPRETATION';
 
   @override
   String get ichingCosmicAnalysis => 'COSMIC ANALYSIS';
@@ -359,7 +359,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get soulSpiritualProfile => 'PERSONALITY PROFILE';
 
   @override
-  String get soulArchetypeFound => 'SOUL ARCHETYPE FOUND';
+  String get soulArchetypeFound => 'PERSONALITY PATTERN IDENTIFIED';
 
   @override
   String soulEssenceProgress(int current, int total) {
@@ -600,5 +600,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get termsBody =>
-      'Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional advice of any kind.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.';
+      'Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional medical, financial, legal, or psychological advice. Do not rely on these readings for important life decisions; consult qualified professionals for serious matters.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments. The Big Five questions are adapted from the Big Five Inventory (BFI-44) by John, Donahue & Kentle (1991), used here for educational and entertainment purposes.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.';
 }

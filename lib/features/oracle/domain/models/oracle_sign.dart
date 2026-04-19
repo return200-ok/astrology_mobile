@@ -108,8 +108,8 @@ const List<OracleSign> oracleSigns = [
           'Người phụ nữ không chờ đợi sự cho phép. Họ chiếm lĩnh không gian một cách tự nhiên '
           'và trực tiếp — điều này thường bị xã hội gán nhãn sai.',
       inLove:
-          'Chủ động và thẳng thắn. Họ không chơi trò đoán ý — họ nói thẳng điều họ muốn '
-          'và kỳ vọng người kia cũng làm vậy.',
+          'Chủ động và thẳng thắn. Có xu hướng nói thẳng điều mình muốn '
+          'và kỳ vọng đối phương cũng giao tiếp cởi mở.',
       career:
           'Tiên phong trong vai trò họ chọn. Không chịu đựng được sự bất công im lặng '
           '— nếu có vấn đề, họ nói.',
@@ -188,7 +188,7 @@ const List<OracleSign> oracleSigns = [
           'Thể hiện tình cảm qua hành động cụ thể hơn lời nói. '
           'Cần cảm thấy an toàn trước khi thực sự cho người khác vào cuộc sống mình.',
       career:
-          'Xuất sắc trong tài chính, bất động sản và bất kỳ lĩnh vực nào cần sự kiên nhẫn dài hạn. '
+          'Thường phù hợp với tài chính, bất động sản và bất kỳ lĩnh vực nào cần sự kiên nhẫn dài hạn. '
           'Không hợp với môi trường thay đổi liên tục.',
       weakness:
           'Cứng nhắc, chậm thích nghi và dễ trở nên chiếm hữu khi cảm thấy không an toàn.',
@@ -280,7 +280,7 @@ const List<OracleSign> oracleSigns = [
           'Cần sự kích thích trí tuệ liên tục. Dễ chán nếu mối quan hệ trở nên quá dễ đoán. '
           'Cần người vừa là bạn đồng hành trí tuệ vừa là đối tác.',
       career:
-          'Xuất sắc trong truyền thông, viết lách, giảng dạy và bất kỳ lĩnh vực nào '
+          'Thường phù hợp với truyền thông, viết lách, giảng dạy và bất kỳ lĩnh vực nào '
           'cần xử lý và truyền tải thông tin nhanh.',
       weakness:
           'Thiếu nhất quán, dễ bị phân tâm và đôi khi thao túng bằng ngôn từ '
@@ -385,8 +385,8 @@ const List<OracleSign> oracleSigns = [
           'Người nuôi dưỡng tâm hồn. Sự nhạy cảm thể hiện rõ hơn qua ánh mắt '
           'và hành động chăm sóc người khác. Bản năng bảo vệ của họ rất mạnh.',
       inLove:
-          'Lãng mạn, mộng mơ nhưng rất sắc sảo. Họ có bản năng "người mẹ", '
-          'thích chăm lo cho đối phương. Cần cảm giác an toàn cảm xúc trên hết.',
+          'Lãng mạn, mộng mơ nhưng rất sắc sảo. Có xu hướng quan tâm, chăm sóc '
+          'đối phương và đặt cảm giác an toàn cảm xúc lên hàng đầu.',
       career:
           'Sáng tạo, có thiên hướng nghệ thuật hoặc các ngành dịch vụ, '
           'cộng đồng và tâm lý học.',
@@ -488,7 +488,7 @@ const List<OracleSign> oracleSigns = [
           'Cần người tôn trọng cái tôi của họ, không cố gắng làm mờ họ. '
           'Trung thành và bảo vệ đối tác hết mình, nhưng không dung thứ sự coi thường.',
       career:
-          'Xuất sắc trong nghệ thuật, diễn xuất, lãnh đạo, giáo dục '
+          'Thường phù hợp với nghệ thuật, diễn xuất, lãnh đạo, giáo dục '
           'và bất kỳ vai trò nào cần sức hút cá nhân.',
       weakness:
           'Dễ bị tổn thương bởi sự phê bình và đôi khi phóng đại cảm xúc để được chú ý.',
@@ -567,7 +567,7 @@ const List<OracleSign> oracleSigns = [
           'Thể hiện tình cảm qua việc làm — sửa cái gì đó hỏng, nhớ ngày quan trọng của bạn, '
           'chuẩn bị mọi thứ trước khi bạn cần. Đây là ngôn ngữ tình yêu của họ.',
       career:
-          'Xuất sắc trong y tế, phân tích, kế toán, nghiên cứu '
+          'Thường phù hợp với y tế, phân tích, kế toán, nghiên cứu '
           'và bất kỳ lĩnh vực nào cần sự chính xác.',
       weakness:
           'Hay phê bình, cầu toàn đến mức tê liệt và đôi khi khó chịu '
@@ -665,7 +665,7 @@ const List<OracleSign> oracleSigns = [
           'Lãng mạn và chú trọng thẩm mỹ trong mọi thứ. Nhưng khó ra quyết định '
           'và đôi khi giữ hai chân trong hai tình huống quá lâu.',
       career:
-          'Xuất sắc trong luật, nghệ thuật, thiết kế, ngoại giao '
+          'Thường phù hợp với luật, nghệ thuật, thiết kế, ngoại giao '
           'và bất kỳ lĩnh vực nào cần sự cân bằng và giao tiếp.',
       weakness:
           'Thiếu quyết đoán, dễ thay đổi lập trường theo người đang nói chuyện '
@@ -676,8 +676,8 @@ const List<OracleSign> oracleSigns = [
           'Người phụ nữ với khiếu thẩm mỹ tinh tế và khả năng kết nối người với người '
           'đặc biệt. Họ tạo ra không khí dễ chịu ở bất cứ đâu họ xuất hiện.',
       inLove:
-          'Cần sự đối xứng trong mối quan hệ — khi cho nhiều, họ muốn nhận lại tương đương. '
-          'Dễ mất đi bản thân trong mối quan hệ vì cố gắng làm hài lòng quá mức.',
+          'Coi trọng sự đối xứng trong mối quan hệ — khi cho nhiều, mong muốn nhận lại '
+          'tương đương. Cần lưu ý giữ vững bản sắc cá nhân thay vì cố làm hài lòng quá mức.',
       career:
           'Có tài trong việc xây dựng mạng lưới, hòa giải '
           'và làm việc trong môi trường sáng tạo hoặc pháp lý.',
@@ -760,7 +760,7 @@ const List<OracleSign> oracleSigns = [
           'Tất cả hoặc không có gì. Không có khái niệm "chỉ bạn bè" hay "tình cảm nhẹ". '
           'Khi yêu, họ đặt cược toàn bộ — và kỳ vọng đối phương làm điều tương tự.',
       career:
-          'Xuất sắc trong nghiên cứu, điều tra, tài chính, tâm lý học '
+          'Thường phù hợp với nghiên cứu, điều tra, tài chính, tâm lý học '
           'và bất kỳ lĩnh vực nào cần đào sâu vào bề mặt.',
       weakness:
           'Ghen tuông, chiếm hữu và dễ trở nên hả hê khi trả thù '
@@ -771,8 +771,8 @@ const List<OracleSign> oracleSigns = [
           'Người phụ nữ không phải kiểu người ai cũng hiểu — và họ không cần điều đó. '
           'Họ chọn ai có thể chịu đựng được chiều sâu của mình, không phải ai tiện nhất.',
       inLove:
-          'Thử thách người yêu theo những cách mà họ không bao giờ nói thẳng ra. '
-          'Họ cần biết bạn có thể chịu đựng sức nặng của họ trước khi thực sự mở lòng.',
+          'Cần thời gian để xây dựng niềm tin trước khi thực sự mở lòng. Coi trọng '
+          'chiều sâu cảm xúc và mong muốn đối phương đồng hành ở mức độ tương xứng.',
       career:
           'Giỏi trong các vị trí đòi hỏi sức chịu đựng tâm lý cao, '
           'khả năng đọc người và quyết định trong tình huống áp lực.',
@@ -858,7 +858,7 @@ const List<OracleSign> oracleSigns = [
           'Cần tự do trong mối quan hệ — không phải quyền đi chơi với người khác, '
           'mà là tự do về mặt tinh thần. Cần người có thể phát triển cùng họ.',
       career:
-          'Xuất sắc trong giáo dục đại học, xuất bản, triết học, du lịch '
+          'Thường phù hợp với giáo dục đại học, xuất bản, triết học, du lịch '
           'và bất kỳ lĩnh vực nào cần tầm nhìn và sự nhiệt tình.',
       weakness:
           'Không thực tế, thường xuyên bắt đầu nhiều hơn kết thúc '
@@ -956,7 +956,7 @@ const List<OracleSign> oracleSigns = [
           'Không dễ mở lòng. Họ cần thấy bạn là người đáng tin cậy lâu dài '
           'trước khi đặt cảm xúc vào. Nhưng khi đã cam kết, họ là đối tác thực sự.',
       career:
-          'Sinh ra để lãnh đạo và quản lý. Xuất sắc trong kinh doanh, tài chính, '
+          'Có xu hướng thiên về vai trò lãnh đạo và quản lý. Thường phù hợp với kinh doanh, tài chính, '
           'chính trị và bất kỳ lĩnh vực nào cần tầm nhìn dài hạn.',
       weakness:
           'Dễ trở nên lạnh lùng cảm xúc khi quá tập trung vào mục tiêu, '
@@ -1057,7 +1057,7 @@ const List<OracleSign> oracleSigns = [
           'Yêu theo cách của riêng họ, thường khác với những gì người yêu kỳ vọng. '
           'Cần người yêu họ vì tư duy của họ, không phải dù tư duy của họ.',
       career:
-          'Xuất sắc trong công nghệ, khoa học, hoạt động xã hội '
+          'Thường phù hợp với công nghệ, khoa học, hoạt động xã hội '
           'và bất kỳ lĩnh vực nào cần tư duy đột phá.',
       weakness:
           'Dễ trở nên xa cách cảm xúc, khó tiếp cận trong các mối quan hệ cá nhân '
@@ -1158,7 +1158,7 @@ const List<OracleSign> oracleSigns = [
           'Lãng mạn sâu sắc và tận tụy. Dễ lý tưởng hóa người yêu đến mức đau khổ '
           'khi thực tế không khớp với tưởng tượng.',
       career:
-          'Xuất sắc trong nghệ thuật, âm nhạc, tâm lý học, chăm sóc sức khỏe '
+          'Thường phù hợp với nghệ thuật, âm nhạc, tâm lý học, chăm sóc sức khỏe '
           'và bất kỳ lĩnh vực nào cần trực giác và lòng trắc ẩn.',
       weakness:
           'Dễ trốn tránh thực tế, ranh giới cá nhân mờ nhạt '
@@ -1169,14 +1169,14 @@ const List<OracleSign> oracleSigns = [
           'Người phụ nữ mà bạn không bao giờ hoàn toàn hiểu — không phải vì họ bí ẩn '
           'cố tình, mà vì họ còn đang tìm hiểu chính mình.',
       inLove:
-          'Cho đi vô điều kiện theo cách có thể gây hại cho bản thân. '
-          'Cần học cách nhận lại tương đương những gì đã cho.',
+          'Có xu hướng cho đi nhiều trong mối quan hệ. Việc thiết lập ranh giới '
+          'lành mạnh và giữ cân bằng cho – nhận sẽ giúp duy trì kết nối bền vững.',
       career:
           'Thường tìm thấy mục đích trong công việc chữa lành — y tế, tư vấn, '
           'nghệ thuật trị liệu. Cần môi trường có ý nghĩa, không chỉ thu nhập.',
       weakness:
-          'Ranh giới yếu, dễ bị lợi dụng lòng tốt và đôi khi thoát ly thực tế '
-          'thay vì đối mặt với nó.',
+          'Cần lưu ý củng cố ranh giới cá nhân và đôi khi có xu hướng né tránh '
+          'thực tại thay vì đối diện với khó khăn.',
     ),
     decan1: SignDecan(
       dateRange: '19/02 – 29/02',

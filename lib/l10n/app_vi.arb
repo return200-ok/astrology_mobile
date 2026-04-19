@@ -63,7 +63,7 @@
   "ichingCastYarrowStalks": "GIEO QUẺ",
   "ichingAltarReady": "ĐÀN LỄ SẴN SÀNG",
   "ichingQueryRequiredSnack": "Vui lòng nhập câu hỏi trước",
-  "ichingOracleResponse": "LỜI HỒI ĐÁP ORACLE",
+  "ichingOracleResponse": "DIỄN GIẢI THAM CHIẾU",
   "ichingCosmicAnalysis": "PHÂN TÍCH VŨ TRỤ",
   "ichingSacredGuidance": "CHỈ DẪN THIÊNG LIÊNG",
   "ichingQuoteLove": "Thiên địa chuyển động không ngừng.",
@@ -121,7 +121,7 @@
   "soulSignatureFound": "KẾT QUẢ BIG FIVE",
   "soulPurify": "THANH TẨY",
   "soulSpiritualProfile": "HỒ SƠ TÍNH CÁCH",
-  "soulArchetypeFound": "ĐÃ TÌM THẤY NGUYÊN MẪU LINH HỒN",
+  "soulArchetypeFound": "ĐÃ XÁC ĐỊNH MẪU TÍNH CÁCH",
   "soulEssenceProgress": "CÂU HỎI: {current} / {total}",
   "@soulEssenceProgress": {
     "placeholders": {
@@ -226,5 +226,5 @@
   "soulEntertainmentDisclaimer": "Bài test này chỉ mang tính giải trí và tự khám phá bản thân. Đây không phải là công cụ đánh giá tâm lý được kiểm chứng lâm sàng.",
   "privacyPolicyTitle": "Chính sách bảo mật",
   "privacyPolicyBody": "Mystic Cosmos thu thập tên và ngày sinh của bạn chỉ để thực hiện tính toán chiêm tinh học ngay trên thiết bị. Dữ liệu này không bao giờ được lưu trữ trên máy chủ hay chia sẻ với bên thứ ba.\n\nKhi bạn sử dụng tính năng Oracle AI Chat, câu hỏi và cung hoàng đạo của bạn được gửi đến máy chủ bảo mật (Supabase) và xử lý bởi Google Gemini AI để tạo câu trả lời. Không có thông tin nhận dạng cá nhân nào được giữ lại sau khi phiên kết thúc.\n\nChúng tôi lưu tùy chọn ứng dụng (giao diện, ngôn ngữ) cục bộ trên thiết bị của bạn thông qua cơ chế tiêu chuẩn của iOS.\n\nỨng dụng không sử dụng quảng cáo, theo dõi phân tích hay bất kỳ SDK theo dõi nào của bên thứ ba.\n\nMọi thắc mắc, vui lòng liên hệ qua màn hình Cài đặt.",
-  "termsBody": "Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên chuyên nghiệp dưới bất kỳ hình thức nào.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật."
+  "termsBody": "Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên y tế, tài chính, pháp lý hay tâm lý lâm sàng. Vui lòng không dựa vào các nội dung này cho các quyết định quan trọng trong cuộc sống; hãy tham khảo chuyên gia có chuyên môn cho các vấn đề nghiêm trọng.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng. Bộ câu hỏi Big Five được phỏng theo Big Five Inventory (BFI-44) của John, Donahue & Kentle (1991), sử dụng cho mục đích giáo dục và giải trí.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật."
 }
