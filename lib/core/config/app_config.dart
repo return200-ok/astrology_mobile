@@ -1,10 +1,22 @@
-/// App-level configuration.
-/// Supabase anon key: Dashboard → Settings → API → "anon / public"
+/// App-level configuration loaded from compile-time environment.
+///
+/// Run / build with secrets injected from .env_prod:
+///   flutter run --dart-define-from-file=.env_prod
+///   flutter build apk --dart-define-from-file=.env_prod
+///
+/// .env_prod is gitignored — see .env.example for the required keys.
 class AppConfig {
   const AppConfig._();
 
-  static const supabaseUrl = 'https://lszivrahovqqaxjdeowm.supabase.co';
+  static const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+  static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
-  // TODO: paste anon key from Supabase Dashboard → Settings → API
-  static const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzeml2cmFob3ZxcWF4amRlb3dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxODczMzYsImV4cCI6MjA4Nzc2MzMzNn0.8IuQuRX1dQS2KfKdLh266vJNz0ERKe16s2IOP3L3uiU';
+  static void assertConfigured() {
+    if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
+      throw StateError(
+        'Missing SUPABASE_URL / SUPABASE_ANON_KEY. '
+        'Run with: flutter run --dart-define-from-file=.env_prod',
+      );
+    }
+  }
 }

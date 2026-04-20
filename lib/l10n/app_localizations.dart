@@ -461,7 +461,7 @@ abstract class AppLocalizations {
   /// No description provided for @ichingOracleResponse.
   ///
   /// In en, this message translates to:
-  /// **'ORACLE RESPONSE'**
+  /// **'REFLECTIVE INTERPRETATION'**
   String get ichingOracleResponse;
 
   /// No description provided for @ichingCosmicAnalysis.
@@ -565,6 +565,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose the path that preserves balance'**
   String get ichingGuidanceDefault3;
+
+  /// No description provided for @ichingHexagramLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'HEXAGRAM'**
+  String get ichingHexagramLabel;
+
+  /// No description provided for @ichingJudgmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'JUDGMENT'**
+  String get ichingJudgmentLabel;
+
+  /// No description provided for @ichingHexagramNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Hexagram {number}'**
+  String ichingHexagramNumber(int number);
 
   /// No description provided for @oracleTitle.
   ///
@@ -767,7 +785,7 @@ abstract class AppLocalizations {
   /// No description provided for @soulArchetypeFound.
   ///
   /// In en, this message translates to:
-  /// **'SOUL ARCHETYPE FOUND'**
+  /// **'PERSONALITY PATTERN IDENTIFIED'**
   String get soulArchetypeFound;
 
   /// No description provided for @soulEssenceProgress.
@@ -1028,6 +1046,270 @@ abstract class AppLocalizations {
   /// **'View Recent Alignments'**
   String get alignmentFooterRecent;
 
+  /// No description provided for @alignmentBreakdownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'WHY THIS SCORE'**
+  String get alignmentBreakdownTitle;
+
+  /// No description provided for @alignmentBreakdownBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'Baseline 50'**
+  String get alignmentBreakdownBaseline;
+
+  /// No description provided for @alignmentBreakdownDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis is based on element, modality, polarity, and aspect between the two signs. For reference only — not a prediction.'**
+  String get alignmentBreakdownDisclaimer;
+
+  /// No description provided for @alignmentFactorElement.
+  ///
+  /// In en, this message translates to:
+  /// **'Element'**
+  String get alignmentFactorElement;
+
+  /// No description provided for @alignmentFactorModality.
+  ///
+  /// In en, this message translates to:
+  /// **'Modality'**
+  String get alignmentFactorModality;
+
+  /// No description provided for @alignmentFactorPolarity.
+  ///
+  /// In en, this message translates to:
+  /// **'Polarity'**
+  String get alignmentFactorPolarity;
+
+  /// No description provided for @alignmentFactorAspect.
+  ///
+  /// In en, this message translates to:
+  /// **'Aspect'**
+  String get alignmentFactorAspect;
+
+  /// No description provided for @alignmentFactorBondType.
+  ///
+  /// In en, this message translates to:
+  /// **'Bond type'**
+  String get alignmentFactorBondType;
+
+  /// No description provided for @alignmentElementFire.
+  ///
+  /// In en, this message translates to:
+  /// **'Fire'**
+  String get alignmentElementFire;
+
+  /// No description provided for @alignmentElementEarth.
+  ///
+  /// In en, this message translates to:
+  /// **'Earth'**
+  String get alignmentElementEarth;
+
+  /// No description provided for @alignmentElementAir.
+  ///
+  /// In en, this message translates to:
+  /// **'Air'**
+  String get alignmentElementAir;
+
+  /// No description provided for @alignmentElementWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get alignmentElementWater;
+
+  /// No description provided for @alignmentModalityCardinal.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardinal'**
+  String get alignmentModalityCardinal;
+
+  /// No description provided for @alignmentModalityFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed'**
+  String get alignmentModalityFixed;
+
+  /// No description provided for @alignmentModalityMutable.
+  ///
+  /// In en, this message translates to:
+  /// **'Mutable'**
+  String get alignmentModalityMutable;
+
+  /// No description provided for @alignmentExplainSameElement.
+  ///
+  /// In en, this message translates to:
+  /// **'Same element {element} — shared approach to the world; tend to understand each other instinctively.'**
+  String alignmentExplainSameElement(String element);
+
+  /// No description provided for @alignmentExplainComplementElement.
+  ///
+  /// In en, this message translates to:
+  /// **'Complementary elements — Fire+Air fuels inspiration; Water+Earth fuels stability.'**
+  String get alignmentExplainComplementElement;
+
+  /// No description provided for @alignmentExplainTensionElement.
+  ///
+  /// In en, this message translates to:
+  /// **'Element friction — distinctly different approaches; empathy is needed for harmony.'**
+  String get alignmentExplainTensionElement;
+
+  /// No description provided for @alignmentExplainSameModality.
+  ///
+  /// In en, this message translates to:
+  /// **'Same modality {modality} — synchronized drive, but may compete for the same role.'**
+  String alignmentExplainSameModality(String modality);
+
+  /// No description provided for @alignmentExplainDifferentModality.
+  ///
+  /// In en, this message translates to:
+  /// **'Different modalities — complementary roles: initiator, sustainer, adapter.'**
+  String get alignmentExplainDifferentModality;
+
+  /// No description provided for @alignmentExplainSamePolarity.
+  ///
+  /// In en, this message translates to:
+  /// **'Same polarity — energies move at the same rhythm.'**
+  String get alignmentExplainSamePolarity;
+
+  /// No description provided for @alignmentExplainOppositePolarity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opposite polarity — dynamic balance between active and receptive.'**
+  String get alignmentExplainOppositePolarity;
+
+  /// No description provided for @alignmentAspectConjunction.
+  ///
+  /// In en, this message translates to:
+  /// **'Conjunction'**
+  String get alignmentAspectConjunction;
+
+  /// No description provided for @alignmentAspectSemisextile.
+  ///
+  /// In en, this message translates to:
+  /// **'Semisextile'**
+  String get alignmentAspectSemisextile;
+
+  /// No description provided for @alignmentAspectSextile.
+  ///
+  /// In en, this message translates to:
+  /// **'Sextile'**
+  String get alignmentAspectSextile;
+
+  /// No description provided for @alignmentAspectSquare.
+  ///
+  /// In en, this message translates to:
+  /// **'Square'**
+  String get alignmentAspectSquare;
+
+  /// No description provided for @alignmentAspectTrine.
+  ///
+  /// In en, this message translates to:
+  /// **'Trine'**
+  String get alignmentAspectTrine;
+
+  /// No description provided for @alignmentAspectQuincunx.
+  ///
+  /// In en, this message translates to:
+  /// **'Quincunx'**
+  String get alignmentAspectQuincunx;
+
+  /// No description provided for @alignmentAspectOpposition.
+  ///
+  /// In en, this message translates to:
+  /// **'Opposition'**
+  String get alignmentAspectOpposition;
+
+  /// No description provided for @alignmentExplainAspectConjunction.
+  ///
+  /// In en, this message translates to:
+  /// **'Same sign — strong mirroring; may amplify both shared strengths and shared blind spots.'**
+  String get alignmentExplainAspectConjunction;
+
+  /// No description provided for @alignmentExplainAspectSemisextile.
+  ///
+  /// In en, this message translates to:
+  /// **'30° apart — neighboring but distinct; small adjustments smooth communication.'**
+  String get alignmentExplainAspectSemisextile;
+
+  /// No description provided for @alignmentExplainAspectSextile.
+  ///
+  /// In en, this message translates to:
+  /// **'60° apart — gentle resonance; opportunities arise easily when collaborating.'**
+  String get alignmentExplainAspectSextile;
+
+  /// No description provided for @alignmentExplainAspectSquare.
+  ///
+  /// In en, this message translates to:
+  /// **'90° apart — natural tension that drives growth; learn to compromise.'**
+  String get alignmentExplainAspectSquare;
+
+  /// No description provided for @alignmentExplainAspectTrine.
+  ///
+  /// In en, this message translates to:
+  /// **'120° apart — most harmonious flow; mutual support feels effortless.'**
+  String get alignmentExplainAspectTrine;
+
+  /// No description provided for @alignmentExplainAspectQuincunx.
+  ///
+  /// In en, this message translates to:
+  /// **'150° apart — feels off-rhythm; needs patience and flexibility.'**
+  String get alignmentExplainAspectQuincunx;
+
+  /// No description provided for @alignmentExplainAspectOpposition.
+  ///
+  /// In en, this message translates to:
+  /// **'180° apart — opposites that balance each other and reflect what\'s missing.'**
+  String get alignmentExplainAspectOpposition;
+
+  /// No description provided for @alignmentExplainBondRomanticGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Romantic bond between complementary elements — emotion and energy intertwine easily.'**
+  String get alignmentExplainBondRomanticGood;
+
+  /// No description provided for @alignmentExplainBondRomanticOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Romantic bond needs investment in shared language; differences become material for growth.'**
+  String get alignmentExplainBondRomanticOk;
+
+  /// No description provided for @alignmentExplainBondFriendshipGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendship with an Air element — open communication, easy idea-sharing.'**
+  String get alignmentExplainBondFriendshipGood;
+
+  /// No description provided for @alignmentExplainBondFriendshipOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendship needs time to build trust and ease.'**
+  String get alignmentExplainBondFriendshipOk;
+
+  /// No description provided for @alignmentExplainBondSoulGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Soul resonance with Water depth — strong emotional and intuitive connection.'**
+  String get alignmentExplainBondSoulGood;
+
+  /// No description provided for @alignmentExplainBondSoulOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Soul resonance takes time for both sides to open up and listen.'**
+  String get alignmentExplainBondSoulOk;
+
+  /// No description provided for @alignmentExplainBondKinshipGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinship grounded in Earth/Water — durable, warm, strengthens over time.'**
+  String get alignmentExplainBondKinshipGood;
+
+  /// No description provided for @alignmentExplainBondKinshipOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinship needs clear boundaries and respect for personal space.'**
+  String get alignmentExplainBondKinshipOk;
+
   /// No description provided for @chartTitle.
   ///
   /// In en, this message translates to:
@@ -1190,12 +1472,83 @@ abstract class AppLocalizations {
   /// **'44 questions'**
   String get soulQuestionsFixed;
 
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
   String get settingsPrivacyPolicy;
+
+  /// No description provided for @oracleAiDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated content · For entertainment purposes only'**
   String get oracleAiDisclaimer;
+
+  /// No description provided for @soulEntertainmentDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This test is for entertainment and self-reflection only. It is not a clinically validated psychological assessment.'**
   String get soulEntertainmentDisclaimer;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
   String get privacyPolicyTitle;
+
+  /// No description provided for @privacyPolicyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Mystic Cosmos collects your name and birth date solely to perform astrology calculations on your device. This data is never stored on our servers or shared with third parties.\n\nWhen you use the Oracle AI Chat feature, your question and zodiac sign are sent to our secure server (Supabase) and processed by Google Gemini AI to generate a response. No personally identifiable information is retained after the session ends.\n\nWe use app preferences (theme, language) stored locally on your device via standard iOS mechanisms.\n\nThis app does not use advertising, analytics tracking, or any third-party tracking SDKs.\n\nFor questions, contact us via the Settings screen.'**
   String get privacyPolicyBody;
+
+  /// No description provided for @termsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional medical, financial, legal, or psychological advice. Do not rely on these readings for important life decisions; consult qualified professionals for serious matters.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments. The Big Five questions are adapted from the Big Five Inventory (BFI-44) by John, Donahue & Kentle (1991), used here for educational and entertainment purposes.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.'**
   String get termsBody;
+
+  /// No description provided for @imperialDetailedAnalysisCta.
+  ///
+  /// In en, this message translates to:
+  /// **'DETAILED ANALYSIS'**
+  String get imperialDetailedAnalysisCta;
+
+  /// No description provided for @imperialAnalysisTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DETAILED ANALYSIS'**
+  String get imperialAnalysisTitle;
+
+  /// No description provided for @imperialAnalysisSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-INTERPRETED IMPERIAL CHART'**
+  String get imperialAnalysisSubtitle;
+
+  /// No description provided for @imperialAnalysisDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated reflective interpretation · For entertainment and self-discovery only'**
+  String get imperialAnalysisDisclaimer;
+
+  /// No description provided for @imperialAnalysisLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Interpreting your chart...'**
+  String get imperialAnalysisLoading;
+
+  /// No description provided for @imperialAnalysisError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not generate analysis'**
+  String get imperialAnalysisError;
+
+  /// No description provided for @imperialAnalysisRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'TRY AGAIN'**
+  String get imperialAnalysisRetry;
 }
 
 class _AppLocalizationsDelegate

@@ -7,6 +7,8 @@ import 'package:astroweb_mobile/core/widgets/astro_button.dart';
 import 'package:astroweb_mobile/l10n/app_localizations.dart';
 
 import '../../domain/models/imperial_cast_request.dart';
+import '../../domain/models/palace_data.dart';
+import 'imperial_analysis_page.dart';
 import 'package:astroweb_mobile/core/theme/astro_theme.dart';
 
 // ─── Hour range map ─────────────────────────────────────────────────────────
@@ -25,82 +27,6 @@ const Map<String, String> _kHourRanges = {
   'Hợi': '21H-23H',
 };
 
-// ─── Palace data model ──────────────────────────────────────────────────────
-class _PalaceData {
-  const _PalaceData({
-    required this.row,
-    required this.col,
-    required this.name,
-    required this.mainStars,
-    required this.minorStars,
-    required this.topLeft,
-    required this.topRight,
-    required this.bottomLeft,
-    required this.element,
-  });
-
-  final int row;
-  final int col;
-  final String name;
-  final List<String> mainStars;
-  final List<String> minorStars;
-  final String topLeft;
-  final String topRight;
-  final String bottomLeft;
-  final String element;
-}
-
-// ─── Palace dataset ─────────────────────────────────────────────────────────
-const List<_PalaceData> _kPalaces = [
-  _PalaceData(
-    row: 0, col: 0, name: 'MỆNH',
-    mainStars: ['TỬ VI', 'THIÊN PHỦ'],
-    minorStars: ['HỒNG LOAN', 'HỈ THẦN', 'LỘC TỒN'],
-    topLeft: '乙', topRight: '子', bottomLeft: '丁', element: '水',
-  ),
-  _PalaceData(
-    row: 0, col: 1, name: 'PHỤ MẪU',
-    mainStars: ['LIÊM TRINH'],
-    minorStars: ['VĂN XƯƠNG', 'HOA CÁI', 'THIÊN PHÚ'],
-    topLeft: '丁', topRight: '辰', bottomLeft: '甲', element: '木',
-  ),
-  _PalaceData(
-    row: 0, col: 2, name: 'PHÚC ĐỨC',
-    mainStars: ['THÁI ÂM', 'VŨ KHÚC'],
-    minorStars: ['THIÊN VIỆT', 'THIÊN SỨ'],
-    topLeft: '庚', topRight: '子', bottomLeft: '丁', element: '金',
-  ),
-  _PalaceData(
-    row: 1, col: 0, name: 'TÀI BẠCH',
-    mainStars: ['THIÊN LƯƠNG'],
-    minorStars: ['HỒNG LOAN', 'PHI THẦN', 'LỘC TỒN'],
-    topLeft: '乙', topRight: '未', bottomLeft: '丁', element: '水',
-  ),
-  _PalaceData(
-    row: 1, col: 2, name: 'ĐIỀN TRẠCH',
-    mainStars: ['THIÊN CƠ'],
-    minorStars: ['LONG TRÌ', 'PHƯỢNG CÁC'],
-    topLeft: '辛', topRight: '丑', bottomLeft: '丁', element: '金',
-  ),
-  _PalaceData(
-    row: 2, col: 0, name: 'THIÊN DI',
-    mainStars: ['THAM LANG'],
-    minorStars: ['ĐÀ LA', 'LINH TINH'],
-    topLeft: '甲', topRight: 'Tuất', bottomLeft: '乙', element: '土',
-  ),
-  _PalaceData(
-    row: 2, col: 1, name: 'NÔ BỘC',
-    mainStars: ['CỰ MÔN'],
-    minorStars: ['KHÔ', 'HƯ', 'TANG MÔN'],
-    topLeft: '甲', topRight: 'Thân', bottomLeft: '丙', element: '中',
-  ),
-  _PalaceData(
-    row: 2, col: 2, name: 'QUAN LỘC',
-    mainStars: ['THẤT SÁT', 'PHÁ QUÂN'],
-    minorStars: ['QUỐC ẤN', 'TAM THAI'],
-    topLeft: '辛', topRight: '午', bottomLeft: '丙', element: '水',
-  ),
-];
 
 // ─── Main page ──────────────────────────────────────────────────────────────
 class ImperialResultPage extends StatelessWidget {
@@ -175,8 +101,14 @@ class ImperialResultPage extends StatelessWidget {
 
                 // ── Detailed Analysis button ────────────────────────────
                 AstroButton.filled(
-                  label: 'DETAILED ANALYSIS',
-                  onTap: () {},
+                  label: l10n.imperialDetailedAnalysisCta,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => ImperialAnalysisPage(request: request),
+                      ),
+                    );
+                  },
                   fontSize: 16,
                 ),
               ],
@@ -236,7 +168,7 @@ class _PalaceBoard extends StatelessWidget {
             return Stack(
               children: [
                 // 8 palace cells
-                ..._kPalaces.map(
+                ...kImperialPalaces.map(
                   (p) => Positioned(
                     left: p.col * (cw + border / 1.5),
                     top: p.row * (ch + border / 1.5),
@@ -291,7 +223,7 @@ class _PalaceBoard extends StatelessWidget {
 class _PalaceCell extends StatelessWidget {
   const _PalaceCell({required this.data});
 
-  final _PalaceData data;
+  final PalaceData data;
 
   @override
   Widget build(BuildContext context) {
@@ -425,12 +357,12 @@ class _ElementsRow extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: ['火', '土', '✦', '成', '金'].map((ch) {
+          children: ['Hỏa', 'Thổ', '✦', 'Thành', 'Kim'].map((ch) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Text(
                 ch,
-                style: AstroText.resultLabel(size: 32).copyWith(letterSpacing: 8),
+                style: AstroText.resultLabel(size: 20).copyWith(letterSpacing: 2),
               ),
             );
           }).toList(),

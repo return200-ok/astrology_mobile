@@ -81,6 +81,14 @@
   "ichingGuidanceDefault1": "Quan sát quy luật trước khi quyết định",
   "ichingGuidanceDefault2": "Loại bỏ nhiễu khỏi đối thoại nội tâm",
   "ichingGuidanceDefault3": "Chọn con đường giữ được cân bằng",
+  "ichingHexagramLabel": "QUẺ NHẬN ĐƯỢC",
+  "ichingJudgmentLabel": "LỜI QUẺ",
+  "ichingHexagramNumber": "Quẻ số {number}",
+  "@ichingHexagramNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
 
   "oracleTitle": "CHỌN CUNG THEO NGÀY SINH DƯƠNG LỊCH",
   "oracleSelectPrompt": "CHỌN DANH TÍNH VŨ TRỤ ĐỂ KẾT NỐI THIÊNG LIÊNG",
@@ -183,6 +191,66 @@
   "alignmentBondKinship": "Thân Tộc Thiên Thể",
   "alignmentFooterBonds": "∞ Liên Kết Có Thể",
   "alignmentFooterRecent": "Xem Tương Hợp Gần Đây",
+
+  "alignmentBreakdownTitle": "VÌ SAO RA SỐ ĐIỂM NÀY",
+  "alignmentBreakdownBaseline": "Khởi điểm 50",
+  "alignmentBreakdownDisclaimer": "Phân tích dựa trên nguyên tố, thể loại, cực tính và góc chiếu giữa hai cung. Mang tính tham khảo, không phải tiên tri.",
+
+  "alignmentFactorElement": "Nguyên tố",
+  "alignmentFactorModality": "Thể loại",
+  "alignmentFactorPolarity": "Cực tính",
+  "alignmentFactorAspect": "Góc chiếu",
+  "alignmentFactorBondType": "Loại liên kết",
+
+  "alignmentElementFire": "Hỏa",
+  "alignmentElementEarth": "Thổ",
+  "alignmentElementAir": "Phong",
+  "alignmentElementWater": "Thủy",
+
+  "alignmentModalityCardinal": "Khởi tạo",
+  "alignmentModalityFixed": "Ổn định",
+  "alignmentModalityMutable": "Linh hoạt",
+
+  "alignmentExplainSameElement": "Cùng nguyên tố {element} — chia sẻ cùng cách tiếp cận thế giới, dễ hiểu nhau theo bản năng.",
+  "@alignmentExplainSameElement": {
+    "placeholders": { "element": { "type": "String" } }
+  },
+  "alignmentExplainComplementElement": "Nguyên tố bổ trợ — Hỏa+Phong nuôi dưỡng cảm hứng, Thủy+Thổ nuôi dưỡng sự ổn định.",
+  "alignmentExplainTensionElement": "Nguyên tố tạo ma sát — khác biệt rõ rệt về cách tiếp cận, cần thấu cảm để hài hòa.",
+
+  "alignmentExplainSameModality": "Cùng thể loại {modality} — đồng nhịp về động lực, nhưng có thể tranh giành vai trò.",
+  "@alignmentExplainSameModality": {
+    "placeholders": { "modality": { "type": "String" } }
+  },
+  "alignmentExplainDifferentModality": "Khác thể loại — vai trò bổ sung: người khởi xướng, người duy trì, người thích nghi.",
+
+  "alignmentExplainSamePolarity": "Cùng cực tính — năng lượng đồng nhịp, dễ thấu hiểu nhịp sống của nhau.",
+  "alignmentExplainOppositePolarity": "Trái cực tính — tạo cân bằng động giữa chủ động và tiếp nhận.",
+
+  "alignmentAspectConjunction": "Trùng tinh",
+  "alignmentAspectSemisextile": "Bán lục hợp",
+  "alignmentAspectSextile": "Lục hợp",
+  "alignmentAspectSquare": "Vuông góc",
+  "alignmentAspectTrine": "Tam hợp",
+  "alignmentAspectQuincunx": "Ngũ phân",
+  "alignmentAspectOpposition": "Đối xung",
+
+  "alignmentExplainAspectConjunction": "Cùng cung — bản năng phản chiếu mạnh, hiểu nhau như hiểu chính mình, dễ phóng đại điểm chung lẫn điểm yếu.",
+  "alignmentExplainAspectSemisextile": "Cách 30° — chung biên giới nhưng khác chất, cần điều chỉnh để giao tiếp trơn tru.",
+  "alignmentExplainAspectSextile": "Cách 60° — cộng hưởng nhẹ nhàng, dễ tạo cơ hội mới khi đồng hành.",
+  "alignmentExplainAspectSquare": "Cách 90° — căng thẳng tự nhiên thúc đẩy trưởng thành, đòi hỏi học cách thỏa hiệp.",
+  "alignmentExplainAspectTrine": "Cách 120° — dòng chảy hài hòa nhất, hỗ trợ nhau gần như không cần nỗ lực.",
+  "alignmentExplainAspectQuincunx": "Cách 150° — cảm thấy không cùng tần số, cần thời gian và sự linh hoạt.",
+  "alignmentExplainAspectOpposition": "Cách 180° — đối lập tạo cân bằng, soi chiếu điểm còn thiếu của nhau.",
+
+  "alignmentExplainBondRomanticGood": "Tình yêu giữa nguyên tố bổ trợ — cảm xúc và năng lượng dễ giao thoa.",
+  "alignmentExplainBondRomanticOk": "Tình yêu cần đầu tư xây dựng ngôn ngữ chung; khác biệt là chất liệu để cùng lớn lên.",
+  "alignmentExplainBondFriendshipGood": "Tình bạn có yếu tố Phong — giao tiếp thoáng, dễ chia sẻ ý tưởng.",
+  "alignmentExplainBondFriendshipOk": "Tình bạn cần dành thời gian xây dựng tin tưởng và sự thoải mái.",
+  "alignmentExplainBondSoulGood": "Cộng hưởng tâm hồn có chiều sâu Thủy — kết nối cảm xúc và trực giác mạnh.",
+  "alignmentExplainBondSoulOk": "Cộng hưởng tâm hồn cần thời gian để hai bên cùng mở lòng và lắng nghe.",
+  "alignmentExplainBondKinshipGood": "Liên kết gia đình có gốc Thổ/Thủy — bền vững, ấm áp, gắn kết qua thời gian.",
+  "alignmentExplainBondKinshipOk": "Liên kết gia đình cần ranh giới rõ ràng và tôn trọng không gian riêng.",
   "chartTitle": "Bảng Lá Số",
   "chartDateLabel": "Ngày",
   "chartTimeLabel": "Giờ",
@@ -226,5 +294,13 @@
   "soulEntertainmentDisclaimer": "Bài test này chỉ mang tính giải trí và tự khám phá bản thân. Đây không phải là công cụ đánh giá tâm lý được kiểm chứng lâm sàng.",
   "privacyPolicyTitle": "Chính sách bảo mật",
   "privacyPolicyBody": "Mystic Cosmos thu thập tên và ngày sinh của bạn chỉ để thực hiện tính toán chiêm tinh học ngay trên thiết bị. Dữ liệu này không bao giờ được lưu trữ trên máy chủ hay chia sẻ với bên thứ ba.\n\nKhi bạn sử dụng tính năng Oracle AI Chat, câu hỏi và cung hoàng đạo của bạn được gửi đến máy chủ bảo mật (Supabase) và xử lý bởi Google Gemini AI để tạo câu trả lời. Không có thông tin nhận dạng cá nhân nào được giữ lại sau khi phiên kết thúc.\n\nChúng tôi lưu tùy chọn ứng dụng (giao diện, ngôn ngữ) cục bộ trên thiết bị của bạn thông qua cơ chế tiêu chuẩn của iOS.\n\nỨng dụng không sử dụng quảng cáo, theo dõi phân tích hay bất kỳ SDK theo dõi nào của bên thứ ba.\n\nMọi thắc mắc, vui lòng liên hệ qua màn hình Cài đặt.",
-  "termsBody": "Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên y tế, tài chính, pháp lý hay tâm lý lâm sàng. Vui lòng không dựa vào các nội dung này cho các quyết định quan trọng trong cuộc sống; hãy tham khảo chuyên gia có chuyên môn cho các vấn đề nghiêm trọng.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng. Bộ câu hỏi Big Five được phỏng theo Big Five Inventory (BFI-44) của John, Donahue & Kentle (1991), sử dụng cho mục đích giáo dục và giải trí.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật."
+  "termsBody": "Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên y tế, tài chính, pháp lý hay tâm lý lâm sàng. Vui lòng không dựa vào các nội dung này cho các quyết định quan trọng trong cuộc sống; hãy tham khảo chuyên gia có chuyên môn cho các vấn đề nghiêm trọng.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng. Bộ câu hỏi Big Five được phỏng theo Big Five Inventory (BFI-44) của John, Donahue & Kentle (1991), sử dụng cho mục đích giáo dục và giải trí.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật.",
+
+  "imperialDetailedAnalysisCta": "PHÂN TÍCH CHI TIẾT",
+  "imperialAnalysisTitle": "PHÂN TÍCH CHI TIẾT",
+  "imperialAnalysisSubtitle": "AI DIỄN GIẢI LÁ SỐ TỬ VI",
+  "imperialAnalysisDisclaimer": "Diễn giải tham chiếu do AI tạo · Chỉ mang tính giải trí và tự khám phá",
+  "imperialAnalysisLoading": "Đang diễn giải lá số của bạn...",
+  "imperialAnalysisError": "Không thể tạo phân tích",
+  "imperialAnalysisRetry": "THỬ LẠI"
 }

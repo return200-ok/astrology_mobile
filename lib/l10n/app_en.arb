@@ -81,6 +81,14 @@
   "ichingGuidanceDefault1": "Observe patterns before deciding",
   "ichingGuidanceDefault2": "Remove noise from your inner dialogue",
   "ichingGuidanceDefault3": "Choose the path that preserves balance",
+  "ichingHexagramLabel": "HEXAGRAM",
+  "ichingJudgmentLabel": "JUDGMENT",
+  "ichingHexagramNumber": "Hexagram {number}",
+  "@ichingHexagramNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
 
   "oracleTitle": "CELESTIAL ORACLE",
   "oracleSelectPrompt": "SELECT YOUR COSMIC IDENTIFIER FOR DIVINE COMMUNION",
@@ -183,6 +191,66 @@
   "alignmentBondKinship": "Celestial Kinship",
   "alignmentFooterBonds": "∞ Bonds Available",
   "alignmentFooterRecent": "View Recent Alignments",
+
+  "alignmentBreakdownTitle": "WHY THIS SCORE",
+  "alignmentBreakdownBaseline": "Baseline 50",
+  "alignmentBreakdownDisclaimer": "Analysis is based on element, modality, polarity, and aspect between the two signs. For reference only — not a prediction.",
+
+  "alignmentFactorElement": "Element",
+  "alignmentFactorModality": "Modality",
+  "alignmentFactorPolarity": "Polarity",
+  "alignmentFactorAspect": "Aspect",
+  "alignmentFactorBondType": "Bond type",
+
+  "alignmentElementFire": "Fire",
+  "alignmentElementEarth": "Earth",
+  "alignmentElementAir": "Air",
+  "alignmentElementWater": "Water",
+
+  "alignmentModalityCardinal": "Cardinal",
+  "alignmentModalityFixed": "Fixed",
+  "alignmentModalityMutable": "Mutable",
+
+  "alignmentExplainSameElement": "Same element {element} — shared approach to the world; tend to understand each other instinctively.",
+  "@alignmentExplainSameElement": {
+    "placeholders": { "element": { "type": "String" } }
+  },
+  "alignmentExplainComplementElement": "Complementary elements — Fire+Air fuels inspiration; Water+Earth fuels stability.",
+  "alignmentExplainTensionElement": "Element friction — distinctly different approaches; empathy is needed for harmony.",
+
+  "alignmentExplainSameModality": "Same modality {modality} — synchronized drive, but may compete for the same role.",
+  "@alignmentExplainSameModality": {
+    "placeholders": { "modality": { "type": "String" } }
+  },
+  "alignmentExplainDifferentModality": "Different modalities — complementary roles: initiator, sustainer, adapter.",
+
+  "alignmentExplainSamePolarity": "Same polarity — energies move at the same rhythm.",
+  "alignmentExplainOppositePolarity": "Opposite polarity — dynamic balance between active and receptive.",
+
+  "alignmentAspectConjunction": "Conjunction",
+  "alignmentAspectSemisextile": "Semisextile",
+  "alignmentAspectSextile": "Sextile",
+  "alignmentAspectSquare": "Square",
+  "alignmentAspectTrine": "Trine",
+  "alignmentAspectQuincunx": "Quincunx",
+  "alignmentAspectOpposition": "Opposition",
+
+  "alignmentExplainAspectConjunction": "Same sign — strong mirroring; may amplify both shared strengths and shared blind spots.",
+  "alignmentExplainAspectSemisextile": "30° apart — neighboring but distinct; small adjustments smooth communication.",
+  "alignmentExplainAspectSextile": "60° apart — gentle resonance; opportunities arise easily when collaborating.",
+  "alignmentExplainAspectSquare": "90° apart — natural tension that drives growth; learn to compromise.",
+  "alignmentExplainAspectTrine": "120° apart — most harmonious flow; mutual support feels effortless.",
+  "alignmentExplainAspectQuincunx": "150° apart — feels off-rhythm; needs patience and flexibility.",
+  "alignmentExplainAspectOpposition": "180° apart — opposites that balance each other and reflect what's missing.",
+
+  "alignmentExplainBondRomanticGood": "Romantic bond between complementary elements — emotion and energy intertwine easily.",
+  "alignmentExplainBondRomanticOk": "Romantic bond needs investment in shared language; differences become material for growth.",
+  "alignmentExplainBondFriendshipGood": "Friendship with an Air element — open communication, easy idea-sharing.",
+  "alignmentExplainBondFriendshipOk": "Friendship needs time to build trust and ease.",
+  "alignmentExplainBondSoulGood": "Soul resonance with Water depth — strong emotional and intuitive connection.",
+  "alignmentExplainBondSoulOk": "Soul resonance takes time for both sides to open up and listen.",
+  "alignmentExplainBondKinshipGood": "Kinship grounded in Earth/Water — durable, warm, strengthens over time.",
+  "alignmentExplainBondKinshipOk": "Kinship needs clear boundaries and respect for personal space.",
   "chartTitle": "Birth Chart",
   "chartDateLabel": "Date",
   "chartTimeLabel": "Time",
@@ -226,5 +294,13 @@
   "soulEntertainmentDisclaimer": "This test is for entertainment and self-reflection only. It is not a clinically validated psychological assessment.",
   "privacyPolicyTitle": "Privacy Policy",
   "privacyPolicyBody": "Mystic Cosmos collects your name and birth date solely to perform astrology calculations on your device. This data is never stored on our servers or shared with third parties.\n\nWhen you use the Oracle AI Chat feature, your question and zodiac sign are sent to our secure server (Supabase) and processed by Google Gemini AI to generate a response. No personally identifiable information is retained after the session ends.\n\nWe use app preferences (theme, language) stored locally on your device via standard iOS mechanisms.\n\nThis app does not use advertising, analytics tracking, or any third-party tracking SDKs.\n\nFor questions, contact us via the Settings screen.",
-  "termsBody": "Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional medical, financial, legal, or psychological advice. Do not rely on these readings for important life decisions; consult qualified professionals for serious matters.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments. The Big Five questions are adapted from the Big Five Inventory (BFI-44) by John, Donahue & Kentle (1991), used here for educational and entertainment purposes.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms."
+  "termsBody": "Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional medical, financial, legal, or psychological advice. Do not rely on these readings for important life decisions; consult qualified professionals for serious matters.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments. The Big Five questions are adapted from the Big Five Inventory (BFI-44) by John, Donahue & Kentle (1991), used here for educational and entertainment purposes.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.",
+
+  "imperialDetailedAnalysisCta": "DETAILED ANALYSIS",
+  "imperialAnalysisTitle": "DETAILED ANALYSIS",
+  "imperialAnalysisSubtitle": "AI-INTERPRETED IMPERIAL CHART",
+  "imperialAnalysisDisclaimer": "AI-generated reflective interpretation · For entertainment and self-discovery only",
+  "imperialAnalysisLoading": "Interpreting your chart...",
+  "imperialAnalysisError": "Could not generate analysis",
+  "imperialAnalysisRetry": "TRY AGAIN"
 }

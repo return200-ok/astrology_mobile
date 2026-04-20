@@ -17,6 +17,7 @@ import 'features/soul_revelation/presentation/pages/soul_revelation_intro_page.d
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppConfig.assertConfigured();
   await Supabase.initialize(
     url: AppConfig.supabaseUrl,
     anonKey: AppConfig.supabaseAnonKey,

@@ -1,5 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../features/imperial/domain/models/imperial_cast_request.dart';
+import '../../features/imperial/domain/models/palace_data.dart';
 import '../../features/oracle/domain/models/oracle_sign.dart';
 
 class AiChatService {
@@ -28,6 +31,43 @@ class AiChatService {
     }
 
     return data['answer'] as String? ?? 'Xin lỗi, có lỗi xảy ra.';
+  }
+
+  /// Sends the user's Tử Vi chart context to the imperial-ai Edge Function
+  /// and returns a structured analysis string.
+  static Future<String> analyzeImperial({
+    required ImperialCastRequest request,
+  }) async {
+    final response = await Supabase.instance.client.functions.invoke(
+      'imperial-ai',
+      body: {
+        'spiritId': request.spiritId,
+        'arrivalDate': DateFormat('dd/MM/yyyy').format(request.arrivalDay),
+        'streamHour': request.streamHour,
+        'palaceContext': _buildPalaceContext(),
+      },
+    );
+
+    final data = response.data as Map<String, dynamic>?;
+    if (data == null) throw Exception('Không nhận được phản hồi từ AI');
+
+    if (data.containsKey('error')) {
+      throw Exception(data['error']);
+    }
+
+    return data['answer'] as String? ?? 'Xin lỗi, có lỗi xảy ra.';
+  }
+
+  static String _buildPalaceContext() {
+    final buffer = StringBuffer();
+    for (final p in kImperialPalaces) {
+      buffer.writeln(
+        '- ${p.name} | Can: ${p.topLeft} | Chi: ${p.topRight} | '
+        'Hành: ${p.element} | Chính tinh: ${p.mainStars.join(", ")} | '
+        'Phụ tinh: ${p.minorStars.join(", ")}',
+      );
+    }
+    return buffer.toString().trim();
   }
 
   // Build a concise context string from the sign's model data

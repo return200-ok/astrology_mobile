@@ -253,6 +253,17 @@ class AppLocalizationsVi extends AppLocalizations {
   String get ichingGuidanceDefault3 => 'Chọn con đường giữ được cân bằng';
 
   @override
+  String get ichingHexagramLabel => 'QUẺ NHẬN ĐƯỢC';
+
+  @override
+  String get ichingJudgmentLabel => 'LỜI QUẺ';
+
+  @override
+  String ichingHexagramNumber(int number) {
+    return 'Quẻ số $number';
+  }
+
+  @override
   String get oracleTitle => 'CHỌN CUNG THEO NGÀY SINH DƯƠNG LỊCH';
 
   @override
@@ -494,6 +505,163 @@ class AppLocalizationsVi extends AppLocalizations {
   String get alignmentFooterRecent => 'Xem Tương Hợp Gần Đây';
 
   @override
+  String get alignmentBreakdownTitle => 'VÌ SAO RA SỐ ĐIỂM NÀY';
+
+  @override
+  String get alignmentBreakdownBaseline => 'Khởi điểm 50';
+
+  @override
+  String get alignmentBreakdownDisclaimer =>
+      'Phân tích dựa trên nguyên tố, thể loại, cực tính và góc chiếu giữa hai cung. Mang tính tham khảo, không phải tiên tri.';
+
+  @override
+  String get alignmentFactorElement => 'Nguyên tố';
+
+  @override
+  String get alignmentFactorModality => 'Thể loại';
+
+  @override
+  String get alignmentFactorPolarity => 'Cực tính';
+
+  @override
+  String get alignmentFactorAspect => 'Góc chiếu';
+
+  @override
+  String get alignmentFactorBondType => 'Loại liên kết';
+
+  @override
+  String get alignmentElementFire => 'Hỏa';
+
+  @override
+  String get alignmentElementEarth => 'Thổ';
+
+  @override
+  String get alignmentElementAir => 'Phong';
+
+  @override
+  String get alignmentElementWater => 'Thủy';
+
+  @override
+  String get alignmentModalityCardinal => 'Khởi tạo';
+
+  @override
+  String get alignmentModalityFixed => 'Ổn định';
+
+  @override
+  String get alignmentModalityMutable => 'Linh hoạt';
+
+  @override
+  String alignmentExplainSameElement(String element) {
+    return 'Cùng nguyên tố $element — chia sẻ cùng cách tiếp cận thế giới, dễ hiểu nhau theo bản năng.';
+  }
+
+  @override
+  String get alignmentExplainComplementElement =>
+      'Nguyên tố bổ trợ — Hỏa+Phong nuôi dưỡng cảm hứng, Thủy+Thổ nuôi dưỡng sự ổn định.';
+
+  @override
+  String get alignmentExplainTensionElement =>
+      'Nguyên tố tạo ma sát — khác biệt rõ rệt về cách tiếp cận, cần thấu cảm để hài hòa.';
+
+  @override
+  String alignmentExplainSameModality(String modality) {
+    return 'Cùng thể loại $modality — đồng nhịp về động lực, nhưng có thể tranh giành vai trò.';
+  }
+
+  @override
+  String get alignmentExplainDifferentModality =>
+      'Khác thể loại — vai trò bổ sung: người khởi xướng, người duy trì, người thích nghi.';
+
+  @override
+  String get alignmentExplainSamePolarity =>
+      'Cùng cực tính — năng lượng đồng nhịp, dễ thấu hiểu nhịp sống của nhau.';
+
+  @override
+  String get alignmentExplainOppositePolarity =>
+      'Trái cực tính — tạo cân bằng động giữa chủ động và tiếp nhận.';
+
+  @override
+  String get alignmentAspectConjunction => 'Trùng tinh';
+
+  @override
+  String get alignmentAspectSemisextile => 'Bán lục hợp';
+
+  @override
+  String get alignmentAspectSextile => 'Lục hợp';
+
+  @override
+  String get alignmentAspectSquare => 'Vuông góc';
+
+  @override
+  String get alignmentAspectTrine => 'Tam hợp';
+
+  @override
+  String get alignmentAspectQuincunx => 'Ngũ phân';
+
+  @override
+  String get alignmentAspectOpposition => 'Đối xung';
+
+  @override
+  String get alignmentExplainAspectConjunction =>
+      'Cùng cung — bản năng phản chiếu mạnh, hiểu nhau như hiểu chính mình, dễ phóng đại điểm chung lẫn điểm yếu.';
+
+  @override
+  String get alignmentExplainAspectSemisextile =>
+      'Cách 30° — chung biên giới nhưng khác chất, cần điều chỉnh để giao tiếp trơn tru.';
+
+  @override
+  String get alignmentExplainAspectSextile =>
+      'Cách 60° — cộng hưởng nhẹ nhàng, dễ tạo cơ hội mới khi đồng hành.';
+
+  @override
+  String get alignmentExplainAspectSquare =>
+      'Cách 90° — căng thẳng tự nhiên thúc đẩy trưởng thành, đòi hỏi học cách thỏa hiệp.';
+
+  @override
+  String get alignmentExplainAspectTrine =>
+      'Cách 120° — dòng chảy hài hòa nhất, hỗ trợ nhau gần như không cần nỗ lực.';
+
+  @override
+  String get alignmentExplainAspectQuincunx =>
+      'Cách 150° — cảm thấy không cùng tần số, cần thời gian và sự linh hoạt.';
+
+  @override
+  String get alignmentExplainAspectOpposition =>
+      'Cách 180° — đối lập tạo cân bằng, soi chiếu điểm còn thiếu của nhau.';
+
+  @override
+  String get alignmentExplainBondRomanticGood =>
+      'Tình yêu giữa nguyên tố bổ trợ — cảm xúc và năng lượng dễ giao thoa.';
+
+  @override
+  String get alignmentExplainBondRomanticOk =>
+      'Tình yêu cần đầu tư xây dựng ngôn ngữ chung; khác biệt là chất liệu để cùng lớn lên.';
+
+  @override
+  String get alignmentExplainBondFriendshipGood =>
+      'Tình bạn có yếu tố Phong — giao tiếp thoáng, dễ chia sẻ ý tưởng.';
+
+  @override
+  String get alignmentExplainBondFriendshipOk =>
+      'Tình bạn cần dành thời gian xây dựng tin tưởng và sự thoải mái.';
+
+  @override
+  String get alignmentExplainBondSoulGood =>
+      'Cộng hưởng tâm hồn có chiều sâu Thủy — kết nối cảm xúc và trực giác mạnh.';
+
+  @override
+  String get alignmentExplainBondSoulOk =>
+      'Cộng hưởng tâm hồn cần thời gian để hai bên cùng mở lòng và lắng nghe.';
+
+  @override
+  String get alignmentExplainBondKinshipGood =>
+      'Liên kết gia đình có gốc Thổ/Thủy — bền vững, ấm áp, gắn kết qua thời gian.';
+
+  @override
+  String get alignmentExplainBondKinshipOk =>
+      'Liên kết gia đình cần ranh giới rõ ràng và tôn trọng không gian riêng.';
+
+  @override
   String get chartTitle => 'Bảng Lá Số';
 
   @override
@@ -583,7 +751,8 @@ class AppLocalizationsVi extends AppLocalizations {
   String get settingsPrivacyPolicy => 'Chính sách bảo mật';
 
   @override
-  String get oracleAiDisclaimer => 'Nội dung do AI tạo ra · Chỉ mang tính giải trí';
+  String get oracleAiDisclaimer =>
+      'Nội dung do AI tạo ra · Chỉ mang tính giải trí';
 
   @override
   String get soulEntertainmentDisclaimer =>
@@ -599,4 +768,26 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get termsBody =>
       'Mystic Cosmos là ứng dụng chiêm tinh học và bói toán phục vụ mục đích giải trí và tự khám phá bản thân. Tất cả các bài đọc, phân tích và nội dung do AI tạo ra chỉ mang tính giải trí và không cấu thành lời khuyên y tế, tài chính, pháp lý hay tâm lý lâm sàng. Vui lòng không dựa vào các nội dung này cho các quyết định quan trọng trong cuộc sống; hãy tham khảo chuyên gia có chuyên môn cho các vấn đề nghiêm trọng.\n\nCác bài đánh giá tính cách (Big Five, Enneagram) chỉ phục vụ mục đích tự khám phá và không phải là công cụ được kiểm chứng lâm sàng. Bộ câu hỏi Big Five được phỏng theo Big Five Inventory (BFI-44) của John, Donahue & Kentle (1991), sử dụng cho mục đích giáo dục và giải trí.\n\nChúng tôi có quyền cập nhật điều khoản này bất cứ lúc nào. Việc tiếp tục sử dụng ứng dụng đồng nghĩa với việc chấp nhận các điều khoản đã cập nhật.';
+
+  @override
+  String get imperialDetailedAnalysisCta => 'PHÂN TÍCH CHI TIẾT';
+
+  @override
+  String get imperialAnalysisTitle => 'PHÂN TÍCH CHI TIẾT';
+
+  @override
+  String get imperialAnalysisSubtitle => 'AI DIỄN GIẢI LÁ SỐ TỬ VI';
+
+  @override
+  String get imperialAnalysisDisclaimer =>
+      'Diễn giải tham chiếu do AI tạo · Chỉ mang tính giải trí và tự khám phá';
+
+  @override
+  String get imperialAnalysisLoading => 'Đang diễn giải lá số của bạn...';
+
+  @override
+  String get imperialAnalysisError => 'Không thể tạo phân tích';
+
+  @override
+  String get imperialAnalysisRetry => 'THỬ LẠI';
 }

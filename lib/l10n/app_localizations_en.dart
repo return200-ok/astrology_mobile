@@ -255,6 +255,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ichingGuidanceDefault3 => 'Choose the path that preserves balance';
 
   @override
+  String get ichingHexagramLabel => 'HEXAGRAM';
+
+  @override
+  String get ichingJudgmentLabel => 'JUDGMENT';
+
+  @override
+  String ichingHexagramNumber(int number) {
+    return 'Hexagram $number';
+  }
+
+  @override
   String get oracleTitle => 'CELESTIAL ORACLE';
 
   @override
@@ -496,6 +507,163 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alignmentFooterRecent => 'View Recent Alignments';
 
   @override
+  String get alignmentBreakdownTitle => 'WHY THIS SCORE';
+
+  @override
+  String get alignmentBreakdownBaseline => 'Baseline 50';
+
+  @override
+  String get alignmentBreakdownDisclaimer =>
+      'Analysis is based on element, modality, polarity, and aspect between the two signs. For reference only — not a prediction.';
+
+  @override
+  String get alignmentFactorElement => 'Element';
+
+  @override
+  String get alignmentFactorModality => 'Modality';
+
+  @override
+  String get alignmentFactorPolarity => 'Polarity';
+
+  @override
+  String get alignmentFactorAspect => 'Aspect';
+
+  @override
+  String get alignmentFactorBondType => 'Bond type';
+
+  @override
+  String get alignmentElementFire => 'Fire';
+
+  @override
+  String get alignmentElementEarth => 'Earth';
+
+  @override
+  String get alignmentElementAir => 'Air';
+
+  @override
+  String get alignmentElementWater => 'Water';
+
+  @override
+  String get alignmentModalityCardinal => 'Cardinal';
+
+  @override
+  String get alignmentModalityFixed => 'Fixed';
+
+  @override
+  String get alignmentModalityMutable => 'Mutable';
+
+  @override
+  String alignmentExplainSameElement(String element) {
+    return 'Same element $element — shared approach to the world; tend to understand each other instinctively.';
+  }
+
+  @override
+  String get alignmentExplainComplementElement =>
+      'Complementary elements — Fire+Air fuels inspiration; Water+Earth fuels stability.';
+
+  @override
+  String get alignmentExplainTensionElement =>
+      'Element friction — distinctly different approaches; empathy is needed for harmony.';
+
+  @override
+  String alignmentExplainSameModality(String modality) {
+    return 'Same modality $modality — synchronized drive, but may compete for the same role.';
+  }
+
+  @override
+  String get alignmentExplainDifferentModality =>
+      'Different modalities — complementary roles: initiator, sustainer, adapter.';
+
+  @override
+  String get alignmentExplainSamePolarity =>
+      'Same polarity — energies move at the same rhythm.';
+
+  @override
+  String get alignmentExplainOppositePolarity =>
+      'Opposite polarity — dynamic balance between active and receptive.';
+
+  @override
+  String get alignmentAspectConjunction => 'Conjunction';
+
+  @override
+  String get alignmentAspectSemisextile => 'Semisextile';
+
+  @override
+  String get alignmentAspectSextile => 'Sextile';
+
+  @override
+  String get alignmentAspectSquare => 'Square';
+
+  @override
+  String get alignmentAspectTrine => 'Trine';
+
+  @override
+  String get alignmentAspectQuincunx => 'Quincunx';
+
+  @override
+  String get alignmentAspectOpposition => 'Opposition';
+
+  @override
+  String get alignmentExplainAspectConjunction =>
+      'Same sign — strong mirroring; may amplify both shared strengths and shared blind spots.';
+
+  @override
+  String get alignmentExplainAspectSemisextile =>
+      '30° apart — neighboring but distinct; small adjustments smooth communication.';
+
+  @override
+  String get alignmentExplainAspectSextile =>
+      '60° apart — gentle resonance; opportunities arise easily when collaborating.';
+
+  @override
+  String get alignmentExplainAspectSquare =>
+      '90° apart — natural tension that drives growth; learn to compromise.';
+
+  @override
+  String get alignmentExplainAspectTrine =>
+      '120° apart — most harmonious flow; mutual support feels effortless.';
+
+  @override
+  String get alignmentExplainAspectQuincunx =>
+      '150° apart — feels off-rhythm; needs patience and flexibility.';
+
+  @override
+  String get alignmentExplainAspectOpposition =>
+      '180° apart — opposites that balance each other and reflect what\'s missing.';
+
+  @override
+  String get alignmentExplainBondRomanticGood =>
+      'Romantic bond between complementary elements — emotion and energy intertwine easily.';
+
+  @override
+  String get alignmentExplainBondRomanticOk =>
+      'Romantic bond needs investment in shared language; differences become material for growth.';
+
+  @override
+  String get alignmentExplainBondFriendshipGood =>
+      'Friendship with an Air element — open communication, easy idea-sharing.';
+
+  @override
+  String get alignmentExplainBondFriendshipOk =>
+      'Friendship needs time to build trust and ease.';
+
+  @override
+  String get alignmentExplainBondSoulGood =>
+      'Soul resonance with Water depth — strong emotional and intuitive connection.';
+
+  @override
+  String get alignmentExplainBondSoulOk =>
+      'Soul resonance takes time for both sides to open up and listen.';
+
+  @override
+  String get alignmentExplainBondKinshipGood =>
+      'Kinship grounded in Earth/Water — durable, warm, strengthens over time.';
+
+  @override
+  String get alignmentExplainBondKinshipOk =>
+      'Kinship needs clear boundaries and respect for personal space.';
+
+  @override
   String get chartTitle => 'Birth Chart';
 
   @override
@@ -585,7 +753,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsPrivacyPolicy => 'Privacy Policy';
 
   @override
-  String get oracleAiDisclaimer => 'AI-generated content · For entertainment purposes only';
+  String get oracleAiDisclaimer =>
+      'AI-generated content · For entertainment purposes only';
 
   @override
   String get soulEntertainmentDisclaimer =>
@@ -601,4 +770,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get termsBody =>
       'Mystic Cosmos is an astrology and divination app for entertainment and personal reflection. All readings, analyses, and AI-generated content are for entertainment purposes only and do not constitute professional medical, financial, legal, or psychological advice. Do not rely on these readings for important life decisions; consult qualified professionals for serious matters.\n\nPersonality assessments (Big Five, Enneagram) are provided for self-exploration only and are not clinically validated instruments. The Big Five questions are adapted from the Big Five Inventory (BFI-44) by John, Donahue & Kentle (1991), used here for educational and entertainment purposes.\n\nWe reserve the right to update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.';
+
+  @override
+  String get imperialDetailedAnalysisCta => 'DETAILED ANALYSIS';
+
+  @override
+  String get imperialAnalysisTitle => 'DETAILED ANALYSIS';
+
+  @override
+  String get imperialAnalysisSubtitle => 'AI-INTERPRETED IMPERIAL CHART';
+
+  @override
+  String get imperialAnalysisDisclaimer =>
+      'AI-generated reflective interpretation · For entertainment and self-discovery only';
+
+  @override
+  String get imperialAnalysisLoading => 'Interpreting your chart...';
+
+  @override
+  String get imperialAnalysisError => 'Could not generate analysis';
+
+  @override
+  String get imperialAnalysisRetry => 'TRY AGAIN';
 }

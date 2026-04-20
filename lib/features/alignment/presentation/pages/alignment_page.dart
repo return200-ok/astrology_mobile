@@ -37,6 +37,25 @@ List<String> _bondTypes(AppLocalizations l10n) => [
 ];
 
 enum _Element { fire, earth, air, water }
+enum _Modality { cardinal, fixed, mutable }
+enum _Polarity { masculine, feminine }
+
+class _ScoreFactor {
+  const _ScoreFactor({
+    required this.label,
+    required this.points,
+    required this.detail,
+  });
+  final String label;
+  final int points;
+  final String detail;
+}
+
+class _ScoreBreakdown {
+  const _ScoreBreakdown({required this.total, required this.factors});
+  final int total;
+  final List<_ScoreFactor> factors;
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 class AlignmentPage extends StatefulWidget {
@@ -50,7 +69,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
   _SignOption _origin = _kSigns.firstWhere((s) => s.id == 'gemini');
   _SignOption? _distant;
   String? _bondType;
-  int? _score;
+  _ScoreBreakdown? _breakdown;
   String? _message;
 
   @override
@@ -120,9 +139,12 @@ class _AlignmentPageState extends State<AlignmentPage> {
             onViewBond: _seekAlignment,
             l10n: l10n,
           ),
-          if (_score != null && _message != null) ...[
+          if (_breakdown != null && _message != null) ...[
             const SizedBox(height: 14),
-            _ResultCard(score: _score!, message: _message!),
+            _ResultCard(
+              breakdown: _breakdown!,
+              message: _message!,
+            ),
           ],
         ],
       ),
@@ -225,7 +247,7 @@ class _AlignmentPageState extends State<AlignmentPage> {
       } else {
         _distant = picked;
       }
-      _score = null;
+      _breakdown = null;
       _message = null;
     });
   }
@@ -333,36 +355,140 @@ class _AlignmentPageState extends State<AlignmentPage> {
       );
       return;
     }
-    final score = _calculateScore(_origin.id, _distant!.id);
+    final breakdown = _calculateBreakdown(
+      l10n,
+      _origin.id,
+      _distant!.id,
+      _bondType ?? '',
+    );
     setState(() {
-      _score = score;
-      _message = _buildMessage(context, score);
+      _breakdown = breakdown;
+      _message = _buildMessage(context, breakdown.total);
     });
   }
 
-  int _calculateScore(String a, String b) {
-    if (a == b) return 96;
-    if ((a == 'gemini' && b == 'virgo') || (a == 'virgo' && b == 'gemini')) {
-      return 99;
+  // Factor-based scoring. Total = baseline 50 + each factor's contribution,
+  // clamped to [40, 99]. Each factor exposes its label, points, and a
+  // human-readable explanation rendered in the result card.
+  _ScoreBreakdown _calculateBreakdown(
+    AppLocalizations l10n,
+    String a,
+    String b,
+    String bondType,
+  ) {
+    final factors = <_ScoreFactor>[];
+    var total = 50;
+
+    // ── Element factor ────────────────────────────────────────────────────
+    final ea = _elementOf(a);
+    final eb = _elementOf(b);
+    final elName = '${l10n.alignmentFactorElement} '
+        '(${_elementName(l10n, ea)} & ${_elementName(l10n, eb)})';
+    if (ea == eb) {
+      const pts = 22;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: elName,
+        points: pts,
+        detail: l10n.alignmentExplainSameElement(_elementName(l10n, ea)),
+      ));
+    } else if (_isComplementElement(ea, eb)) {
+      const pts = 18;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: elName,
+        points: pts,
+        detail: l10n.alignmentExplainComplementElement,
+      ));
+    } else {
+      const pts = 6;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: elName,
+        points: pts,
+        detail: l10n.alignmentExplainTensionElement,
+      ));
     }
-    if (_sameElement(a, b)) return 90;
-    if (_isComplement(a, b)) return 84;
-    return 68;
+
+    // ── Modality factor ───────────────────────────────────────────────────
+    final ma = _modalityOf(a);
+    final mb = _modalityOf(b);
+    final modName = '${l10n.alignmentFactorModality} '
+        '(${_modalityName(l10n, ma)} & ${_modalityName(l10n, mb)})';
+    if (ma == mb) {
+      const pts = 8;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: modName,
+        points: pts,
+        detail: l10n.alignmentExplainSameModality(_modalityName(l10n, ma)),
+      ));
+    } else {
+      const pts = 14;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: modName,
+        points: pts,
+        detail: l10n.alignmentExplainDifferentModality,
+      ));
+    }
+
+    // ── Polarity factor ───────────────────────────────────────────────────
+    final pa = _polarityOf(a);
+    final pb = _polarityOf(b);
+    final polName = l10n.alignmentFactorPolarity;
+    if (pa == pb) {
+      const pts = 6;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: polName,
+        points: pts,
+        detail: l10n.alignmentExplainSamePolarity,
+      ));
+    } else {
+      const pts = 10;
+      total += pts;
+      factors.add(_ScoreFactor(
+        label: polName,
+        points: pts,
+        detail: l10n.alignmentExplainOppositePolarity,
+      ));
+    }
+
+    // ── Aspect / sign-distance factor ─────────────────────────────────────
+    final aspect = _aspectBetween(a, b);
+    final pts = aspect.points;
+    total += pts;
+    factors.add(_ScoreFactor(
+      label: '${l10n.alignmentFactorAspect} (${aspect.name(l10n)})',
+      points: pts,
+      detail: aspect.detail(l10n),
+    ));
+
+    // ── Bond-type modifier ────────────────────────────────────────────────
+    final bondPts = _bondTypeBonus(bondType, ea, eb, ma, mb, l10n);
+    total += bondPts.points;
+    factors.add(_ScoreFactor(
+      label: '${l10n.alignmentFactorBondType} ($bondType)',
+      points: bondPts.points,
+      detail: bondPts.detail,
+    ));
+
+    return _ScoreBreakdown(
+      total: total.clamp(40, 99),
+      factors: factors,
+    );
   }
 
   String _buildMessage(BuildContext context, int score) {
     final l10n = AppLocalizations.of(context)!;
-    if (score >= 95) return l10n.alignmentMessageOptimized;
-    if (score >= 85) return l10n.alignmentMessageHarmonic;
-    if (score >= 75) return l10n.alignmentMessageGrowth;
+    if (score >= 90) return l10n.alignmentMessageOptimized;
+    if (score >= 80) return l10n.alignmentMessageHarmonic;
+    if (score >= 65) return l10n.alignmentMessageGrowth;
     return l10n.alignmentMessageChallenging;
   }
 
-  bool _sameElement(String a, String b) => _elementOf(a) == _elementOf(b);
-
-  bool _isComplement(String a, String b) {
-    final e1 = _elementOf(a);
-    final e2 = _elementOf(b);
+  bool _isComplementElement(_Element e1, _Element e2) {
     return (e1 == _Element.fire && e2 == _Element.air) ||
         (e1 == _Element.air && e2 == _Element.fire) ||
         (e1 == _Element.water && e2 == _Element.earth) ||
@@ -387,6 +513,197 @@ class _AlignmentPageState extends State<AlignmentPage> {
         return _Element.water;
     }
   }
+
+  _Modality _modalityOf(String id) {
+    switch (id) {
+      case 'aries':
+      case 'cancer':
+      case 'libra':
+      case 'capricorn':
+        return _Modality.cardinal;
+      case 'taurus':
+      case 'leo':
+      case 'scorpio':
+      case 'aquarius':
+        return _Modality.fixed;
+      default:
+        return _Modality.mutable;
+    }
+  }
+
+  _Polarity _polarityOf(String id) {
+    final e = _elementOf(id);
+    if (e == _Element.fire || e == _Element.air) return _Polarity.masculine;
+    return _Polarity.feminine;
+  }
+
+  String _elementName(AppLocalizations l10n, _Element e) {
+    switch (e) {
+      case _Element.fire:
+        return l10n.alignmentElementFire;
+      case _Element.earth:
+        return l10n.alignmentElementEarth;
+      case _Element.air:
+        return l10n.alignmentElementAir;
+      case _Element.water:
+        return l10n.alignmentElementWater;
+    }
+  }
+
+  String _modalityName(AppLocalizations l10n, _Modality m) {
+    switch (m) {
+      case _Modality.cardinal:
+        return l10n.alignmentModalityCardinal;
+      case _Modality.fixed:
+        return l10n.alignmentModalityFixed;
+      case _Modality.mutable:
+        return l10n.alignmentModalityMutable;
+    }
+  }
+
+  _Aspect _aspectBetween(String a, String b) {
+    final ia = _kSigns.indexWhere((s) => s.id == a);
+    final ib = _kSigns.indexWhere((s) => s.id == b);
+    var diff = (ia - ib).abs();
+    if (diff > 6) diff = 12 - diff;
+    switch (diff) {
+      case 0:
+        return _Aspect.conjunction;
+      case 1:
+        return _Aspect.semisextile;
+      case 2:
+        return _Aspect.sextile;
+      case 3:
+        return _Aspect.square;
+      case 4:
+        return _Aspect.trine;
+      case 5:
+        return _Aspect.quincunx;
+      default:
+        return _Aspect.opposition;
+    }
+  }
+
+  _BondBonus _bondTypeBonus(
+    String bondType,
+    _Element ea,
+    _Element eb,
+    _Modality ma,
+    _Modality mb,
+    AppLocalizations l10n,
+  ) {
+    if (bondType == l10n.alignmentBondRomantic) {
+      final complement = _isComplementElement(ea, eb);
+      return _BondBonus(
+        points: complement ? 8 : 4,
+        detail: complement
+            ? l10n.alignmentExplainBondRomanticGood
+            : l10n.alignmentExplainBondRomanticOk,
+      );
+    }
+    if (bondType == l10n.alignmentBondFriendship) {
+      final airy = ea == _Element.air || eb == _Element.air;
+      return _BondBonus(
+        points: airy ? 7 : 5,
+        detail: airy
+            ? l10n.alignmentExplainBondFriendshipGood
+            : l10n.alignmentExplainBondFriendshipOk,
+      );
+    }
+    if (bondType == l10n.alignmentBondSoul) {
+      final deep = ea == _Element.water || eb == _Element.water;
+      return _BondBonus(
+        points: deep ? 8 : 5,
+        detail: deep
+            ? l10n.alignmentExplainBondSoulGood
+            : l10n.alignmentExplainBondSoulOk,
+      );
+    }
+    // Kinship / family
+    final grounded = ea == _Element.earth || eb == _Element.earth ||
+        ea == _Element.water || eb == _Element.water;
+    return _BondBonus(
+      points: grounded ? 7 : 4,
+      detail: grounded
+          ? l10n.alignmentExplainBondKinshipGood
+          : l10n.alignmentExplainBondKinshipOk,
+    );
+  }
+}
+
+enum _Aspect {
+  conjunction,
+  semisextile,
+  sextile,
+  square,
+  trine,
+  quincunx,
+  opposition,
+}
+
+extension _AspectMeta on _Aspect {
+  int get points {
+    switch (this) {
+      case _Aspect.conjunction:
+        return 12;
+      case _Aspect.semisextile:
+        return 4;
+      case _Aspect.sextile:
+        return 10;
+      case _Aspect.square:
+        return 3;
+      case _Aspect.trine:
+        return 14;
+      case _Aspect.quincunx:
+        return 4;
+      case _Aspect.opposition:
+        return 8;
+    }
+  }
+
+  String name(AppLocalizations l10n) {
+    switch (this) {
+      case _Aspect.conjunction:
+        return l10n.alignmentAspectConjunction;
+      case _Aspect.semisextile:
+        return l10n.alignmentAspectSemisextile;
+      case _Aspect.sextile:
+        return l10n.alignmentAspectSextile;
+      case _Aspect.square:
+        return l10n.alignmentAspectSquare;
+      case _Aspect.trine:
+        return l10n.alignmentAspectTrine;
+      case _Aspect.quincunx:
+        return l10n.alignmentAspectQuincunx;
+      case _Aspect.opposition:
+        return l10n.alignmentAspectOpposition;
+    }
+  }
+
+  String detail(AppLocalizations l10n) {
+    switch (this) {
+      case _Aspect.conjunction:
+        return l10n.alignmentExplainAspectConjunction;
+      case _Aspect.semisextile:
+        return l10n.alignmentExplainAspectSemisextile;
+      case _Aspect.sextile:
+        return l10n.alignmentExplainAspectSextile;
+      case _Aspect.square:
+        return l10n.alignmentExplainAspectSquare;
+      case _Aspect.trine:
+        return l10n.alignmentExplainAspectTrine;
+      case _Aspect.quincunx:
+        return l10n.alignmentExplainAspectQuincunx;
+      case _Aspect.opposition:
+        return l10n.alignmentExplainAspectOpposition;
+    }
+  }
+}
+
+class _BondBonus {
+  const _BondBonus({required this.points, required this.detail});
+  final int points;
+  final String detail;
 }
 
 // ─── Main card ────────────────────────────────────────────────────────────────
@@ -597,14 +914,15 @@ class _AvatarPicker extends StatelessWidget {
 
 // ─── Result card ──────────────────────────────────────────────────────────────
 class _ResultCard extends StatelessWidget {
-  const _ResultCard({required this.score, required this.message});
+  const _ResultCard({required this.breakdown, required this.message});
 
-  final int score;
+  final _ScoreBreakdown breakdown;
   final String message;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final score = breakdown.total;
     return AstroCard(
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       child: Column(
@@ -659,6 +977,97 @@ class _ResultCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: AstroText.quote(13),
             ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Breakdown header
+          Row(
+            children: [
+              Icon(Icons.insights_rounded,
+                  size: 16, color: AstroColors.red.withValues(alpha: 0.75)),
+              const SizedBox(width: 8),
+              Text(
+                l10n.alignmentBreakdownTitle,
+                style: AstroText.sectionLabel(size: 13, spacing: 1.5)
+                    .copyWith(color: AstroColors.ink),
+              ),
+              const Spacer(),
+              Text(
+                l10n.alignmentBreakdownBaseline,
+                style: AstroText.caption(size: 11),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 12),
+
+          for (final factor in breakdown.factors) ...[
+            _FactorRow(factor: factor),
+            const SizedBox(height: 10),
+          ],
+
+          const SizedBox(height: 4),
+          Text(
+            l10n.alignmentBreakdownDisclaimer,
+            style: AstroText.caption(size: 11),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FactorRow extends StatelessWidget {
+  const _FactorRow({required this.factor});
+
+  final _ScoreFactor factor;
+
+  @override
+  Widget build(BuildContext context) {
+    final positive = factor.points >= 0;
+    final pointStr = '${positive ? '+' : ''}${factor.points}';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: AstroColors.cardAlt,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AstroColors.divider, width: 0.6),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  factor.label,
+                  style: AstroText.sectionLabel(size: 11, spacing: 0.8)
+                      .copyWith(color: AstroColors.ink),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: positive
+                      ? AstroColors.red.withValues(alpha: 0.10)
+                      : AstroColors.iconBg,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  pointStr,
+                  style: AstroText.score(size: 12).copyWith(
+                    color: positive ? AstroColors.red : AstroColors.mid,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            factor.detail,
+            style: AstroText.bodyMuted(size: 12, height: 1.5),
           ),
         ],
       ),

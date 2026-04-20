@@ -1,8 +1,8 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
-const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY')!;
-const GEMINI_URL =
-  `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GROQ_API_KEY = Deno.env.get('GROQ_API_KEY')!;
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -10,7 +10,6 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
@@ -25,7 +24,6 @@ serve(async (req) => {
       );
     }
 
-    // Limit input length to control token usage
     const trimmedQuestion = question.trim().slice(0, 400);
 
     const systemPrompt =
@@ -48,28 +46,31 @@ serve(async (req) => {
       `- KHÔNG phán xét theo giới tính, chủng tộc, tôn giáo hoặc khuynh hướng tính dục\n` +
       `- Luôn trình bày như một góc nhìn tham khảo, không phải sự thật khoa học`;
 
-    const fullPrompt = `${systemPrompt}\n\nCâu hỏi của người dùng: ${trimmedQuestion}`;
-
-    const geminiRes = await fetch(GEMINI_URL, {
+    const groqRes = await fetch(GROQ_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+      },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: fullPrompt }] }],
-        generationConfig: {
-          maxOutputTokens: 280,
-          temperature: 0.75,
-        },
+        model: GROQ_MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: trimmedQuestion },
+        ],
+        max_tokens: 280,
+        temperature: 0.75,
       }),
     });
 
-    const data = await geminiRes.json();
+    const data = await groqRes.json();
 
-    if (!geminiRes.ok) {
-      throw new Error(data.error?.message ?? 'Gemini API error');
+    if (!groqRes.ok) {
+      throw new Error(data.error?.message ?? 'Groq API error');
     }
 
     const answer: string =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ??
+      data.choices?.[0]?.message?.content ??
       'Xin lỗi, tôi không thể trả lời lúc này. Vui lòng thử lại.';
 
     return new Response(
